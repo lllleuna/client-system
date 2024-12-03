@@ -24,7 +24,7 @@ class SessionController extends Controller
 
         request()->session()->regenerate();
 
-        return redirect('/welcome');
+        return redirect('/dashboard');
     }
 
     public function destroy()

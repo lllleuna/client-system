@@ -5,7 +5,7 @@
 ]) }}>
 
      
-    <div class="relative m-auto shadow-xl rounded-md bg-white w-4/5">
+    <div class="relative m-auto shadow-xl rounded-md bg-white w-90% sm:w-1/3">
  
          <div class="flex justify-end p-2">
              {{ $closebtnSlot }}

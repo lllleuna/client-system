@@ -13,12 +13,12 @@ Route::get('/', function () {
 Route::post('users/create', [RegisteredUserController::class, 'store']);
 
 // Logged in portal
-Route::get('/welcome', function () {
+Route::get('/dashboard', function () {
     if (!auth()->user()) {
         return redirect('/'); // or any other page
     }
 
-    return view('/welcome');
+    return view('/dashboard');
 })->middleware('auth');
 
 Route::post('/', [SessionController::class, 'store']);

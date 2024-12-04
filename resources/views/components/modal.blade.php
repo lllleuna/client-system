@@ -11,7 +11,7 @@
              {{ $closebtnSlot }}
          </div>
  
-        <div class="p-6 pt-0">
+        <div class="px-6 pb-10">
             {{ $slot }}
         </div>
  

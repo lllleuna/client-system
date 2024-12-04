@@ -28,8 +28,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const igCode = igSelect.value;
 
         // Reset and disable dependent dropdowns
-        resetDropdown(regionSelect, 'Select Region');
-        resetDropdown(provinceSelect, 'Select Province');
+        resetDropdown(regionSelect, 'Select');
+        resetDropdown(provinceSelect, 'Select');
 
         // Fetch regions if a islandgroup is selected
         if (igCode) {
@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const regionCode = regionSelect.value;
 
         // Reset and disable the province dropdown
-        resetDropdown(provinceSelect, 'Select Province');
+        resetDropdown(provinceSelect, 'Select');
 
         // Fetch provinces if a region is selected
         if (regionCode) {
@@ -75,7 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const regionCode = regionSelect.value;
 
         // Reset and disable the province dropdown
-        resetDropdown(cmSelect, 'Select City/Municipality');
+        resetDropdown(cmSelect, 'Select');
 
         // Fetch provinces if a region is selected
         if (regionCode) {
@@ -99,7 +99,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const cmCode = cmSelect.value;
 
         // Reset and disable the province dropdown
-        resetDropdown(barangaySelect, 'Select Barangay');
+        resetDropdown(barangaySelect, 'Select');
 
         // Fetch provinces if a region is selected
         if (cmCode) {

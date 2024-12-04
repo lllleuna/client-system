@@ -11,9 +11,6 @@
 
     <div class="flex justify-between mt-2 mb-2">
         <div>
-            <x-cancel-button onclick="closeModal('modallog'), resetForm('log_form')"> Discard </x-cancel-button>
-        </div>
-        <div>
             <x-form-submit-button> Log in </x-form-submit-button>
         </div>
     </div>

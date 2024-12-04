@@ -9,6 +9,7 @@
     @vite('resources/css/app.css')
     @vite('resources/css/output.css')
     @vite('resources/js/portal.js')
+    @vite('resources/js/modal.js')
 
     <style>
         @import url('https://fonts.googleapis.com/css?family=Karla:400,700&display=swap');
@@ -35,24 +36,12 @@
                 Dashboard
             </a>
             <a href="" class="flex items-center text-blue-900 hover:text-white py-4 pl-6 nav-item">
-                <i class="fas fa-sticky-note mr-3"></i>
-                Membership
-            </a>
-            <a href="" class="flex items-center text-blue-900 hover:text-white py-4 pl-6 nav-item">
                 <i class="fas fa-table mr-3"></i>
-                Units & Franchise
+                Cooperative Information
             </a>
             <a href="" class="flex items-center text-blue-900 hover:text-white py-4 pl-6 nav-item">
-                <i class="fas fa-align-left mr-3"></i>
-                Governance
-            </a>
-            <a href="" class="flex items-center text-blue-900 hover:text-white py-4 pl-6 nav-item">
-                <i class="fas fa-tablet-alt mr-3"></i>
-                Financial & Business Aspects
-            </a>
-            <a href="" class="flex items-center text-blue-900 hover:text-white py-4 pl-6 nav-item">
-                <i class="fas fa-calendar mr-3"></i>
-                Grants/Donations
+                <i class="fas fa-sticky-note mr-3"></i>
+                Services
             </a>
         </nav>
     </aside>
@@ -81,7 +70,7 @@
         <header x-data="{ isOpen: false }" class="w-full bg-sidebar py-5 px-6 sm:hidden">
             <div class="flex items-center justify-between">
                 <a href="index.html" class="text-black text-3xl font-semibold uppercase">OTC</a>
-                <button @click="isOpen = !isOpen" class="text-white text-3xl focus:outline-none">
+                <button @click="isOpen = !isOpen" class="text-blue-900 text-3xl focus:outline-none">
                     <i x-show="!isOpen" class="fas fa-bars"></i>
                     <i x-show="isOpen" class="fas fa-times"></i>
                 </button>

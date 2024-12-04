@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('external_users', function (Blueprint $table) {
+        Schema::create('externalusers', function (Blueprint $table) {
             $table->id();
             $table->string('accreditation_no')->unique()->nullable();
             $table->string('tc_name');
@@ -31,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('external_users');
+        Schema::dropIfExists('externalusers');
     }
 };

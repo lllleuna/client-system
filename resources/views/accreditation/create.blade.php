@@ -4,13 +4,23 @@
         <form action="/accreditation/create" method="POST" id="form" name="form">
             @csrf
 
-        <x-form-label for="">Transport Cooperative Name</x-form-label>
+        <!-- Cooperative Type Selection -->
+        <x-form-label for="cooperative_type">Cooperative Type</x-form-label>
+        <x-form-select name="cooperative_type" id="cooperative_type" required>
+            <option class="hidden" value="" disabled selected>Select Type</option>
+            <option value="Franchise Cooperative">Franchise Cooperative</option>
+            <option value="Non-Franchise Cooperative">Non-Franchise Cooperative</option>
+        </x-form-select>
+        <x-form-error name="cooperative_type" />
+
+        <!-- Transport Cooperative Name -->
+        <x-form-label for="tc_name">Transport Cooperative Name</x-form-label>
         <x-form-input name="tc_name" id="tc_name" type="text" :value="old('tc_name')" required />
         <x-form-error name="tc_name" />
 
         <div class="flex w-full space-x-2">
-            <x-form-label class="w-1/2" for="">CDA Registration No.</x-form-label>
-            <x-form-label class="w-1/2" for="">CDA Registration Date</x-form-label>
+            <x-form-label class="w-1/2" for="cda_reg_no">CDA Registration No.</x-form-label>
+            <x-form-label class="w-1/2" for="cda_reg_date">CDA Registration Date</x-form-label>
         </div>
         <div class="flex space-x-2">
             <x-form-input name="cda_reg_no" id="cda_reg_no" type="text" :value="old('cda_reg_no')" required/>
@@ -22,9 +32,9 @@
         </div>
 
         <div class="flex w-full space-x-2">
-            <x-form-label class="w-1/3" for="">Area</x-form-label>
-            <x-form-label class="w-1/3" for="">Region</x-form-label>
-            <x-form-label class="w-1/3" for="">Province</x-form-label>
+            <x-form-label class="w-1/3" for="area">Area</x-form-label>
+            <x-form-label class="w-1/3" for="region">Region</x-form-label>
+            <x-form-label class="w-1/3" for="province">Province</x-form-label>
         </div>
         <div class="flex space-x-2">
             <x-form-select name="area" id="island-groups" required>
@@ -44,8 +54,8 @@
         </div>
 
         <div class="flex w-full space-x-2">
-            <x-form-label class="w-1/2" for="">City/Municipality</x-form-label>
-            <x-form-label class="w-1/2" for="">Barangay</x-form-label>
+            <x-form-label class="w-1/2" for="city_municipality">City/Municipality</x-form-label>
+            <x-form-label class="w-1/2" for="barangay">Barangay</x-form-label>
         </div>
         <div class="flex space-x-2">
             <x-form-select name="city_municipality" id="cities-municipalities" disabled required>
@@ -60,11 +70,11 @@
             <x-form-error class="w-1/2" name="barangay" />
         </div>
         
-        <x-form-label for="">Business Address</x-form-label>
+        <x-form-label for="address">Business Address</x-form-label>
         <x-form-input name="address" id="address" placeholder="Lot No. / Block / Street" :value="old('address')" required/>
         <x-form-error name="address" /> 
 
-        <x-form-submit-button>Submit</x-form-submit-button>
+        <x-form-submit-button>Next</x-form-submit-button>
         </form>
 
     </div>

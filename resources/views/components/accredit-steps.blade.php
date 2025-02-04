@@ -16,9 +16,10 @@
             >
             <x-nav-link href="/accreditation" :active="request()->is('accreditation')">Guide</x-nav-link>
             >
-            <x-nav-link href="" :active="request()->is('accreditation/create')">Fill-Out Form</x-nav-link>
+            <x-nav-link href="/accreditation/create" :active="request()->is('accreditation/create')">Fill-Out Form</x-nav-link>
             >
-            <x-nav-link href="" :active="request()->is('accreditation/reference')">Reference</x-nav-link>
+            <x-nav-link href="/accreditation/submit" :active="request()->is('accreditation/submit')">Submission</x-nav-link>
+            <x-nav-link href="/accreditation/reference" :active="request()->is('accreditation/reference')">Reference</x-nav-link>
         </div>
     </header>
 

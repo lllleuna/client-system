@@ -28,7 +28,7 @@
                     @click.away="open = false"
                     class="absolute left-0 mt-2 w-48 bg-white text-black rounded-lg shadow-lg z-50"
                 >
-                    <a href="#" class="block px-4 py-2 hover:bg-gray-200">Certificate of Good Standing</a>
+                    <a href="{{ route('cgsrenewal') }}" class="block px-4 py-2 hover:bg-gray-200">Certificate of Good Standing</a>
                     <a href="{{ route('training') }}" class="block px-4 py-2 hover:bg-gray-200">Training & Seminars</a>
                 </div>
             </div>

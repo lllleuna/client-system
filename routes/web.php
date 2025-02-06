@@ -82,7 +82,7 @@ Route::post('/logout', [SessionController::class, 'destroy']);
 
 //Services
 Route::get('/otcservices/cgsrenewal', function () {
-    // Your renewal logic
+    return view('otcservices.cgsrenewal');
 })->name('cgsrenewal');
 
 Route::get('/otcservices/training', function () {
@@ -94,9 +94,23 @@ Route::get('/otcservices/infoupdate', function () {
 })->name('infoupdate');
 
 Route::get('/otcservices/concern', function () {
-    // Your concerns logic
+    return view('otcservices.concern');
 })->name('concern');
 
+//CGS Application
+
+//Annual Report
+Route::get('/annualreport/instruction', function () {
+    return view('annualreport.instruction');
+})->name('instruction');
+
+Route::get('/annualreport/part1-basic', function () {
+    return view('annualreport.part1-basic');
+})->name('part1-basic');
+
+Route::get('/annualreport/part2-membership', function () {
+    return view('annualreport.part2-membership');
+})->name('part2-membership');
 
 
 

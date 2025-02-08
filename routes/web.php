@@ -27,6 +27,11 @@ Route::get('/services', function () {
     return view('services');
 })->name('services');
 
+//Forgot Password
+Route::get('/auth/forgotpassword', function () {
+    return view('auth.forgot_password');
+})->name('forgotpassword');
+
 
 
 Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
@@ -96,23 +101,9 @@ Route::get('/otcservices/infoupdate', function () {
 Route::get('/otcservices/concern', function () {
     return view('otcservices.concern');
 })->name('concern');
-
-//CGS Application
-
-//Annual Report
-Route::get('/annualreport/instruction', function () {
-    return view('annualreport.instruction');
-})->name('instruction');
-
-Route::get('/annualreport/part1-basic', function () {
-    return view('annualreport.part1-basic');
-})->name('part1-basic');
-
-Route::get('/annualreport/part2-membership', function () {
-    return view('annualreport.part2-membership');
-})->name('part2-membership');
-
-
+Route::get('/otcservices/accreditationcert', function () {
+    return view('otcservices.accreditationcert');
+})->name('accreditationcert');
 
 // Accreditation Process
 Route::get('/accreditation/', function () {

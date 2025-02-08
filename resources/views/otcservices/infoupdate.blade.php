@@ -24,9 +24,9 @@
                     </svg>
                 </div>
                 <h2 class="text-lg font-semibold text-gray-900 text-center mb-3">Accreditation Certificate</h2>
-                <p class="text-sm text-gray-600 text-center mb-4">View and download your cooperative's current accreditation status and history.</p>
+                <p class="text-sm text-gray-600 text-center mb-4">View and download your cooperative's current accreditation.</p>
                 <div class="flex justify-center">
-                    <a href="#" class="inline-flex items-center px-4 py-2 text-sm font-medium text-blue-600 hover:text-blue-800">
+                    <a href="{{ route('accreditationcert') }}" class="inline-flex items-center px-4 py-2 text-sm font-medium text-blue-600 hover:text-blue-800">
                         View Certificate
                         <svg class="ml-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />

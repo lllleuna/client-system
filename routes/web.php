@@ -6,6 +6,7 @@ use App\Http\Controllers\SessionController;
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\ContactController;
+use Illuminate\Support\Facades\Auth;
 
 //Login Page
 Route::get('/', function () {
@@ -37,7 +38,9 @@ Route::get('/auth/forgotpassword', function () {
 Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
 Route::post('users/create', [RegisteredUserController::class, 'store']);
 
-
+Auth::routes([
+    'verify' => true
+]);
 
 // Logged in portal... DASHBOARD
 Route::get('/dash', function () {

@@ -27,6 +27,11 @@ Route::get('/services', function () {
     return view('services');
 })->name('services');
 
+//Forgot Password
+Route::get('/auth/forgotpassword', function () {
+    return view('auth.forgot_password');
+})->name('forgotpassword');
+
 
 
 Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
@@ -82,7 +87,7 @@ Route::post('/logout', [SessionController::class, 'destroy']);
 
 //Services
 Route::get('/otcservices/cgsrenewal', function () {
-    // Your renewal logic
+    return view('otcservices.cgsrenewal');
 })->name('cgsrenewal');
 
 Route::get('/otcservices/training', function () {
@@ -94,11 +99,11 @@ Route::get('/otcservices/infoupdate', function () {
 })->name('infoupdate');
 
 Route::get('/otcservices/concern', function () {
-    // Your concerns logic
+    return view('otcservices.concern');
 })->name('concern');
-
-
-
+Route::get('/otcservices/accreditationcert', function () {
+    return view('otcservices.accreditationcert');
+})->name('accreditationcert');
 
 // Accreditation Process
 Route::get('/accreditation/', function () {

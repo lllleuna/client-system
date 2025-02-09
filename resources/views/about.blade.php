@@ -30,9 +30,9 @@
             <!-- Right Image Placeholder -->
             <div class="md:w-1/2">
                 <div class="w-full h-64 bg-gray-300 flex items-center justify-center rounded-lg shadow-md">
-                    <span class="text-gray-500">Image Placeholder</span>
+                    <img src="images/Benlor.png" alt="Benlor Image" class="w-full h-full object-cover rounded-lg">
                 </div>
-            </div>
+            </div>            
         </div>
     </div>
 @endsection

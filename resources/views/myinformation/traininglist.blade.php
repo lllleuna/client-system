@@ -12,7 +12,7 @@
                     <!-- Header Section -->
                     <div class="flex justify-between items-center mb-6">
 
-                        <h2 class="text-xl font-bold text-gray-800">Training POwer</h2>
+                        <h2 class="text-xl font-bold text-gray-800">Training List</h2>
 
                         <div class="flex space-x-3">
                             <a href="{{ route('editTraining') }}" class="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all duration-200">
@@ -104,9 +104,17 @@
                         </table>
                     </div>
 
-                    <!-- Pagination Section -->
-                    <div class="mt-6">
-                        Page 1 to #
+                    <!-- Pagination -->
+                    <div class="mt-6 flex justify-between items-center">
+                        <div class="text-sm text-gray-700">
+                            Showing <span class="font-medium">1</span> to <span class="font-medium">2</span> of <span class="font-medium">20</span> results
+                        </div>
+                        <div class="flex space-x-2">
+                            <button class="px-3 py-1 border rounded-md disabled:opacity-50">Previous</button>
+                            <button class="px-3 py-1 border rounded-md bg-blue-600 text-white">1</button>
+                            <button class="px-3 py-1 border rounded-md">2</button>
+                            <button class="px-3 py-1 border rounded-md">Next</button>
+                        </div>
                     </div>
                 </div>
             </div>

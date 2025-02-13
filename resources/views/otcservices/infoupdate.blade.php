@@ -68,7 +68,7 @@
                 <h2 class="text-lg font-semibold text-gray-900 text-center mb-3">Certificate of Good Standing (CGS) History</h2>
                 <p class="text-sm text-gray-600 text-center mb-4">View your cooperative's previous CGS certificates and track your compliance history.</p>
                 <div class="flex justify-center">
-                    <a href="#" class="inline-flex items-center px-4 py-2 text-sm font-medium text-purple-600 hover:text-purple-800">
+                    <a href="{{ route('cgshistory') }}" class="inline-flex items-center px-4 py-2 text-sm font-medium text-purple-600 hover:text-purple-800">
                         View History
                         <svg class="ml-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
@@ -89,7 +89,7 @@
                 <h2 class="text-lg font-semibold text-gray-900 text-center mb-3">Training History</h2>
                 <p class="text-sm text-gray-600 text-center mb-4">Access your cooperative's training records and certificates.</p>
                 <div class="flex justify-center">
-                    <a href="#" class="inline-flex items-center px-4 py-2 text-sm font-medium text-red-600 hover:text-red-800">
+                    <a href="{{ route('traininghistory') }}" class="inline-flex items-center px-4 py-2 text-sm font-medium text-red-600 hover:text-red-800">
                         View History
                         <svg class="ml-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />

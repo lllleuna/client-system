@@ -11,7 +11,9 @@
     <nav class="bg-gray-900 text-white py-4 px-6 flex justify-between items-center relative">
         <!-- Left Section: Logo -->
         <div class="flex items-center space-x-3">
-            <img src="https://via.placeholder.com/40" alt="Logo" class="h-8 w-8 rounded-full">
+            <a href="{{ url('/dash') }}" class="flex items-center space-x-3">
+                <img src="{{ asset('images/otc-logo.png') }}" class="h-12 w-auto transition-transform duration-300 hover:scale-105" alt="OTC Logo" />
+            </a>
             <span class="text-lg font-semibold">Office of Transportation Cooperatives - Client Portal</span>
         </div>
         <!-- Center Section: Navigation Links -->
@@ -45,7 +47,9 @@
                 </svg>
             </button>
             <!-- Profile Icon -->
-            <img src="https://via.placeholder.com/40" alt="Profile" class="h-8 w-8 rounded-full">
+            <a href="{{ url('/dash') }}" class="flex items-center space-x-3">
+            <img src="{{ asset('images/rizalCoop.png') }}" alt="Rizal Coop" class="h-12 w-auto rounded-full transition-transform duration-300 hover:scale-105">
+            </a>
         </div>
     </nav>
 

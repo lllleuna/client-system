@@ -100,8 +100,10 @@
             </div>
         </div>
     </div>
+</div>
+@endsection
 
-    {{-- 
+{{-- 
         Backend Implementation Notes:
         
         1. Routes (routes/web.php): DONE
@@ -127,5 +129,3 @@
         - Implement file access permissions
         - Add audit logging for downloads
     --}}
-</div>
-@endsection

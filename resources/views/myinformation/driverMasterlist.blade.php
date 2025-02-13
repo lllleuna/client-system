@@ -111,9 +111,17 @@
                         </table>
                     </div>
 
-                    <!-- Pagination Section -->
-                    <div class="mt-6">
-                        Page 1 to #
+                    <!-- Pagination -->
+                    <div class="mt-6 flex justify-between items-center">
+                        <div class="text-sm text-gray-700">
+                            Showing <span class="font-medium">1</span> to <span class="font-medium">2</span> of <span class="font-medium">20</span> results
+                        </div>
+                        <div class="flex space-x-2">
+                            <button class="px-3 py-1 border rounded-md disabled:opacity-50">Previous</button>
+                            <button class="px-3 py-1 border rounded-md bg-blue-600 text-white">1</button>
+                            <button class="px-3 py-1 border rounded-md">2</button>
+                            <button class="px-3 py-1 border rounded-md">Next</button>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -39,13 +39,9 @@ Route::get('/profilesetting', function () {
 })->name('profilesetting');
 
 
-
 Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
 Route::post('users/create', [RegisteredUserController::class, 'store']);
 
-Auth::routes([
-    'verify' => true
-]);
 
 // Logged in portal... DASHBOARD
 Route::get('/dash', function () {

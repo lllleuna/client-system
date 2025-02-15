@@ -24,10 +24,11 @@
 <div class="flex justify-between items-center my-6 px-6">
     <div>
         <h1 class="text-3xl font-bold text-gray-900">Dashboard</h1>
-        <p class="text-gray-600 mt-1">Welcome back, {{ $user->name ?? 'Cooperative Member' }}</p>
+        <p class="text-gray-600 mt-1">Welcome back, {{ $user->name ?? 'Cooperative Chairperson' }}</p>
     </div>
     <div class="text-sm text-gray-500">
-        Last Login: {{ $user->last_login ?? 'First time login' }}
+        Last Login: {{ $user->last_login ?? 'First time login' }} 
+        {{-- And/Or MM/DD/YYYY HH:MM:SS --}}
     </div>
 </div>
 
@@ -71,10 +72,10 @@
         {{-- Backend: Replace with actual status counts --}}
         @php
             $statusCards = [
-                ['title' => 'Accreditation Status', 'value' => $accreditationStatus ?? 'Pending', 'color' => 'blue'],
-                ['title' => 'CGS Status', 'value' => $cgsStatus ?? 'Active', 'color' => 'green'],
+                ['title' => 'Training Status', 'value' => $accreditationStatus ?? 'None', 'color' => 'blue'],
+                ['title' => 'CGS Status', 'value' => $cgsStatus ?? 'Active (Until MM/DD/YYYY)', 'color' => 'green'],
                 ['title' => 'Active Members', 'value' => $memberCount ?? '150', 'color' => 'purple'],
-                ['title' => 'Pending Tasks', 'value' => $pendingTasks ?? '3', 'color' => 'yellow']
+                ['title' => 'Pending Tasks', 'value' => $pendingTasks ?? '0', 'color' => 'yellow']
             ];
         @endphp
 

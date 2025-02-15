@@ -33,6 +33,11 @@ Route::get('/auth/forgotpassword', function () {
     return view('auth.forgot_password');
 })->name('forgotpassword');
 
+//Profile Setting
+Route::get('/profilesetting', function () {
+    return view('profilesetting');
+})->name('profilesetting');
+
 
 
 Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
@@ -50,6 +55,7 @@ Route::get('/dash', function () {
 
     return view('/dash');
 })->middleware('auth');
+
 
 //MyInformation 
 Route::get('/myinformation/membersMasterlist', function () {
@@ -81,6 +87,27 @@ Route::get('/myinformation/editTraining', function () {
     return view('myinformation.editTraining');
 })->name('editTraining');
 
+//Cooperative-Owned List
+Route::get('/myinformation/cooperativeowned', function () {
+    return view('myinformation.cooperativeowned');
+})->name('cooperativeowned');
+
+//Edit Cooperative-Owned List
+Route::get('/myinformation/editcooperativeowned', function () {
+    return view('myinformation.editcooperativeowned');
+})->name('editcooperativeowned');
+
+//Individually-Owned List
+Route::get('/myinformation/individuallyowned', function () {
+    return view('myinformation.individuallyowned');
+})->name('individuallyowned');
+
+//Edit Individually-Owned List
+Route::get('/myinformation/editindividuallyowned', function () {
+    return view('myinformation.editindividuallyowned');
+})->name('editindividuallyowned');
+
+
 
 // Authentication 
 Route::post('/', [SessionController::class, 'store']);
@@ -104,9 +131,21 @@ Route::get('/otcservices/infoupdate', function () {
 Route::get('/otcservices/concern', function () {
     return view('otcservices.concern');
 })->name('concern');
+
 Route::get('/otcservices/accreditationcert', function () {
     return view('otcservices.accreditationcert');
 })->name('accreditationcert');
+
+Route::get('/otcservices/cgshistory', function () {
+    return view('otcservices.cgshistory');
+})->name('cgshistory');
+
+Route::get('/otcservices/traininghistory', function () {
+    return view('otcservices.traininghistory');
+})->name('traininghistory');
+
+
+
 
 // Accreditation Process
 Route::get('/accreditation/', function () {

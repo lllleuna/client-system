@@ -32,6 +32,11 @@ Route::get('/auth/forgotpassword', function () {
     return view('auth.forgot_password');
 })->name('forgotpassword');
 
+//Profile Setting
+Route::get('/profilesetting', function () {
+    return view('profilesetting');
+})->name('profilesetting');
+
 
 
 Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
@@ -47,6 +52,7 @@ Route::get('/dash', function () {
 
     return view('/dash');
 })->middleware('auth');
+
 
 //MyInformation 
 Route::get('/myinformation/membersMasterlist', function () {

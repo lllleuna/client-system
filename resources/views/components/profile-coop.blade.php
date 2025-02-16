@@ -31,7 +31,7 @@
                 Profile & Account Settings
             </a>
             
-            <form method="POST" action="#" class="block">
+            <form method="POST" action="/logout" class="block">
                 @csrf
                 <button type="submit" class="flex w-full items-center px-4 py-2 text-sm text-red-600 hover:bg-gray-100 rounded-lg">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">

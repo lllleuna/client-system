@@ -8,6 +8,8 @@
     - Consider caching for performance optimization
 --}}
 
+@include('prompt')
+
 @extends('layouts.layout')
 
 @section('content')
@@ -94,7 +96,6 @@
             <div class="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow p-6">
                 <h2 class="font-bold text-xl mb-6 text-gray-800">Quick Actions</h2>
                 <div class="space-y-3">
-                    {{-- Backend: Use $quickActions array to dynamically generate buttons --}}
                     @php
                         $actions = [
                             ['route' => 'cgsrenewal', 'text' => 'CGS Renewal', 'color' => 'green'],
@@ -102,18 +103,39 @@
                             ['route' => 'membersMasterlist', 'text' => 'Update Info', 'color' => 'yellow'],
                             ['route' => 'concern', 'text' => 'Related Concern', 'color' => 'purple']
                         ];
+                
+                        $disableFirstThree = !Auth::check() || !Auth::user()->accreditation_no; // Combined check
                     @endphp
-
-                    @foreach($actions as $action)
-                        <a href="{{ route($action['route']) }}" 
-                           class="flex items-center justify-between p-4 rounded-lg bg-{{ $action['color'] }}-50 hover:bg-{{ $action['color'] }}-100 transition-colors">
-                            <span class="font-medium text-{{ $action['color'] }}-700">{{ $action['text'] }}</span>
-                            <svg class="w-5 h-5 text-{{ $action['color'] }}-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                            </svg>
-                        </a>
+                
+                    @foreach($actions as $index => $action)
+                        @if ($index < 3 && $disableFirstThree)
+                            <a href="#" 
+                               class="flex items-center justify-between p-4 rounded-lg bg-gray-200 hover:bg-gray-300 transition-colors disabled"
+                               onclick="event.preventDefault();" title="Accreditation number is required.">
+                                <span class="font-medium text-gray-500">{{ $action['text'] }}</span>
+                                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                </svg>
+                            </a>
+                        @else
+                            <a href="{{ route($action['route']) }}" 
+                               class="flex items-center justify-between p-4 rounded-lg bg-{{ $action['color'] }}-50 hover:bg-{{ $action['color'] }}-100 transition-colors">
+                                <span class="font-medium text-{{ $action['color'] }}-700">{{ $action['text'] }}</span>
+                                <svg class="w-5 h-5 text-{{ $action['color'] }}-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                </svg>
+                            </a>
+                        @endif
                     @endforeach
                 </div>
+                
+                <style>
+                    .disabled {
+                        pointer-events: none;
+                        opacity: 0.6;
+                        cursor: default;
+                    }
+                </style>
             </div>
         </div>
 

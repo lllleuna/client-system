@@ -1,5 +1,5 @@
-@props(['name'])
+@props(['name', 'bag' => 'default'])
 
-@error($name)
-    <p class="text-xs text-red-500"> {{ $message }} </p>
+@error($name, $bag)
+    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
 @enderror

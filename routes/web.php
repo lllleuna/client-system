@@ -42,6 +42,7 @@ Route::get('/profilesetting', function () {
 
 
 Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
+Route::get('users/create', [RegisteredUserController::class, 'show']);
 Route::post('users/create', [RegisteredUserController::class, 'store']);
 
 

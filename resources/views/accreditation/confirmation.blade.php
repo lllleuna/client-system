@@ -1,7 +1,7 @@
 <x-accredit-steps>
     <div class="my-6 mx-auto w-full sm:w-1/2 flex flex-col p-5 rounded-lg shadow-md bg-white">
         <h2>Information</h2> <br>
-        <p>Transportation Cooperative Name: {{ $formData['tc_name'] }}</p>
+        <p>Transportation Cooperative Name: {{ session('form_data.tc_name', 'N/A') }}</p>
         <p>CDA Registration No: {{ $formData['cda_reg_no'] }}</p>
         <p>CDA Registration Date: {{ $formData['cda_reg_date'] }}</p>
         <p>Address: {{ $formData['address'] }}</p>

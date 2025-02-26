@@ -2,26 +2,6 @@
 
 @section('content')
 <div class="max-w-4xl mx-auto p-6">
-    {{-- Progress Indicator --}}
-    <div class="mb-8">
-        <div class="flex items-center justify-between">
-            <div class="flex items-center">
-                <span class="h-8 w-8 rounded-full bg-blue-600 text-white flex items-center justify-center">1</span>
-                <div class="ml-4">
-                    <p class="text-sm font-medium text-blue-600">Step 1</p>
-                    <p class="text-sm text-gray-500">Training Selection</p>
-                </div>
-            </div>
-            <div class="flex-1 h-0.5 mx-4 bg-gray-200"></div>
-            <div class="flex items-center">
-                <span class="h-8 w-8 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center">2</span>
-                <div class="ml-4">
-                    <p class="text-sm font-medium text-gray-600">Step 2</p>
-                    <p class="text-sm text-gray-500">Document Upload</p>
-                </div>
-            </div>
-        </div>
-    </div>
 
     {{-- Header Section with Enhanced Information --}}
     <div class="mb-8 bg-white rounded-lg shadow-md p-6">
@@ -152,11 +132,24 @@
             </div>
         </div>
 
+        {{-- Comments --}}
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <div class="space-y-6">
+                <label class="text-lg font-medium text-gray-700 mb-4">
+                    Comment/s
+                </label>
+                <span class="text-red-500">*</span>
+                <textarea name="address" rows="2" 
+                class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-100 focus:border-blue-400 transition-all duration-200 @error('address') border-red-500 @enderror"
+                >{{ old('address', $driver->address ?? '') }}</textarea>
+                @error('address')
+                    <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
+                @enderror
+            </div>
+        </div>
+
         {{-- Submit Button --}}
         <div class="flex items-center justify-end space-x-4">
-            <button type="button" class="py-2 px-4 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50">
-                Save Draft
-            </button>
             <button type="submit" class="py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                 Submit Registration
             </button>

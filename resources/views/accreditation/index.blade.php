@@ -25,7 +25,13 @@
         <div class="mt-5">
             <h3 class="text-lg font-semibold text-gray-800 mb-2">Steps</h3>
             <ol class="list-decimal pl-5 text-gray-600 space-y-2">
-                <li>Ready all required documents.</li>
+                <li>Ready all required documents.
+                    <ul class="list-disc pl-5 mt-1">
+                        <li>Request Letter Signed by the TC Chairperson</li>
+                        <li>req 2</li>
+                        <li>req 3</li>
+                    </ul>
+                </li>
                 <li>Click next and fill out the form.</li>
                 <li>Upload the documents.</li>
                 <li>Double-check all information.</li>
@@ -33,13 +39,19 @@
                 <li>Wait for an update through your email and the website TCOPS.</li>
             </ol>
         </div>
+
+        <div class="mt-5">
+            <h3 class="text-lg font-semibold text-gray-800 mb-2">Reminder</h3>
+            Your information saved in this website will be used for validation and processing of Accreditation. <br>
+            Please be sure that all information are updated and correct, if not you can edit your information first through this <a href="#" class="text-blue-800">link</a>.
+        </div>
     
         <!-- Footer Buttons -->
         <div class="mt-10 flex justify-between ">
             <a class="bg-gray-200 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-300 focus:outline-none">
                 Previous
             </a>
-            <a href="/accreditation/create" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 focus:outline-none">
+            <a href="/accreditation/form1" class="bg-blue-900 text-white px-4 py-2 rounded-lg hover:bg-blue-800 focus:outline-none">
                 Next
             </a>
         </div>

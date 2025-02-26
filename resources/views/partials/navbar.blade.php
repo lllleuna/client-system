@@ -38,17 +38,19 @@
                         <a href="{{ route('infoupdate') }}" class="hover:text-gray-300 transition">My Information</a>
                         <!-- Services Dropdown -->
                         <div class="relative" x-data="{ open: false }">
-                            <button @click="open = !open" class="hover:text-gray-300 transition flex items-center">
-                                Services ▼
-                            </button>
-                            <div
-                                x-show="open"
-                                @click.away="open = false"
-                                class="absolute left-0 mt-2 w-48 bg-white text-black rounded-lg shadow-lg z-50"
-                            >
-                                <a href="{{ route('cgsrenewal') }}" class="block px-4 py-2 hover:bg-gray-200">Certificate of Good Standing</a>
-                                <a href="{{ route('training') }}" class="block px-4 py-2 hover:bg-gray-200">Training & Seminars</a>
-                            </div>
+                            @if (Auth::check() && Auth::user()->accreditation_status === 'active')
+                                <button @click="open = !open" class="hover:text-gray-300 transition flex items-center">
+                                    Services ▼
+                                </button>
+                                <div
+                                    x-show="open"
+                                    @click.away="open = false"
+                                    class="absolute left-0 mt-2 w-48 bg-white text-black rounded-lg shadow-lg z-50"
+                                >
+                                    <a href="{{ route('cgsrenewal') }}" class="block px-4 py-2 hover:bg-gray-200">Certificate of Good Standing</a>
+                                    <a href="{{ route('training') }}" class="block px-4 py-2 hover:bg-gray-200">Training & Seminars</a>
+                                </div>
+                            @endif
                         </div>
                     </div>
 
@@ -79,13 +81,15 @@
                     
                     <!-- Mobile Services Dropdown -->
                     <div x-data="{ servicesOpen: false }">
-                        <button @click="servicesOpen = !servicesOpen" class="w-full text-left hover:bg-gray-700 px-3 py-2 rounded-md">
-                            Services ▼
-                        </button>
-                        <div x-show="servicesOpen" class="pl-6 space-y-2">
-                            <a href="{{ route('cgsrenewal') }}" class="block hover:bg-gray-700 px-3 py-2 rounded-md">Certificate of Good Standing</a>
-                            <a href="{{ route('training') }}" class="block hover:bg-gray-700 px-3 py-2 rounded-md">Training & Seminars</a>
-                        </div>
+                        @if (Auth::check() && Auth::user()->accreditation_no)  {{-- Show only if authenticated and has accreditation --}}
+                            <button @click="servicesOpen = !servicesOpen" class="w-full text-left hover:bg-gray-700 px-3 py-2 rounded-md">
+                                Services ▼
+                            </button>
+                            <div x-show="servicesOpen" class="pl-6 space-y-2">
+                                <a href="{{ route('cgsrenewal') }}" class="block hover:bg-gray-700 px-3 py-2 rounded-md">Certificate of Good Standing</a>
+                                <a href="{{ route('training') }}" class="block hover:bg-gray-700 px-3 py-2 rounded-md">Training & Seminars</a>
+                            </div>
+                        @endif
                     </div>
 
                     <!-- Mobile Action Items -->

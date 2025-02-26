@@ -113,12 +113,15 @@
                 </div>
             </div>
 
-            <!-- Submit Button -->
-            <div class="flex justify-end">
-                <x-form-submit-button class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-200">
+            <div class="mt-10 flex justify-between ">
+                <a class="bg-gray-200 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-300 focus:outline-none">
+                    Previous
+                </a>
+                <a href="/accreditation/create" class="bg-blue-900 text-white px-4 py-2 rounded-lg hover:bg-blue-800 focus:outline-none">
                     Submit Application
-                </x-form-submit-button>
+                </a>
             </div>
+
         </div>
     </form>
 </x-accredit-steps>

@@ -166,17 +166,30 @@ Route::get('/otcservices/traininghistory', function () {
 
 
 // Accreditation Process
-Route::get('/accreditation/', function () {
+Route::get('/accreditation/form1', [ApplicationController::class, 'showForm1'])->name('form1');
+Route::post('/accreditation/form1', [ApplicationController::class, 'processForm1'])->name('processForm1');
+
+Route::get('/accreditation/form2', [ApplicationController::class, 'showForm2'])->name('form2');
+Route::post('/accreditation/form2', [ApplicationController::class, 'processForm2'])->name('processForm2');
+
+Route::get('/accreditation/confirmation', [ApplicationController::class, 'showConfirmation'])->name('confirmation');
+Route::post('/accreditation/submit', [ApplicationController::class, 'submitForm'])->name('submitForm');
+
+Route::get('/accreditation/success', [ApplicationController::class, 'showSuccess'])->name('success'); // New route for success page
+
+
+Route::get('/accreditation', function () {
     return view('accreditation.index');
 });
-Route::get('/accreditation/create', [ApplicationController::class, 'create']);
-Route::post('/accreditation/create', [ApplicationController::class, 'store']);
-Route::get('/accreditation/submit', function () {
-    return view('accreditation.submit');
-});
-Route::get('/accreditation/reference', function () {
-    return view('accreditation.reference');
-});
+
+// Route::get('/accreditation/create', [ApplicationController::class, 'create']);
+// Route::post('/accreditation/create', [ApplicationController::class, 'store']);
+// Route::get('/accreditation/submit', function () {
+//     return view('accreditation.submit');
+// });
+// Route::get('/accreditation/reference', function () {
+//     return view('accreditation.reference');
+// });
 
 
 // PCGC address API 

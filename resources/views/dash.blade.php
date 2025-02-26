@@ -104,11 +104,11 @@
                             ['route' => 'concern', 'text' => 'Related Concern', 'color' => 'purple']
                         ];
                 
-                        $disableFirstThree = !Auth::check() || !Auth::user()->accreditation_no; // Combined check
+                        $disableFirstThree = !Auth::check() || Auth::user()->accreditation_status !== 'active';
                     @endphp
                 
                     @foreach($actions as $index => $action)
-                        @if ($index < 3 && $disableFirstThree)
+                        @if ($index < 2 && $disableFirstThree)
                             <a href="#" 
                                class="flex items-center justify-between p-4 rounded-lg bg-gray-200 hover:bg-gray-300 transition-colors disabled"
                                onclick="event.preventDefault();" title="Accreditation number is required.">

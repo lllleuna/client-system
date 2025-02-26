@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     @vite('resources/css/app.css')
     @vite('resources/js/address-dropdown.js')
+    @vite('resources/js/file-upload.js')
     <title>Document</title>
 </head>
 <body class="bg-gray-200">
@@ -14,12 +15,15 @@
         <div class="m-auto w-fit items-center px-3 py-2">
             <x-nav-link href="/dash" :active="request()->is('dashboard')">Dashboard</x-nav-link>
             >
-            <x-nav-link href="/accreditation" :active="request()->is('accreditation')">Guide</x-nav-link>
+            <x-nav-link  :active="request()->is('accreditation')">Guide</x-nav-link>
             >
-            <x-nav-link href="/accreditation/create" :active="request()->is('accreditation/create')">Fill-Out Form</x-nav-link>
+            <x-nav-link  :active="request()->is('accreditation/form1')">Fill-Out Form</x-nav-link>
             >
-            <x-nav-link href="/accreditation/submit" :active="request()->is('accreditation/submit')">Submission</x-nav-link>
-            <x-nav-link href="/accreditation/reference" :active="request()->is('accreditation/reference')">Reference</x-nav-link>
+            <x-nav-link  :active="request()->is('accreditation/form2')">Upload</x-nav-link>
+            >
+            <x-nav-link  :active="request()->is('accreditation/confirmation')">Confirmation</x-nav-link>
+            >
+            <x-nav-link  :active="request()->is('accreditation/success')">Success</x-nav-link>
         </div>
     </header>
 

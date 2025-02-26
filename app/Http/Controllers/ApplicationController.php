@@ -57,6 +57,11 @@ class ApplicationController extends Controller
         }
 
         $allFormData = array_merge($request->session()->get('form_data', []), $validatedData, $filePaths);
+
+        if (!isset($allFormData['tc_name'])) {
+            return back()->withErrors(['tc_name' => 'Transportation Cooperative Name is missing.']);
+        }
+        
         $request->session()->put('form_data', $allFormData); 
 
         return redirect()->route('confirmation');

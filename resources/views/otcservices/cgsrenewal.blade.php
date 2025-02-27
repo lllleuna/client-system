@@ -2,7 +2,9 @@
 
 @section('content')
 <div class="max-w-4xl mx-auto p-6">
-    <x-cgs-modals />
+
+    {{-- DISABLE! --}}
+    {{-- <x-cgs-modals /> --}}
 
     {{-- Header Section with Enhanced Information --}}
     <div class="mb-8 bg-white rounded-lg shadow-md p-6">
@@ -53,33 +55,6 @@
                         </div>
                     </div>
                 </div>
-
-                {{-- OTC Annual Report Form Upload --}}
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2 flex items-center">
-                        3. Accomplished OTC Annual Report Form
-                        <span id="annualReportIndicator" class="text-red-500 ml-1">*</span>
-                    </label>
-                    <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-dashed rounded-lg @error('annual_report') border-red-300 @enderror">
-                        <div class="space-y-1 text-center">
-                            <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48">
-                                <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                            </svg>
-                            <div class="flex text-sm text-gray-600">
-                                <label for="annual_report" class="relative cursor-pointer rounded-md font-medium text-blue-600 hover:text-blue-500">
-                                    <span>Upload a file</span>
-                                    <input id="annual_report" name="annual_report" type="file" class="sr-only" required accept=".pdf" onchange="updateAnnualReportIndicator()">
-                                </label>
-                                <p class="pl-1">or drag and drop</p>
-                            </div>
-                            <p class="text-xs text-gray-500">PDF up to 5MB</p>
-                        </div>
-                    </div>
-                    @error('annual_report')
-                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                    @enderror
-                </div>
-
 
                 <div class="space-y-6">
                     {{-- Letter Request Upload --}}

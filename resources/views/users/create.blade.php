@@ -9,10 +9,6 @@
     <x-form-input name="accreditation_no" id="accreditation_no" placeholder="Accreditation No. (e.g., 2021-082)" :value="old('accreditation_no')" pattern="^\d{4}-\d{3}$" title="Format should be YYYY-XXX" required/>
     <x-form-error name="accreditation_no" bag="signup"/>
 
-    <!-- Transport Cooperative Name -->
-    <x-form-input name="tc_name" id="tc_name" placeholder="Transport Cooperative Name" :value="old('tc_name')" required/>
-    <x-form-error name="tc_name" bag="signup"/>
-
     {{-- Chairperson's Name --}}
     <x-form-label class="text-blue-900">Cooperative Chairperson's Personal Information</x-form-label>
 

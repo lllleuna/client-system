@@ -2,13 +2,6 @@
     @csrf
 
     <x-form-title>Create Account</x-form-title>
-
-    <x-form-label class="text-blue-900">Business Information</x-form-label>
-
-    <!-- Transport Cooperative Name -->
-    <x-form-input name="tc_name" id="tc_name" placeholder="Transport Cooperative Name" :value="old('tc_name')" required/>
-    <x-form-error name="tc_name" bag="signup"/>
-
     {{-- Chairperson's Name --}}
     <x-form-label class="text-blue-900">Cooperative Chairperson's Personal Information</x-form-label>
 

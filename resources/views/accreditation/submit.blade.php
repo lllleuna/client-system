@@ -8,20 +8,11 @@
                 <h2 class="text-2xl font-semibold text-gray-800 mb-6">Getting Started</h2>
                 
                 <div class="space-y-8">
-                    <!-- First Tutorial -->
-                    <div class="space-y-4">
-                        <h3 class="text-lg font-medium text-gray-700">Steps in Compiling and Uploading Your Requirements</h3>
-                        <div class="flex justify-center bg-gray-50 rounded-lg p-4">
-                            <img src="{{ asset('images/tutorials.gif') }}" alt="Tutorial Steps" 
-                                 class="w-full max-w-md h-auto object-contain rounded-lg">
-                        </div>
-                    </div>
-
-                    <!-- Second Tutorial -->
+                    <!-- Tutorial -->
                     <div class="space-y-4">
                         <h3 class="text-lg font-medium text-gray-700">Sample of Compiled Requirements</h3>
                         <div class="flex justify-center bg-gray-50 rounded-lg p-4">
-                            <img src="{{ asset('images/tutorials2.jpg') }}" alt="Sample Requirements" 
+                            <img src="{{ asset('images/tutorials.png') }}" alt="Sample Requirements" 
                                  class="w-full max-w-md h-auto object-contain rounded-lg">
                         </div>
                     </div>
@@ -30,7 +21,7 @@
 
             <!-- File Upload Section -->
             <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
-                <h2 class="text-lg font-semibold text-gray-800 mb-4">Upload Your Requirements</h2>
+                <h2 class="text-lg font-semibold text-gray-800 mb-4">Upload Your Compiled Requirements</h2>
                 <div class="space-y-4">
                     <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
                         <input type="file" id="file_upload" name="file_upload" 
@@ -71,7 +62,7 @@
             <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
                 <h2 class="text-lg font-semibold text-gray-800 mb-4">Data Privacy Notice</h2>
                 <div class="prose prose-sm text-gray-600">
-                    <p>The Center for Admission and Scholarship of the University of Makati (UMak) recognizes and protects your rights as data subject by applying appropriate security measures in compliance with existing laws on data privacy, records management and cyber security.</p>
+                    <p>The Center for Admission and Scholarship of the Office of Transportation Cooperative (OTC) recognizes and protects your rights as data subject by applying appropriate security measures in compliance with existing laws on data privacy, records management and cyber security.</p>
                 </div>
             </div>
 
@@ -95,30 +86,78 @@
                             <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                             </svg>
-                            <a href="mailto:info@umak.edu.ph" class="text-blue-600 hover:text-blue-800">info@umak.edu.ph</a>
+                            <a href="official@otc.gov.ph" class="text-blue-600 hover:text-blue-800">official@otc.gov.ph</a>
                         </div>
                         <div class="flex items-center space-x-2">
                             <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                             </svg>
-                            <a href="mailto:dprms@umak.edu.ph" class="text-blue-600 hover:text-blue-800">dprms@umak.edu.ph</a>
+                            <p class="text-blue-600 hover:text-blue-800">https://www.facebook.com/DOTR.OTC</a>
                         </div>
                         <div class="flex items-center space-x-2">
                             <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
                             </svg>
-                            <a href="mailto:tbl.lms@umak.edu.ph" class="text-blue-600 hover:text-blue-800">tbl.lms@umak.edu.ph</a>
+                            <p class="text-blue-600 hover:text-blue-800">09989461736 / 09772111310</a>
                         </div>
                     </div>
                 </div>
             </div>
-
-            <!-- Submit Button -->
-            <div class="flex justify-end">
-                <x-form-submit-button class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-200">
+             <!-- Submit Button -->
+            <div class="flex justify-between">
+                <a href="/accreditation/create" :active="request()->is('accreditation')" class="bg-white text-black px-4 py-2 rounded-lg border border-gray-400 hover:bg-gray-200 focus:outline-none shadow-md">                    Back
+                </a>
+                <x-form-submit-button class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 focus:outline-none">
                     Submit Application
                 </x-form-submit-button>
             </div>
         </div>
+       
     </form>
+
+    <!-- Submission Confirmation Modal -->
+    <div id="submitConfirmModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center hidden z-50">
+        <div class="bg-white rounded-lg p-6 w-80 shadow-lg">
+            <h3 class="text-lg font-medium text-gray-900 mb-4">Confirm Submission</h3>
+            <p class="text-gray-600 mb-5">Are you sure you want to submit your application? Once submitted, you cannot make changes.</p>
+            <div class="flex justify-end space-x-3">
+                <button id="cancelSubmit" class="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 focus:outline-none">
+                    Cancel
+                </button>
+                <button id="confirmSubmit" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none">
+                    Confirm
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const submitButton = document.getElementById('submitButton');
+            const submitConfirmModal = document.getElementById('submitConfirmModal');
+            const cancelSubmit = document.getElementById('cancelSubmit');
+            const confirmSubmit = document.getElementById('confirmSubmit');
+            const form = document.getElementById('form');
+    
+            submitButton.addEventListener('click', function(e) {
+                e.preventDefault();
+                submitConfirmModal.classList.remove('hidden');
+            });
+    
+            cancelSubmit.addEventListener('click', function() {
+                submitConfirmModal.classList.add('hidden');
+            });
+    
+            confirmSubmit.addEventListener('click', function() {
+                form.submit();
+            });
+    
+            // Close modal when clicking outside
+            window.addEventListener('click', function(event) {
+                if (event.target === submitConfirmModal) {
+                    submitConfirmModal.classList.add('hidden');
+                }
+            });
+        });
+    </script>
 </x-accredit-steps>

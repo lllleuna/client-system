@@ -22,10 +22,7 @@ $showModal = empty(Auth::user()->accreditation_no);
         </p>
 
         <div class="flex flex-col space-y-4">
-            <a href="/myinformation/membersMasterlist" class="block text-center bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded transition">
-                Update Information
-            </a>
-            <a href="/accreditation" class="text-blue-500 hover:underline text-center text-sm">
+            <a href="/accreditation" class="block text-center bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded transition">
                 Accreditation Link
             </a>
         </div>  

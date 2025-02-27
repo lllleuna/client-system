@@ -16,7 +16,7 @@
         ->where('id', $user->id)
         ->value('accreditation_status');
 
-    $showModal = !$applicationExists && in_array($accreditationStatus, ['renew', 'new']);
+    $showModal = !$applicationExists && in_array($accreditationStatus, ['New']);
 @endphp
 
 @if($showModal)

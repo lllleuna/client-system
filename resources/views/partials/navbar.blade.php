@@ -38,7 +38,7 @@
                         <a href="{{ route('infoupdate') }}" class="hover:text-gray-300 transition">My Information</a>
                         <!-- Services Dropdown -->
                         <div class="relative" x-data="{ open: false }">
-                            @if (Auth::check() && Auth::user()->accreditation_status === 'active')
+                            @if (Auth::check() && Auth::user()->accreditation_status === 'Active')
                                 <button @click="open = !open" class="hover:text-gray-300 transition flex items-center">
                                     Services ▼
                                 </button>
@@ -81,7 +81,7 @@
                     
                     <!-- Mobile Services Dropdown -->
                     <div x-data="{ servicesOpen: false }">
-                        @if (Auth::check() && Auth::user()->accreditation_no)  {{-- Show only if authenticated and has accreditation --}}
+                        @if (Auth::check() && Auth::user()->accreditation_status === 'Active')
                             <button @click="servicesOpen = !servicesOpen" class="w-full text-left hover:bg-gray-700 px-3 py-2 rounded-md">
                                 Services ▼
                             </button>

@@ -19,7 +19,7 @@ return new class extends Migration
 
 
     // run the below command in php my admin if this migration did not work
-    
+
 // UPDATE applications 
 // SET reference_number = CONCAT('APP-', LPAD(id, 6, '0'))
 // WHERE reference_number IS NULL OR reference_number = '';
@@ -30,7 +30,8 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('applications', function (Blueprint $table) {
-            //
+            $table->dropColumn('file_upload');
+            $table->dropColumn('reference_number');
         });
     }
 };

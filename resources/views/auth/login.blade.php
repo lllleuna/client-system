@@ -2,7 +2,7 @@
     @csrf
     
     <div class="text-center mb-6">
-        <x-form-title class="text-2xl font-bold text-gray-900">Welcome Back</x-form-title>
+        <x-form-title class="text-2xl font-bold text-gray-900">Welcome!</x-form-title>
         <p class="text-sm text-gray-600">Please sign in to your account</p>
     </div>
 

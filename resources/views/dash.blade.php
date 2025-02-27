@@ -26,7 +26,7 @@
 <div class="flex justify-between items-center my-6 px-6">
     <div>
         <h1 class="text-3xl font-bold text-gray-900">Dashboard</h1>
-        <p class="text-gray-600 mt-1">Welcome back, {{ $user->name ?? 'Cooperative Chairperson' }}</p>
+        <p class="text-gray-600 mt-1">Welcome, {{ $user->name ?? 'Cooperative Chairperson' }}</p>
     </div>
     <div class="text-sm text-gray-500">
         Last Login: {{ $user->last_login ?? 'First time login' }} 
@@ -104,7 +104,7 @@
                             ['route' => 'concern', 'text' => 'Related Concern', 'color' => 'purple']
                         ];
                 
-                        $disableFirstThree = !Auth::check() || Auth::user()->accreditation_status !== 'active';
+                        $disableFirstThree = !Auth::check() || Auth::user()->accreditation_status !== 'Active';
                     @endphp
                 
                     @foreach($actions as $index => $action)

@@ -5,14 +5,14 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
-{
+{ss
     /**
      * Run the migrations.
      */
     public function up(): void
     {
         Schema::table('applications', function (Blueprint $table) {
-            $table->string('file_upload')->required();
+            $table->string('file_upload');
             $table->string('reference_number')->unique();
         });
     }

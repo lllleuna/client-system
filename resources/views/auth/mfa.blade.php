@@ -26,6 +26,8 @@
                         </button>
                     </form>
                 </div>
+
+                <x-failed-notif></x-failed-notif>
                 
                 <div id="otp-form" class="mt-8 hidden transition-opacity duration-300">
                     <form id="verify-otp-form" method="POST" action="{{ route('verify.otp') }}">
@@ -45,6 +47,7 @@
                         </div>
                         
                         <div class="flex items-center justify-between mb-4">
+                            <p class="text-gray-500">Didn't get a code?</p>
                             <button type="button" id="resend-otp-btn" disabled 
                                 class="text-sm text-indigo-600 hover:text-indigo-500 disabled:text-gray-400 disabled:cursor-not-allowed">
                                 Resend Code (<span id="timer">0:60</span>)

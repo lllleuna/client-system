@@ -42,4 +42,10 @@ class User extends Authenticatable implements MustVerifyEmail
             'password' => 'hashed',
         ];
     }
+
+    public function routeNotificationForVonage()
+    {
+        return $this->contact_no; // Ensure this column exists in your users table
+    }
+
 }

@@ -57,7 +57,6 @@ Route::get('/dash', function () {
 
 
 // Email Verification ---------------
-// Email Verification Process
 Route::get('/email/verify', function () {
     return view('auth.verify-email');
 })->middleware('auth')->name('verification.notice');
@@ -74,6 +73,20 @@ Route::post('/email/verification-notification', function (Request $request) {
     return back()->with('message', 'Verification link sent!');
 })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 // ------------------------------------------
+
+// Setting Up MFA ----------
+// Two-factor authentication routes
+Route::middleware(['auth'])->group(function () {
+    Route::get('/auth/sms', [RegisteredUserController::class, 'showSmsVerification'])->name('auth.sms');
+    Route::get('/auth/google-authenticator', [RegisteredUserController::class, 'showGoogleAuthenticator'])->name('auth.google');
+    
+    Route::post('/auth/verify-phone', [RegisteredUserController::class, 'verifyPhone'])->name('verify.phone');
+    Route::post('/auth/verify-otp', [RegisteredUserController::class, 'verifyOtp'])->name('verify.otp');
+    Route::post('/auth/resend-otp', [RegisteredUserController::class, 'resendOtp'])->name('resend.otp');
+    
+    Route::post('/auth/setup-google', [RegisteredUserController::class, 'setupGoogleAuth'])->name('setup.google');
+    Route::post('/auth/verify-google', [RegisteredUserController::class, 'verifyGoogleAuth'])->name('verify.google');
+});
 
 
 //MyInformation 

@@ -35,7 +35,7 @@
             <x-form-error name="chair_suffix" bag="signup"/>
         </div>
     
-        <x-form-input name="contact_no" id="contact_no" placeholder="Contact No. (e.g., 09123456789)" :value="old('contact_no')" pattern="^0\d{10}$" title="Format: 11 digits starting with 0 (e.g., 09123456789)" required />
+        <x-form-input name="contact_no" id="contact_no" placeholder="Contact No. (e.g., 639123456789)" :value="old('contact_no')" pattern="^63\d{10}$" title="Format: 12 digits starting with 63 (e.g., 639123456789)" required />
         <x-form-error name="contact_no" bag="signup"/>
 
         <div class="flex">

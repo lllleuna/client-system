@@ -31,10 +31,13 @@
     <div class="flex-row">
         <p class="text-sm text-gray-500">Last Login: {{ $user->last_login ?? 'First time login' }} </p>
         {{-- And/Or MM/DD/YYYY HH:MM:SS --}}
-        <a href="/auth/sms"><h3>Verify SMS</h3></a>
-        <a href=""><h3>Authenticator Code</h3></a>
+        <a href="/auth/mfa"><h3>Verify SMS</h3></a>
+        {{-- <a href=""><h3>Authenticator Code</h3></a> --}}
     </div>
 </div>
+
+{{-- temporary success message when contact verified --}}
+<x-success-notif />
 
 <div class="container mx-auto px-6">
     <!-- Enhanced Announcements Carousel -->

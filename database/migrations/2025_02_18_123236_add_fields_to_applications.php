@@ -5,7 +5,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
-{ss
+{
     /**
      * Run the migrations.
      */
@@ -18,7 +18,7 @@ return new class extends Migration
     }
 
 
-    // run the below command in php my admin if this migration did not work
+    // run the below command in phpmyadmin if this migration did not work
 
 // UPDATE applications 
 // SET reference_number = CONCAT('APP-', LPAD(id, 6, '0'))

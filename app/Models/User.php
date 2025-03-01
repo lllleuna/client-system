@@ -43,9 +43,15 @@ class User extends Authenticatable implements MustVerifyEmail
         ];
     }
 
-    public function routeNotificationForVonage()
-    {
-        return $this->contact_no; // Ensure this column exists in your users table
+    public function routeNotificationForVonage($notification = null)
+{
+    if ($notification instanceof \App\Notifications\SendOtpNotification && 
+        property_exists($notification, 'contactNo') && 
+        $notification->contactNo) {
+        return $notification->contactNo;
     }
+    
+    return $this->contact_no;
+}
 
 }

@@ -1,193 +1,224 @@
-@include('prompt')
-
 @extends('layouts.layout')
 
+<head>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+</head>
+
 @section('content')
-    <!-- MFA Setup Page using Laravel and Tailwind CSS -->
-
-    <div class="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-        <div class="max-w-md mx-auto">
-            <!-- Header -->
-            <div class="text-center mb-8">
-                <h2 class="mt-6 text-3xl font-extrabold text-gray-900">
-                    Set Up Multi-Factor Authentication
-                </h2>
-                <p class="mt-2 text-sm text-gray-600">
-                    Protect your account with an additional layer of security
-                </p>
-            </div>
-
-            <!-- Steps -->
-            <div class="relative">
-                <div class="absolute inset-0 flex items-center" aria-hidden="true">
-                    <div class="w-full border-t border-gray-300"></div>
-                </div>
-                <div class="relative flex justify-between">
-                    <div>
-                        <span class="relative flex h-8 w-8 items-center justify-center rounded-full bg-indigo-600 text-white">
-                            <span class="text-sm font-medium">1</span>
-                        </span>
-                        <span class="mt-2 block text-sm font-medium text-gray-900">SMS Verification</span>
-                    </div>
-                    <div>
-                        <span class="relative flex h-8 w-8 items-center justify-center rounded-full bg-gray-200 text-gray-600">
-                            <span class="text-sm font-medium">2</span>
-                        </span>
-                        <span class="mt-2 block text-sm font-medium text-gray-500">Authenticator App</span>
-                    </div>
-                    <div>
-                        <span class="relative flex h-8 w-8 items-center justify-center rounded-full bg-gray-200 text-gray-600">
-                            <span class="text-sm font-medium">3</span>
-                        </span>
-                        <span class="mt-2 block text-sm font-medium text-gray-500">Complete</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Content Box -->
-            <div class="mt-8 bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-                <!-- Step 1: SMS Verification (active) -->
-                <div class="step-content" id="step-sms">
-                    <form action="/send-otp" method="POST" id="sendOtpForm">
+<div class="py-12">
+    <div class="max-w-md mx-auto sm:px-6 lg:px-8">
+        <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+            <div class="p-6 bg-white border-b border-gray-200">
+                <h2 class="text-xl font-semibold text-gray-800 mb-6">SMS Verification</h2>
+                
+                <div id="phone-form" class="transition-opacity duration-300">
+                    <form id="verify-phone-form" method="POST" action="{{ route('send.otp') }}">
                         @csrf
-                        <div class="space-y-6">
-                            <div>
-                                <label for="phone" class="block text-sm font-medium text-gray-700">Phone Number</label>
-                                <div class="mt-1">
-                                    <input type="tel" name="contact_no" id="contact_no" required value="{{ auth()->user()->contact_no ?? '' }}" class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="+1 (555) 555-5555">
-                                </div>
-                            </div>
-                            
-                            <div class="flex items-center">
-                                <button type="submit" id="otp_send" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                                    Send Verification Code
-                                </button>
-                            </div>
+                        <div class="mb-4">
+                            <label for="contact_no" class="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
+                            <input type="text" name="contact_no" id="contact_no" value="{{ auth()->user()->contact_no }}" class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="63 900 000 0000">
+                            <p class="mt-1 text-sm text-gray-500">We'll send a verification code to this number</p>
                         </div>
+                        
+                        <button type="submit" id="send-otp-btn" 
+                            class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                            Send Verification Code
+                        </button>
                     </form>
-                    
-                    <!-- SMS Code Verification (initially hidden, shown after code is sent) -->
-                    <div class="mt-20 hidden" id="verification-form">
-                        <div class="text-sm text-gray-600 mb-4">
-                            Enter the 6-digit code we sent to your phone number
-                        </div>
-                        
-                        <form action="" method="POST">
-                            @csrf
-                            <div class="flex justify-between mb-5">
-                                <input type="text" name="code[]" maxlength="1" class="w-12 h-12 text-center text-xl border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" autofocus>
-                                <input type="text" name="code[]" maxlength="1" class="w-12 h-12 text-center text-xl border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
-                                <input type="text" name="code[]" maxlength="1" class="w-12 h-12 text-center text-xl border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
-                                <input type="text" name="code[]" maxlength="1" class="w-12 h-12 text-center text-xl border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
-                                <input type="text" name="code[]" maxlength="1" class="w-12 h-12 text-center text-xl border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
-                                <input type="text" name="code[]" maxlength="1" class="w-12 h-12 text-center text-xl border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
-                            </div>
-                            
-                            <div class="text-center mb-4">
-                                <button id="resendButton" type="button" class="text-sm text-indigo-600 hover:text-indigo-500" disabled>
-                                    Resend code (<span id="countdown">60</span>s)
-                                </button>
-                                
-                            </div>
-                            
-                            <div class="flex items-center">
-                                <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                                    Verify & Continue
-                                </button>
-                            </div>
-                        </form>
-                    </div>
                 </div>
                 
-                <!-- Step 2: Authenticator App (hidden initially) -->
-                <div class="step-content hidden" id="step-authenticator">
-                    <div class="text-center">
-                        <h3 class="text-lg font-medium text-gray-900 mb-2">Set up Google Authenticator</h3>
-                        <p class="text-sm text-gray-600 mb-6">Scan the QR code with the Google Authenticator app</p>
-                        
-                        <div class="bg-gray-100 w-48 h-48 mx-auto rounded-md flex items-center justify-center mb-6">
-                            <img src="/api/placeholder/200/200" alt="QR Code" class="w-40 h-40">
-                        </div>
-                        
-                        <div class="mb-6">
-                            <p class="text-sm text-gray-600 mb-2">Or enter this setup key manually:</p>
-                            <div class="bg-gray-100 py-2 px-4 rounded-md inline-block">
-                                <code class="text-sm">ABCD EFGH IJKL MNOP</code>
+                <div id="otp-form" class="mt-8 hidden transition-opacity duration-300">
+                    <form id="verify-otp-form" method="POST" action="{{ route('verify.otp') }}">
+                        @csrf
+                        <div class="mb-4">
+                            <label for="otp" class="block text-sm font-medium text-gray-700 mb-1">Verification Code</label>
+                            <div class="flex space-x-2 mb-2">
+                                <input type="text" maxlength="1" required class="otp-input w-full h-12 text-center text-lg font-semibold border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500">
+                                <input type="text" maxlength="1" required class="otp-input w-full h-12 text-center text-lg font-semibold border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500">
+                                <input type="text" maxlength="1" required class="otp-input w-full h-12 text-center text-lg font-semibold border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500">
+                                <input type="text" maxlength="1" required class="otp-input w-full h-12 text-center text-lg font-semibold border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500">
+                                <input type="text" maxlength="1" required class="otp-input w-full h-12 text-center text-lg font-semibold border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500">
+                                <input type="text" maxlength="1" required class="otp-input w-full h-12 text-center text-lg font-semibold border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500">
                             </div>
+                            <input type="hidden" name="otp" id="otp-value">
+                            <p id="otp-message" class="mt-1 text-sm text-gray-500">Enter the 6-digit code sent to your phone</p>
                         </div>
                         
-                        <div class="mb-6 bg-blue-50 p-4 rounded-md text-sm text-blue-700">
-                            <h4 class="font-medium mb-2">How to set up:</h4>
-                            <ol class="text-left pl-5 list-decimal">
-                                <li>Download Google Authenticator app</li>
-                                <li>Tap the + icon in the app</li>
-                                <li>Scan the QR code or enter the setup key</li>
-                                <li>Enter the 6-digit code from the app below</li>
-                            </ol>
-                        </div>
-                        
-                        <form action="" method="POST">
-                            @csrf
-                            <div class="mb-4">
-                                <label for="auth_code" class="block text-sm font-medium text-gray-700 text-left">Enter 6-digit code from the app</label>
-                                <input type="text" name="auth_code" id="auth_code" class="mt-1 appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="000000" maxlength="6">
-                            </div>
-                            
-                            <div class="flex items-center justify-between">
-                                <button type="button" class="inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" id="btn-back-to-sms">
-                                    Back
-                                </button>
-                                <button type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                                    Verify & Complete
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-                
-                <!-- Step 3: Complete (hidden initially) -->
-                <div class="step-content hidden" id="step-complete">
-                    <div class="text-center">
-                        <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-green-100 mb-4">
-                            <svg class="h-6 w-6 text-green-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                            </svg>
-                        </div>
-                        <h3 class="text-lg font-medium text-gray-900 mb-2">MFA Setup Complete!</h3>
-                        <p class="text-sm text-gray-600 mb-6">Your account is now protected with multi-factor authentication</p>
-                        
-                        <div class="mb-6 bg-yellow-50 p-4 rounded-md text-sm text-yellow-700">
-                            <h4 class="font-medium mb-2">Important:</h4>
-                            <p>Keep your backup codes safe. You'll need them if you lose access to your phone.</p>
-                        </div>
-                        
-                        <div class="bg-gray-100 py-3 px-4 rounded-md mb-6">
-                            <div class="grid grid-cols-2 gap-2 text-sm font-mono text-gray-800">
-                                <div>8A7B-9C3F-DE45</div>
-                                <div>F123-456G-789H</div>
-                                <div>AB12-CD34-EF56</div>
-                                <div>GH78-IJ90-KL12</div>
-                                <div>MN34-OP56-QR78</div>
-                                <div>ST90-UV12-WX34</div>
-                            </div>
-                        </div>
-                        
-                        <div class="flex items-center justify-center">
-                            <button type="button" class="inline-flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                                Download Backup Codes
+                        <div class="flex items-center justify-between mb-4">
+                            <button type="button" id="resend-otp-btn" disabled 
+                                class="text-sm text-indigo-600 hover:text-indigo-500 disabled:text-gray-400 disabled:cursor-not-allowed">
+                                Resend Code (<span id="timer">0:60</span>)
                             </button>
                         </div>
                         
-                        <div class="mt-6">
-                            <a href="/dash" class="text-indigo-600 hover:text-indigo-500 font-medium">Return to Dashboard</a>
-                        </div>
-                    </div>
+                        <button type="submit" 
+                            class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                            Verify Code
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
+</div>
+
+<script>
+    // Simulate form submission and show OTP form
+    document.getElementById('verify-phone-form').addEventListener('submit', function (e) {
+    e.preventDefault();
     
+    const form = this;
+    const phoneForm = document.getElementById('phone-form');
+    const otpForm = document.getElementById('otp-form');
     
+    // Get phone number and validate
+    const contactNo = document.getElementById('contact_no').value;
+    if (!contactNo || contactNo.trim() === '') {
+        alert('Please enter a valid phone number');
+        return;
+    }
     
+    // Disable the form
+    phoneForm.classList.add('opacity-50');
+    phoneForm.querySelectorAll('input, button').forEach(el => el.disabled = true);
     
+    // Create XHR request (older but sometimes more reliable approach)
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', form.action);
+    xhr.setRequestHeader('X-CSRF-TOKEN', document.querySelector('meta[name="csrf-token"]').getAttribute('content'));
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.setRequestHeader('Accept', 'application/json');
+    
+    xhr.onload = function() {
+        if (xhr.status >= 200 && xhr.status < 300) {
+            const response = JSON.parse(xhr.responseText);
+            if (response.message) {
+                otpForm.classList.remove('hidden');
+                startCountdown();
+                setupOtpInputs();
+            } else {
+                throw new Error(response.error || 'Failed to send OTP');
+            }
+        } else {
+            console.error('Request failed with status', xhr.status);
+            alert('Error sending OTP. Please try again.');
+            
+            // Re-enable form
+            phoneForm.classList.remove('opacity-50');
+            phoneForm.querySelectorAll('input, button').forEach(el => el.disabled = false);
+        }
+    };
+    
+    xhr.onerror = function() {
+        console.error('Request failed');
+        alert('Error sending OTP. Please try again.');
+        
+        // Re-enable form
+        phoneForm.classList.remove('opacity-50');
+        phoneForm.querySelectorAll('input, button').forEach(el => el.disabled = false);
+    };
+    
+    // Send the form data
+    xhr.send('contact_no=' + encodeURIComponent(contactNo) + '&_token=' + encodeURIComponent(document.querySelector('input[name="_token"]').value));
+});
+
+// Handle OTP input auto-advance
+function setupOtpInputs() {
+    const inputs = document.querySelectorAll('.otp-input');
+
+    inputs.forEach((input, index) => {
+        input.addEventListener('keyup', function (e) {
+            if (e.key >= 0 && e.key <= 9) {
+                input.value = e.key;
+                if (index < inputs.length - 1) {
+                    inputs[index + 1].focus();
+                }
+                updateOtpValue();
+            } else if (e.key === 'Backspace') {
+                input.value = '';
+                if (index > 0) {
+                    inputs[index - 1].focus();
+                }
+                updateOtpValue();
+            }
+        });
+
+        // Handle paste event
+        input.addEventListener('paste', function (e) {
+            e.preventDefault();
+            const pasteData = e.clipboardData.getData('text');
+            if (/^\d+$/.test(pasteData)) {
+                for (let i = 0; i < inputs.length; i++) {
+                    if (i < pasteData.length) {
+                        inputs[i].value = pasteData[i];
+                    }
+                }
+                updateOtpValue();
+            }
+        });
+    });
+
+    // Focus first input
+    inputs[0].focus();
+}
+
+// Combine OTP inputs into hidden field
+function updateOtpValue() {
+    const inputs = document.querySelectorAll('.otp-input');
+    let otp = '';
+    inputs.forEach(input => {
+        otp += input.value;
+    });
+    document.getElementById('otp-value').value = otp;
+}
+
+// Countdown timer for resend button
+function startCountdown() {
+    const timerElement = document.getElementById('timer');
+    const resendButton = document.getElementById('resend-otp-btn');
+    let timeLeft = 60;
+
+    const countdownInterval = setInterval(() => {
+        timeLeft--;
+        const minutes = Math.floor(timeLeft / 60);
+        const seconds = timeLeft % 60;
+        timerElement.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+
+        if (timeLeft <= 0) {
+            clearInterval(countdownInterval);
+            resendButton.disabled = false;
+            timerElement.textContent = '0:00';
+        }
+    }, 1000);
+
+    // Handle resend button click
+    resendButton.addEventListener('click', function () {
+        if (!resendButton.disabled) {
+            // Disable button and restart timer
+            resendButton.disabled = true;
+            timeLeft = 60;
+            startCountdown();
+
+            // Make AJAX request to resend OTP
+            fetch('{{ route('resend.otp') }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+                body: JSON.stringify({
+                    contact_no: document.getElementById('contact_no').value
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    document.getElementById('otp-message').textContent = 'A new code has been sent to your phone';
+                }
+            });
+        }
+    });
+}
+
+</script>
 @endsection

@@ -12,10 +12,12 @@ class SendOtpNotification extends Notification
     use Queueable;
 
     protected $otp;
+    public $contactNo; // Make it public so User model can access it
 
-    public function __construct($otp)
+    public function __construct($otp, $contactNo = null)
     {
         $this->otp = $otp;
+        $this->contactNo = $contactNo;
     }
 
     public function via($notifiable)
@@ -37,4 +39,3 @@ class SendOtpNotification extends Notification
         ];
     }
 }
-

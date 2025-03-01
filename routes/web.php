@@ -57,7 +57,6 @@ Route::get('/dash', function () {
 
 
 // Email Verification ---------------
-// Email Verification Process
 Route::get('/email/verify', function () {
     return view('auth.verify-email');
 })->middleware('auth')->name('verification.notice');
@@ -74,6 +73,16 @@ Route::post('/email/verification-notification', function (Request $request) {
     return back()->with('message', 'Verification link sent!');
 })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 // ------------------------------------------
+
+// Setting Up MFA ----------
+Route::get('/auth/mfa', function() {
+    return view('/auth/mfa');
+});
+Route::middleware(['auth'])->group(function () {
+    Route::post('/send-otp', [RegisteredUserController::class, 'sendOtp'])->name('send.otp');
+    Route::post('/verify-otp', [RegisteredUserController::class, 'verifyOtp'])->name('verify.otp');
+    Route::post('/auth/resend-otp', [RegisteredUserController::class, 'resendOtp'])->name('resend.otp');
+});
 
 
 //MyInformation 

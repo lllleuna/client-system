@@ -28,11 +28,16 @@
         <h1 class="text-3xl font-bold text-gray-900">Dashboard</h1>
         <p class="text-gray-600 mt-1">Welcome, {{ $user->name ?? 'Cooperative Chairperson' }}</p>
     </div>
-    <div class="text-sm text-gray-500">
-        Last Login: {{ $user->last_login ?? 'First time login' }} 
+    <div class="flex-row">
+        <p class="text-sm text-gray-500">Last Login: {{ $user->last_login ?? 'First time login' }} </p>
         {{-- And/Or MM/DD/YYYY HH:MM:SS --}}
+        <a href="/auth/mfa"><h3>Verify SMS</h3></a>
+        {{-- <a href=""><h3>Authenticator Code</h3></a> --}}
     </div>
 </div>
+
+{{-- temporary success message when contact verified --}}
+<x-success-notif />
 
 <div class="container mx-auto px-6">
     <!-- Enhanced Announcements Carousel -->

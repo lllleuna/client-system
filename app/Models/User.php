@@ -42,4 +42,16 @@ class User extends Authenticatable implements MustVerifyEmail
             'password' => 'hashed',
         ];
     }
+
+    public function routeNotificationForVonage($notification = null)
+{
+    if ($notification instanceof \App\Notifications\SendOtpNotification && 
+        property_exists($notification, 'contactNo') && 
+        $notification->contactNo) {
+        return $notification->contactNo;
+    }
+    
+    return $this->contact_no;
+}
+
 }

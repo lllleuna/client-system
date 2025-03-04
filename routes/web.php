@@ -136,6 +136,138 @@ Route::get('/myinformation/editindividuallyowned', function () {
 })->name('editindividuallyowned');
 
 
+// OPERATIONS!
+// General Info
+Route::get('/myinformation/generalinfo', function () {
+    return view('myinformation.generalinfo');
+})->name('generalinfo');
+
+// Edit General Info
+Route::get('/myinformation/editgeneralinfo', function () {
+    return view('myinformation.editgeneralinfo');
+})->name('editgeneralinfo');
+
+// Membership
+Route::get('/myinformation/membership', function () {
+    return view('myinformation.membership');
+})->name('membership');
+
+// Edit Membership
+Route::get('/myinformation/editmembership', function () {
+    return view('myinformation.editmembership');
+})->name('editmembership');
+
+// Employment
+Route::get('/myinformation/employment', function () {
+    return view('myinformation.employment');
+})->name('employment');
+
+// Edit Employment
+Route::get('/myinformation/editemployment', function () {
+    return view('myinformation.editemployment');
+})->name('editemployment');
+
+// Units
+Route::get('/myinformation/units', function () {
+    return view('myinformation.units');
+})->name('units');
+
+// Edit Units
+Route::get('/myinformation/editunits', function () {
+    return view('myinformation.editunits');
+})->name('editunits');
+
+// CGS
+Route::get('/myinformation/cgs', function () {
+    return view('myinformation.cgs');
+})->name('cgs');
+
+// Edit CGS
+Route::get('/myinformation/editcgs', function () {
+    return view('myinformation.editcgs');
+})->name('editcgs');
+
+// GOVERNMENT!
+// Officers
+Route::get('/myinformation/officers', function () {
+    return view('myinformation.officers');
+})->name('officers');
+
+// Edit Officers
+Route::get('/myinformation/editofficers', function () {
+    return view('myinformation.editofficers');
+})->name('editofficers');
+
+// Grants
+Route::get('/myinformation/grants', function () {
+    return view('myinformation.grants');
+})->name('grants');
+
+// Edit Grants
+Route::get('/myinformation/editgrants', function () {
+    return view('myinformation.editgrants');
+})->name('editgrants');
+
+// Loans
+Route::get('/myinformation/loans', function () {
+    return view('myinformation.loans');
+})->name('loans');
+
+// Edit Loans
+Route::get('/myinformation/editloans', function () {
+    return view('myinformation.editloans');
+})->name('editloans');
+
+// Businesses
+Route::get('/myinformation/businesses', function () {
+    return view('myinformation.businesses');
+})->name('businesses');
+
+// Businesses
+Route::get('/myinformation/editbusinesses', function () {
+    return view('myinformation.editbusinesses');
+})->name('editbusinesses');
+
+// Trainings 
+Route::get('/myinformation/trainings', function () {
+    return view('myinformation.trainings');
+})->name('trainings');
+
+// Edit Trainings 
+Route::get('/myinformation/edittrainings', function () {
+    return view('myinformation.edittrainings');
+})->name('edittrainings');
+
+// Scholarships 
+Route::get('/myinformation/scholarships', function () {
+    return view('myinformation.scholarships');
+})->name('scholarships');
+
+// Edit Scholarship
+Route::get('/myinformation/editscholarship', function () {
+    return view('myinformation.editscholarship');
+})->name('editscholarship');
+
+// CETOS 
+Route::get('/myinformation/cetos', function () {
+    return view('myinformation.cetos');
+})->name('cetos');
+
+// Edit CETOS 
+Route::get('/myinformation/editcetos', function () {
+    return view('myinformation.editcetos');
+})->name('editcetos');
+
+// Awards 
+Route::get('/myinformation/awards', function () {
+    return view('myinformation.awards');
+})->name('awards');
+
+// Edit Awards 
+Route::get('/myinformation/editawards', function () {
+    return view('myinformation.editawards');
+})->name('editawards');
+
 
 // Authentication 
 Route::post('/', [SessionController::class, 'store']);

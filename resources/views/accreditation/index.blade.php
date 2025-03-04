@@ -58,7 +58,7 @@
     </div>
 
     <!-- Confirmation Modal -->
-    <div id="confirmModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center hidden z-50">
+    <div id="confirmModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 items-center justify-center hidden z-50">
         <div class="bg-white rounded-lg p-6 w-80 shadow-lg">
             <h3 class="text-lg font-medium text-gray-900 mb-4">Confirmation</h3>
             <p class="text-gray-600 mb-5">Are you sure you want to go back?</p>

@@ -1,4 +1,4 @@
-@extends('layouts.layout')
+ @extends('layouts.layout')
 
 @section('content')
 <div class="min-h-screen bg-gray-50 py-6">
@@ -31,11 +31,13 @@
                                         <svg class="w-4 h-4 mr-2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                                         </svg>
-                                        Training Name
+                                        Training Name <span class="text-red-500">*</span>
                                     </label>
                                     <input type="text" name="training_name" value="{{ old('training_name', $training->training_name ?? '') }}"
                                            class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-100 focus:border-blue-400 transition-all duration-200 @error('training_name') border-red-500 @enderror"
-                                           placeholder="Enter training name">
+                                           placeholder="Enter training name" required 
+                                           oninvalid="this.setCustomValidity('Please enter a training name')"
+                                           oninput="this.setCustomValidity('')">
                                     @error('training_name')
                                         <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
                                     @enderror
@@ -46,10 +48,13 @@
                                         <svg class="w-4 h-4 mr-2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                                         </svg>
-                                        Date
+                                        Date <span class="text-red-500">*</span>
                                     </label>
                                     <input type="date" name="training_date" value="{{ old('training_date', $training->training_date ?? '') }}"
-                                           class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-100 focus:border-blue-400 transition-all duration-200 @error('training_date') border-red-500 @enderror">
+                                           class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-100 focus:border-blue-400 transition-all duration-200 @error('training_date') border-red-500 @enderror"
+                                           required
+                                           oninvalid="this.setCustomValidity('Please select a training date')"
+                                           oninput="this.setCustomValidity('')">
                                     @error('training_date')
                                         <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
                                     @enderror
@@ -61,11 +66,13 @@
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                                         </svg>
-                                        Venue
+                                        Venue <span class="text-red-500">*</span>
                                     </label>
                                     <input type="text" name="venue" value="{{ old('venue', $training->venue ?? '') }}"
                                            class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-100 focus:border-blue-400 transition-all duration-200 @error('venue') border-red-500 @enderror"
-                                           placeholder="Enter venue">
+                                           placeholder="Enter venue" required
+                                           oninvalid="this.setCustomValidity('Please enter a venue')"
+                                           oninput="this.setCustomValidity('')">
                                     @error('venue')
                                         <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
                                     @enderror
@@ -79,11 +86,13 @@
                                         <svg class="w-4 h-4 mr-2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                                         </svg>
-                                        First Name
+                                        First Name <span class="text-red-500">*</span>
                                     </label>
                                     <input type="text" name="first_name" value="{{ old('first_name', $training->first_name ?? '') }}"
                                            class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-100 focus:border-blue-400 transition-all duration-200 @error('first_name') border-red-500 @enderror"
-                                           placeholder="Enter first name">
+                                           placeholder="Enter first name" required
+                                           oninvalid="this.setCustomValidity('Please enter your first name')"
+                                           oninput="this.setCustomValidity('')">
                                     @error('first_name')
                                         <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
                                     @enderror
@@ -94,7 +103,7 @@
                                         <svg class="w-4 h-4 mr-2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                                         </svg>
-                                        Middle Name
+                                        Middle Name <span class="text-red-500">*</span>
                                     </label>
                                     <input type="text" name="middle_name" value="{{ old('middle_name', $training->middle_name ?? '') }}"
                                            class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-100 focus:border-blue-400 transition-all duration-200 @error('middle_name') border-red-500 @enderror"
@@ -109,11 +118,13 @@
                                         <svg class="w-4 h-4 mr-2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                                         </svg>
-                                        Last Name
+                                        Last Name <span class="text-red-500">*</span>
                                     </label>
                                     <input type="text" name="last_name" value="{{ old('last_name', $training->last_name ?? '') }}"
                                            class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-100 focus:border-blue-400 transition-all duration-200 @error('last_name') border-red-500 @enderror"
-                                           placeholder="Enter last name">
+                                           placeholder="Enter last name" required
+                                           oninvalid="this.setCustomValidity('Please enter your last name')"
+                                           oninput="this.setCustomValidity('')">
                                     @error('last_name')
                                         <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
                                     @enderror
@@ -122,7 +133,7 @@
                         </div>
 
                         <div class="flex items-center justify-end space-x-4 pt-6 border-t">
-                            <a href="#"
+                            <a href="{{ route('trainings') }}"
                                class="px-6 py-2.5 rounded-lg text-gray-700 hover:bg-gray-50 border border-gray-300 transition-all duration-200">
                                 Cancel
                             </a>

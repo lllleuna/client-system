@@ -27,7 +27,7 @@
             <div class="flex w-full space-x-2">
                 <div class="w-1/2">
                     <x-form-label for="cda_reg_no">CDA Registration No.</x-form-label>
-                    <x-form-input name="cda_reg_no" id="cda_reg_no" type="text" value="{{ $formData['cda_reg_no'] ?? '' }}" required />
+                    <x-form-input name="cda_reg_no" id="cda_reg_no" type="text" value="{{ old('tc_name', $formData['cda_reg_no'] ?? Auth::user()->cda_reg_no) }}" required />
                     <x-form-error name="cda_reg_no" />
                 </div>
                 <div class="w-1/2">

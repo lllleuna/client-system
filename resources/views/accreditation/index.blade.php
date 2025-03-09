@@ -39,12 +39,6 @@
                 <li>Wait for an update through your email and the website TCOPS.</li>
             </ol>
         </div>
-
-        <div class="mt-5">
-            <h3 class="text-lg font-semibold text-gray-800 mb-2">Reminder</h3>
-            Your information saved in this website will be used for validation and processing of Accreditation. <br>
-            Please be sure that all information are updated and correct, if not you can edit your information first through this <a href="#" class="text-blue-800">link</a>.
-        </div>
     
         <!-- Footer Buttons -->
         <div class="mt-10 flex justify-between ">

@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Models\User;
+use App\Models\ExternalUser;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
@@ -16,16 +16,16 @@ class RegisteredUserController extends Controller
     {
         try {
             $attributes = request()->validate([
-                'cda_reg_no' => ['required', 'unique:'.User::class],
+                'cda_reg_no' => ['required', 'unique:'.ExternalUser::class],
                 'tc_name' => ['required'],
                 'chair_fname' => ['required'],
                 'chair_mname' => ['nullable'],
                 'chair_lname' => ['required'],
                 'chair_suffix' => ['nullable'],
-                'contact_no' => ['required', 'unique:'.User::class],
+                'contact_no' => ['required', 'unique:'.ExternalUser::class],
                 'id_type' => ['required'],
                 'id_number' => ['required', 'string', 'max:25'],
-                'email' => ['required', 'email', 'unique:'.User::class],
+                'email' => ['required', 'email', 'unique:'.ExternalUser::class],
                 'password' => ['required', 'confirmed',
                                 Password::min(12) 
                                 ->letters() 
@@ -38,7 +38,7 @@ class RegisteredUserController extends Controller
             $existsInGeneralInfo = GeneralInfo::where('cda_registration_no', request()->cda_reg_no)->exists();
             $attributes['accreditation_status'] = $existsInGeneralInfo ? 'Active' : 'New';
 
-            $user = User::create($attributes);
+            $user = ExternalUser::create($attributes);
             Auth::login($user);
 
             event(new Registered($user));

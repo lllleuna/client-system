@@ -6,14 +6,11 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use App\Models\GeneralInfo;
-use App\Models\User;
+use App\Models\ExternalUser;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
- */
-class UserFactory extends Factory
+class ExternalUserFactory extends Factory
 {
-    protected $model = User::class;
+    protected $model = ExternalUser::class;
 
     /**
      * The current password being used by the factory.

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\CoopMembership;
 use App\Models\ExternalUser;
+use Illuminate\Validation\Rule;
 
 class CoopController extends Controller
 {
@@ -50,26 +51,35 @@ class CoopController extends Controller
     }
 
     public function updateMember(Request $request, $id)
-{
-    $membership = CoopMembership::findOrFail($id);
+    {
+        $membership = CoopMembership::findOrFail($id);
 
-    $validated = $request->validate([
-       'firstname'   => 'required|string|max:100',
-        'middlename'  => 'nullable|string|max:100',
-        'lastname'    => 'required|string|max:100',
-        'sex'         => 'required|in:Male,Female',
-        'role'        => 'required|string|max:100',
-        'email'       => 'required|email|max:255|unique:members_masterlist,email',
-        'mobile_no'   => ['required', 'regex:/^63\d{10}$/'], 
-        'birthday'    => 'required|date|before:' . now()->subYears(18)->format('Y-m-d'), 
-        'joined_date' => 'required|date|before_or_equal:' . now()->format('Y-m-d'),
-        'address'     => 'required|string|max:200',
-    ]);
+        $validated = $request->validate([
+        'firstname'   => 'required|string|max:100',
+            'middlename'  => 'nullable|string|max:100',
+            'lastname'    => 'required|string|max:100',
+            'sex'         => 'required|in:Male,Female',
+            'role'        => 'required|string|max:100',
+            'email'       => [
+                'required',
+                'email',
+                'max:255',
+                Rule::unique('members_masterlist')->ignore($membership->id), // Ignore existing email for this member
+            ],
+            'mobile_no'   => [
+                'required',
+                'regex:/^63\d{10}$/', 
+                Rule::unique('members_masterlist')->ignore($membership->id), // Ignore existing mobile number for this member
+            ], 
+            'birthday'    => 'required|date|before:' . now()->subYears(18)->format('Y-m-d'), 
+            'joined_date' => 'required|date|before_or_equal:' . now()->format('Y-m-d'),
+            'address'     => 'required|string|max:200',
+        ]);
 
-    $membership->update($validated);
+        $membership->update($validated);
 
-    return redirect()->route('membersMasterlist')->with('success', 'Member updated successfully.');
-}
+        return redirect()->route('membersMasterlist')->with('success', 'Member updated successfully.');
+    }
 
 
 }

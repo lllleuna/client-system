@@ -88,10 +88,9 @@ Route::middleware(['auth'])->group(function () {
 
 //MyInformation 
 Route::get('/myinformation/membersMasterlist', [CoopController::class, 'showMembers'])->name('membersMasterlist');
-Route::get('/myinformation/addmember', function () {
-    return view('myinformation.addMember');
-} )->name('addMemberIndex');
+Route::get('/myinformation/addmember', [CoopController::class, 'viewMember'] )->name('addMemberIndex');
 Route::post('/myinformation/addmember', [CoopController::class, 'addMember'])->name('addMember');
+Route::get('/myinformation/addmember/{id}', [CoopController::class, 'editMember'])->name('editMember');
 
 
 

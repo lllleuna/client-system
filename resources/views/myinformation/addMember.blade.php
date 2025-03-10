@@ -9,11 +9,13 @@
         <!-- Members Masterlist Content -->
 <div class="col-span-9">
     <div class="bg-white rounded-lg shadow-md p-6">
-        <h1 class="text-2xl font-bold mb-6">Members Masterlist</h1>
+        <h1 class="text-2xl font-bold mb-6">{{ $mode == 'create' ? 'Add New Member' : ($mode == 'edit' ? 'Edit Member' : 'Member Details') }}</h1>
 
         <form action="{{ route('addMember') }}" method="POST" class="space-y-6">
             @csrf
-            {{-- @method('PUT') --}}
+            @if($mode == 'edit')
+                @method('PUT')
+            @endif
 
             <div class="grid grid-cols-2 gap-6">
                 <!-- First Name -->
@@ -210,7 +212,7 @@
 
             <!-- Submit Button -->
             <div class="flex justify-end space-x-4">
-                <a href="#"
+                <a href="{{ route('membersMasterlist') }}"
                    class="px-6 py-2.5 rounded-lg text-gray-700 hover:bg-gray-50 border border-gray-300 transition-all duration-200">
                     Cancel
                 </a>

@@ -17,6 +17,11 @@ class CoopController extends Controller
     
         return view('myinformation.membersMasterlist', compact('user', 'coopMemberships'));
     }
+
+    public function viewMember()
+    {
+        return view('myinformation.addMember', ['membership' => null, 'mode' => 'create']);
+    }
     
     public function addMember(Request $request) {
         $validated = $request->validate([
@@ -36,5 +41,12 @@ class CoopController extends Controller
         CoopMembership::create($validated);
         return redirect()->route('membersMasterlist')->with('success', 'Member added successfully!');
     }
+
+    public function editMember($id)
+    {
+        $membership = CoopMembership::findOrFail($id);
+        return view('myinformation.addMember', compact('membership'))->with('mode', 'edit');;
+    }
+
 
 }

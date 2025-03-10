@@ -8,6 +8,7 @@ use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\ContactController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
+use App\Http\Controllers\CoopController;
 // use Illuminate\Support\Facades\Auth;
 
 //Login Page
@@ -86,14 +87,13 @@ Route::middleware(['auth'])->group(function () {
 
 
 //MyInformation 
-Route::get('/myinformation/membersMasterlist', function () {
-    return view('myinformation.membersMasterlist');
-})->name('membersMasterlist');
+Route::get('/myinformation/membersMasterlist', [CoopController::class, 'showMembers'])->name('membersMasterlist');
+Route::get('/myinformation/addmember', function () {
+    return view('myinformation.addMember');
+} )->name('addMemberIndex');
+Route::post('/myinformation/addmember', [CoopController::class, 'addMember'])->name('addMember');
 
-//Edit Member Details
-Route::get('/myinformation/editMemberlist', function () {
-    return view('myinformation.editMemberlist');
-})->name('editMemberlist');
+
 
 //Driver List
 Route::get('/myinformation/driverMasterlist', function () {

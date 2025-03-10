@@ -11,9 +11,9 @@
     <div class="bg-white rounded-lg shadow-md p-6">
         <h1 class="text-2xl font-bold mb-6">Members Masterlist</h1>
 
-        <form action="#" method="POST" class="space-y-6">
+        <form action="{{ route('addMember') }}" method="POST" class="space-y-6">
             @csrf
-            @method('PUT')
+            {{-- @method('PUT') --}}
 
             <div class="grid grid-cols-2 gap-6">
                 <!-- First Name -->
@@ -24,12 +24,12 @@
                         </svg>
                         First Name <span class="text-red-500">*</span>
                     </label>
-                    <input type="text" name="first_name" value="{{ old('first_name', $driver->first_name ?? '') }}" 
+                    <input type="text" name="firstname" value="{{ old('firstname', $driver->firstname ?? '') }}" 
                     class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-100 focus:border-blue-400 transition-all duration-200 @error('first_name') border-red-500 @enderror"
                     placeholder="Enter first name" required oninvalid="this.setCustomValidity('Please fill out this field')" oninput="this.setCustomValidity('')">
-                    @error('first_name')
+                    @error('firstname')
                         <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
-                     @enderror
+                    @enderror
                 </div>
 
                 <!-- Middle Name -->
@@ -40,10 +40,10 @@
                         </svg>
                         Middle Name <span class="text-red-500">*</span>
                     </label>
-                    <input type="text" name="middle_name" value="{{ old('middle_name', $driver->middle_name ?? '') }}" 
+                    <input type="text" name="middlename" value="{{ old('middlename', $driver->middlename ?? '') }}" 
                     class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-100 focus:border-blue-400 transition-all duration-200 @error('middle_name') border-red-500 @enderror"
                     placeholder="Enter middle name" oninvalid="this.setCustomValidity('Please fill out this field')" oninput="this.setCustomValidity('')">
-                    @error('middle_name')
+                    @error('middlename')
                         <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
                     @enderror
                 </div>
@@ -56,10 +56,10 @@
                         </svg>
                         Last Name <span class="text-red-500">*</span>
                     </label>
-                    <input type="text" name="last_name" value="{{ old('last_name', $driver->last_name ?? '') }}" 
+                    <input type="text" name="lastname" value="{{ old('lastname', $driver->lastname ?? '') }}" 
                     class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-100 focus:border-blue-400 transition-all duration-200 @error('last_name') border-red-500 @enderror"
                     placeholder="Enter last name" required oninvalid="this.setCustomValidity('Please fill out this field')" oninput="this.setCustomValidity('')">
-                    @error('last_name')
+                    @error('lastname')
                         <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
                     @enderror
                 </div>
@@ -76,8 +76,8 @@
                     class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-100 focus:border-blue-400 transition-all duration-200 @error('sex') border-red-500 @enderror"
                     required oninvalid="this.setCustomValidity('Please select an option')" oninput="this.setCustomValidity('')">
                         <option value="">Select Sex</option>
-                        <option value="male" {{ old('sex', $driver->sex ?? '') == 'male' ? 'selected' : '' }}>Male</option>
-                        <option value="female" {{ old('sex', $driver->sex ?? '') == 'female' ? 'selected' : '' }}>Female</option>
+                        <option value="Male" {{ old('sex', $driver->sex ?? '') == 'male' ? 'selected' : '' }}>Male</option>
+                        <option value="Female" {{ old('sex', $driver->sex ?? '') == 'female' ? 'selected' : '' }}>Female</option>
                     </select>
                     @error('sex')
                         <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
@@ -88,14 +88,64 @@
                 <div>
                     <label class="flex items-center text-sm font-medium text-gray-700 mb-2">
                         <svg class="w-4 h-4 mr-2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                                d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                         </svg>
                         Birthdate <span class="text-red-500">*</span>
                     </label>
-                    <input type="date" name="birthdate" value="{{ old('birthdate', $driver->birthdate ?? '') }}"
-                    class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-100 focus:border-blue-400 transition-all duration-200 @error('birthdate') border-red-500 @enderror"
-                    required oninvalid="this.setCustomValidity('Please select a date')" oninput="this.setCustomValidity('')">
-                    @error('birthdate')
+                    <input 
+                        type="date" 
+                        name="birthday" 
+                        value="{{ old('birthday', $driver->birthday ?? '') }}"
+                        class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-100 focus:border-blue-400 transition-all duration-200 
+                        @error('birthday') border-red-500 @enderror" 
+                        required 
+                        max="{{ now()->subYears(18)->format('Y-m-d') }}"  {{-- Must be 18 years old --}}
+                        oninvalid="this.setCustomValidity('You must be at least 18 years old')" 
+                        oninput="this.setCustomValidity('')"
+                    >
+                    @error('birthday')
+                        <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
+                    @enderror
+                </div>
+                
+
+                <div>
+                    <label class="flex items-center text-sm font-medium text-gray-700 mb-2">
+                        <svg class="w-4 h-4 mr-2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                                d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                        Joined Date <span class="text-red-500">*</span>
+                    </label>
+                    <input 
+                        type="date" 
+                        name="joined_date" 
+                        value="{{ old('joined_date', $driver->joined_date ?? '') }}"
+                        class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-100 focus:border-blue-400 transition-all duration-200 
+                        @error('joined_date') border-red-500 @enderror" 
+                        required 
+                        max="{{ now()->format('Y-m-d') }}"  {{-- Prevents future dates --}}
+                        oninvalid="this.setCustomValidity('Please select a valid date')" 
+                        oninput="this.setCustomValidity('')"
+                    >
+                    @error('joined_date')
+                        <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
+                    @enderror
+                </div>
+                
+
+                <div>
+                    <label class="flex items-center text-sm font-medium text-gray-700 mb-2">
+                        <svg class="w-4 h-4 mr-2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                        </svg>
+                        Email <span class="text-red-500">*</span>
+                    </label>
+                    <input type="email" name="email" value="{{ old('email', $driver->email ?? '') }}" 
+                    class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-100 focus:border-blue-400 transition-all duration-200 @error('last_name') border-red-500 @enderror"
+                    placeholder="Enter last name" required oninvalid="this.setCustomValidity('Please fill out this field')" oninput="this.setCustomValidity('')">
+                    @error('email')
                         <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
                     @enderror
                 </div>
@@ -108,16 +158,32 @@
                         </svg>
                         Membership Type <span class="text-red-500">*</span>
                     </label>
-                    <select name="membership_type" 
+                    <select name="role" 
                     class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-100 focus:border-blue-400 transition-all duration-200 @error('membership_type') border-red-500 @enderror"
                     required oninvalid="this.setCustomValidity('Please select a membership type')" oninput="this.setCustomValidity('')">
                         <option value="">Select Membership Type</option>
-                        <option value="operator" {{ old('membership_type', $driver->membership_type ?? '') == 'operator' ? 'selected' : '' }}>Operator</option>
-                        <option value="driver" {{ old('membership_type', $driver->membership_type ?? '') == 'driver' ? 'selected' : '' }}>Driver</option>
-                        <option value="allied_worker" {{ old('membership_type', $driver->membership_type ?? '') == 'allied_worker' ? 'selected' : '' }}>Allied Worker</option>
-                        <option value="others" {{ old('membership_type', $driver->membership_type ?? '') == 'others' ? 'selected' : '' }}>Others</option>
+                        <option value="Operator" {{ old('membership_type', $driver->role ?? '') == 'Operator' ? 'selected' : '' }}>Operator</option>
+                        <option value="Driver" {{ old('membership_type', $driver->role ?? '') == 'Driver' ? 'selected' : '' }}>Driver</option>
+                        <option value="Allied Worker" {{ old('membership_type', $driver->role ?? '') == 'Allied Worker' ? 'selected' : '' }}>Allied Worker</option>
+                        <option value="Others" {{ old('membership_type', $driver->role ?? '') == 'Others' ? 'selected' : '' }}>Others</option>
                     </select>
-                    @error('membership_type')
+                    @error('role')
+                        <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <!-- Contact Number -->
+                <div>
+                    <label class="flex items-center text-sm font-medium text-gray-700 mb-2">
+                        <svg class="w-4 h-4 mr-2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                        </svg>
+                        Contact Number <span class="text-red-500">*</span>
+                    </label>
+                    <input type="tel" name="mobile_no" value="{{ old('mobile_no', $driver->contact_number ?? '') }}"
+                    class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-100 focus:border-blue-400 transition-all duration-200 @error('contact_number') border-red-500 @enderror"
+                    required pattern="^63[0-9]{10}$" placeholder="Enter 11-digit phone number" oninvalid="this.setCustomValidity('Please enter a valid 11-digit phone number')" oninput="this.setCustomValidity('')">
+                    @error('mobile_no')
                         <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
                     @enderror
                 </div>
@@ -139,21 +205,7 @@
                     @enderror
                 </div>
 
-                <!-- Contact Number -->
-                <div>
-                    <label class="flex items-center text-sm font-medium text-gray-700 mb-2">
-                        <svg class="w-4 h-4 mr-2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                        </svg>
-                        Contact Number <span class="text-red-500">*</span>
-                    </label>
-                    <input type="tel" name="contact_number" value="{{ old('contact_number', $driver->contact_number ?? '') }}"
-                    class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-100 focus:border-blue-400 transition-all duration-200 @error('contact_number') border-red-500 @enderror"
-                    required pattern="[0-9]{11}" placeholder="Enter 11-digit phone number" oninvalid="this.setCustomValidity('Please enter a valid 11-digit phone number')" oninput="this.setCustomValidity('')">
-                    @error('contact_number')
-                        <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
-                    @enderror
-                </div>
+                
             </div>
 
             <!-- Submit Button -->

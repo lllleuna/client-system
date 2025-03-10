@@ -18,6 +18,8 @@
             </x-form-select>
             <x-form-error name="cooperative_type" />
 
+            <input type="text" name="application_type" class="hidden" value="accreditation"/>
+
             <!-- Transport Cooperative Name -->
             <x-form-label for="tc_name">Transport Cooperative Name</x-form-label>
             <x-form-input name="tc_name" id="tc_name" type="text" value="{{ old('tc_name', $formData['tc_name'] ?? Auth::user()->tc_name) }}" required />

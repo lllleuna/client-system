@@ -5,7 +5,6 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
-use App\Models\GeneralInfo;
 use App\Models\ExternalUser;
 
 class ExternalUserFactory extends Factory
@@ -24,20 +23,17 @@ class ExternalUserFactory extends Factory
      */
     public function definition()
     {
-        $generalInfo = GeneralInfo::inRandomOrder()->first();
 
         return [
-            'accreditation_status' => $generalInfo ? 'Active' : 'New',
-            'cda_reg_no' => $generalInfo 
-            ? $generalInfo->cda_registration_no 
-            : 'T-' . str_pad($this->faker->unique()->randomNumber(8, true), 8, '0', STR_PAD_LEFT),
+            'accreditation_status' => 'New',
+            'cda_reg_no' => 'T-' . str_pad($this->faker->unique()->randomNumber(8, true), 8, '0', STR_PAD_LEFT),
             'tc_name' => $this->faker->company,
             'chair_fname' => $this->faker->firstName,
-            'chair_mname' => $this->faker->optional()->firstName,
+            'chair_mname' => $this->faker->optional()->lastName,
             'chair_lname' => $this->faker->lastName,
             'chair_suffix' => $this->faker->optional()->suffix,
-            'contact_no' => $this->faker->unique()->phoneNumber,
-            'email' => $generalInfo ? $generalInfo->email : $this->faker->unique()->safeEmail,
+            'contact_no' => '63' . $this->faker->numberBetween(9000000000, 9999999999),
+            'email' => $this->faker->unique()->safeEmail,
             'password' => bcrypt('password'), // Default password for testing
             'id_type' => $this->faker->randomElement(['Passport', 'Driver\'s License', 'National ID']),
             'id_number' => $this->faker->unique()->regexify('[A-Z0-9]{12}'),

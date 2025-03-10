@@ -90,8 +90,8 @@ Route::middleware(['auth'])->group(function () {
 Route::get('/myinformation/membersMasterlist', [CoopController::class, 'showMembers'])->name('membersMasterlist');
 Route::get('/myinformation/addmember', [CoopController::class, 'viewMember'] )->name('addMemberIndex');
 Route::post('/myinformation/addmember', [CoopController::class, 'addMember'])->name('addMember');
-Route::get('/myinformation/addmember/{id}', [CoopController::class, 'editMember'])->name('editMember');
-
+Route::get('/myinformation/addmember/{id}/view', [CoopController::class, 'editMember'])->name('editMember');
+Route::put('/myinformation/addmember/{id}', [CoopController::class, 'updateMember'])->name('members.update');
 
 
 //Driver List

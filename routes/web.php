@@ -109,9 +109,15 @@ Route::get('/myinformation/editTraining', function () {
 })->name('editTraining');
 
 //Cooperative-Owned List
-Route::get('/myinformation/cooperativeowned', function () {
-    return view('myinformation.cooperativeowned');
-})->name('cooperativeowned');
+Route::get('/myinformation/cooperativeowned', [CoopController::class, 'showCoopOwnedUnits'])->name('cooperativeowned');
+Route::get('/myinformation/coopownedunit', [CoopController::class, 'viewCoopOwnedUnit'] )->name('addCoopUnitIndex');
+Route::post('/myinformation/coopownedunit', [CoopController::class, 'addCoopOwnedUnit'])->name('addCoopUnit');
+Route::get('/myinformation/coopownedunit/{id}/view', [CoopController::class, 'editCoopOwnedUnit'])->name('editCoopUnit');
+Route::put('/myinformation/coopownedunit/{id}', [CoopController::class, 'updateCoopOwnedUnit'])->name('coopunit.update');
+Route::delete('/myinformation/coopownedunit/{id}', [CoopController::class, 'destroyCoopOwnedUnit'])->name('coopunit.destroy');
+
+
+
 
 //Edit Cooperative-Owned List
 Route::get('/myinformation/editcooperativeowned', function () {
@@ -135,8 +141,6 @@ Route::get('/myinformation/editindividuallyowned', function () {
 Route::get('/myinformation/generalinfo', [CoopController::class, 'showGenInfo'])->name('generalinfo');
 Route::get('/myinformation/edit', [CoopController::class, 'editGeneralInfo'])->name('editgeneralinfo');
 Route::put('/myinformation/update', [CoopController::class, 'updateGeneralInfo'])->name('updategeneralinfo');
-
-
 
 
 // Membership

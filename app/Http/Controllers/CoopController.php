@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use App\Mail\EmailVerificationMail;
+use App\Models\CoopUnit;
 
 class CoopController extends Controller
 {
@@ -263,6 +264,56 @@ class CoopController extends Controller
     }
     
     
+    // --------------------------------------------
+    //  ------- COOPERATIVE OWNED UNITS -----------
+    // --------------------------------------------
 
+    public function showCoopOwnedUnits() {
+        $user = Auth::user();
+    
+        $coopUnits = CoopUnit::where('externaluser_id', $user->id)
+            ->where('owned_by', 'coop') // Only fetch units owned by cooperatives
+            ->orderBy('created_at', 'desc') // Sort by newest first
+            ->paginate(10);
+    
+        return view('myinformation.cooperativeowned', compact('user', 'coopUnits'));
+    }
+    
+    public function viewCoopOwnedUnit()
+    {
+        return view('myinformation.editcooperativeowned', ['coopunit' => null, 'mode' => 'create']);
+    }
+
+    public function addCoopOwnedUnit(Request $request) {
+        $validated = $request->validate([
+            'firstname'   => 'required|string|max:100',
+            'middlename'  => 'nullable|string|max:100',
+            'lastname'    => 'required|string|max:100',
+            'sex'         => 'required|in:Male,Female',
+            'role'        => 'required|string|max:100',
+            'email'       => 'required|email|max:255|unique:members_masterlist,email',
+            'mobile_no'   => ['required', 'regex:/^63\d{10}$/'], 
+            'birthday'    => 'required|date|before:' . now()->subYears(18)->format('Y-m-d'), 
+            'joined_date' => 'required|date|before_or_equal:' . now()->format('Y-m-d'),
+            'address'     => 'required|string|max:200',
+            'sss_enrolled' => 'nullable|boolean',
+            'pagibig_enrolled' => 'nullable|boolean',
+            'philhealth_enrolled' => 'nullable|boolean',
+        ]);
+        
+        $user = Auth::user();
+        $validated['externaluser_id'] = $user->id;
+        CoopMembership::create($validated);
+
+        $this->updateGeneralInfoCounts();
+
+        return redirect()->route('membersMasterlist')->with('success', 'Member added successfully!');
+    }
+
+    public function editCoopOwnedUnit($id)
+    {
+        $coopunit = CoopUnit::findOrFail($id);
+        return view('myinformation.editcooperativeowned', compact('coopunit'))->with('mode', 'edit');;
+    }
 
 }

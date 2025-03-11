@@ -10,7 +10,7 @@ class CoopUnit extends Model
     /** @use HasFactory<\Database\Factories\CoopUnitFactory> */
     use HasFactory;
 
-    protected $table = 'coop_units';
+    protected $table = 'coopunits';
 
     protected $guarded = [];
 }

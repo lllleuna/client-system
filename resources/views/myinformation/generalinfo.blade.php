@@ -124,7 +124,7 @@
                                     
                                     <div class="bg-white p-4 rounded-lg shadow-sm">
                                         <p class="text-sm text-gray-500 font-medium mb-1">NO. OF SSS ENROLLED EMPLOYEES</p>
-                                        <p class="text-md font-semibold text-gray-800">{{ $generalInfo->sss_employees ?? 'Not Available' }}</p>
+                                        <p class="text-md font-semibold text-gray-800">{{ $generalInfo->total_sss_enrolled ?? 'Not Available' }}</p>
                                     </div>
                                 </div>
                                 
@@ -137,7 +137,7 @@
                                     
                                     <div class="bg-white p-4 rounded-lg shadow-sm">
                                         <p class="text-sm text-gray-500 font-medium mb-1">NO. OF PAGIBIG ENROLLED EMPLOYEES</p>
-                                        <p class="text-md font-semibold text-gray-800">{{ $generalInfo->pagibig_employees ?? 'Not Available' }}</p>
+                                        <p class="text-md font-semibold text-gray-800">{{ $generalInfo->total_pagibig_enrolled ?? 'Not Available' }}</p>
                                     </div>
                                 </div>
                                 
@@ -150,7 +150,7 @@
                                     
                                     <div class="bg-white p-4 rounded-lg shadow-sm">
                                         <p class="text-sm text-gray-500 font-medium mb-1">NO. OF PHILHEALTH ENROLLED EMPLOYEES</p>
-                                        <p class="text-md font-semibold text-gray-800">{{ $generalInfo->philhealth_employees ?? 'Not Available' }}</p>
+                                        <p class="text-md font-semibold text-gray-800">{{ $generalInfo->total_philhealth_enrolled ?? 'Not Available' }}</p>
                                     </div>
                                 </div>
                                 

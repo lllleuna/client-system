@@ -40,11 +40,17 @@ class CoopController extends Controller
             'birthday'    => 'required|date|before:' . now()->subYears(18)->format('Y-m-d'), 
             'joined_date' => 'required|date|before_or_equal:' . now()->format('Y-m-d'),
             'address'     => 'required|string|max:200',
+            'sss_enrolled' => 'nullable|boolean',
+            'pagibig_enrolled' => 'nullable|boolean',
+            'philhealth_enrolled' => 'nullable|boolean',
         ]);
         
         $user = Auth::user();
         $validated['externaluser_id'] = $user->id;
         CoopMembership::create($validated);
+
+        $this->updateGeneralInfoCounts();
+
         return redirect()->route('membersMasterlist')->with('success', 'Member added successfully!');
     }
 
@@ -59,7 +65,7 @@ class CoopController extends Controller
         $membership = CoopMembership::findOrFail($id);
 
         $validated = $request->validate([
-        'firstname'   => 'required|string|max:100',
+            'firstname'   => 'required|string|max:100',
             'middlename'  => 'nullable|string|max:100',
             'lastname'    => 'required|string|max:100',
             'sex'         => 'required|in:Male,Female',
@@ -68,22 +74,48 @@ class CoopController extends Controller
                 'required',
                 'email',
                 'max:255',
-                Rule::unique('members_masterlist')->ignore($membership->id), // Ignore existing email for this member
+                Rule::unique('members_masterlist')->ignore($membership->id),
             ],
             'mobile_no'   => [
                 'required',
                 'regex:/^63\d{10}$/', 
-                Rule::unique('members_masterlist')->ignore($membership->id), // Ignore existing mobile number for this member
+                Rule::unique('members_masterlist')->ignore($membership->id),
             ], 
             'birthday'    => 'required|date|before:' . now()->subYears(18)->format('Y-m-d'), 
             'joined_date' => 'required|date|before_or_equal:' . now()->format('Y-m-d'),
             'address'     => 'required|string|max:200',
+            'sss_enrolled' => 'boolean', // Now always receives 0 or 1
+            'pagibig_enrolled' => 'boolean',
+            'philhealth_enrolled' => 'boolean',
         ]);
 
+        // Update member record
         $membership->update($validated);
+        $this->updateGeneralInfoCounts();
 
         return redirect()->route('membersMasterlist')->with('success', 'Member updated successfully.');
     }
+
+    private function updateGeneralInfoCounts()
+    {
+        $user = Auth::user(); 
+    
+        $totalSSS = CoopMembership::where('externaluser_id', $user->id)->where('sss_enrolled', 1)->count();
+        $totalPagibig = CoopMembership::where('externaluser_id', $user->id)->where('pagibig_enrolled', 1)->count();
+        $totalPhilhealth = CoopMembership::where('externaluser_id', $user->id)->where('philhealth_enrolled', 1)->count();
+    
+        CoopGeneralInfo::updateOrCreate(
+            ['externaluser_id' => $user->id], 
+            [
+                'total_sss_enrolled' => $totalSSS,
+                'total_pagibig_enrolled' => $totalPagibig,
+                'total_philhealth_enrolled' => $totalPhilhealth,
+            ]
+        );
+    }
+    
+
+
 
     public function destroyMember($id)
     {

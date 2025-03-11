@@ -78,8 +78,8 @@
                     class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-100 focus:border-blue-400 transition-all duration-200 @error('sex') border-red-500 @enderror"
                     required oninvalid="this.setCustomValidity('Please select an option')" oninput="this.setCustomValidity('')">
                         <option value="">Select Sex</option>
-                        <option value="Male" {{ old('sex', $membership->sex ?? '') == 'male' ? 'selected' : '' }}>Male</option>
-                        <option value="Female" {{ old('sex', $membership->sex ?? '') == 'female' ? 'selected' : '' }}>Female</option>
+                        <option value="Male" {{ old('sex', $membership->sex ?? '') == 'Male' ? 'selected' : '' }}>Male</option>
+                        <option value="Female" {{ old('sex', $membership->sex ?? '') == 'Female' ? 'selected' : '' }}>Female</option>
                     </select>
                     @error('sex')
                         <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
@@ -209,6 +209,36 @@
                         <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
                     @enderror
                 </div>
+
+                <div>
+                    <label class="flex items-center text-sm font-medium text-gray-700 mb-2">
+                        <svg class="w-4 h-4 mr-2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                        </svg>
+                        Government Benefits
+                    </label>
+                    <label for="sss_enrolled">
+                        <input type="hidden" name="sss_enrolled" value="0"> 
+                        <input type="checkbox" name="sss_enrolled" value="1"
+                            {{ old('sss_enrolled', $membership->sss_enrolled ?? false) ? 'checked' : '' }}>
+                        SSS Enrolled
+                    </label> <br>
+                    
+                    <label for="pagibig_enrolled">
+                        <input type="hidden" name="pagibig_enrolled" value="0"> 
+                        <input type="checkbox" name="pagibig_enrolled" value="1"
+                            {{ old('pagibig_enrolled', $membership->pagibig_enrolled ?? false) ? 'checked' : '' }}>
+                        Pag-IBIG Enrolled
+                    </label><br>
+                    
+                    <label for="philhealth_enrolled">
+                        <input type="hidden" name="philhealth_enrolled" value="0"> 
+                        <input type="checkbox" name="philhealth_enrolled" value="1"
+                            {{ old('philhealth_enrolled', $membership->philhealth_enrolled ?? false) ? 'checked' : '' }}>
+                        PhilHealth Enrolled
+                    </label><br>
+                </div>
+                
 
                 
             </div>

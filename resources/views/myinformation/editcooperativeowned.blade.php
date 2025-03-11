@@ -136,9 +136,12 @@
                                         </svg>
                                         Date Granted <span class="text-red-500">*</span>
                                     </label>
-                                    <input type="date" name="date_granted" id="date_granted" value="{{ old('date_granted', $coopunit->date_granted ?? '') }}"
-                                           class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-100 focus:border-blue-400 transition-all duration-200 @error('date_granted') border-red-500 @enderror"
-                                           required>
+                                    <input type="date" name="date_granted" id="date_granted" 
+                                        value="{{ old('date_granted', $coopunit->date_granted ?? '') }}"
+                                        max="{{ now()->toDateString() }}"
+                                        class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-100 focus:border-blue-400 transition-all duration-200 @error('date_granted') border-red-500 @enderror"
+                                        required>
+
                                     <p id="date_granted_error" class="hidden mt-1 text-sm text-red-500">Please select the date granted</p>
                                     @error('date_granted')
                                         <p class="mt-1 text-sm text-red-500">{{ $message }}</p>

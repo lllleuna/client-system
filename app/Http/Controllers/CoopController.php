@@ -286,34 +286,115 @@ class CoopController extends Controller
 
     public function addCoopOwnedUnit(Request $request) {
         $validated = $request->validate([
-            'firstname'   => 'required|string|max:100',
-            'middlename'  => 'nullable|string|max:100',
-            'lastname'    => 'required|string|max:100',
-            'sex'         => 'required|in:Male,Female',
-            'role'        => 'required|string|max:100',
-            'email'       => 'required|email|max:255|unique:members_masterlist,email',
-            'mobile_no'   => ['required', 'regex:/^63\d{10}$/'], 
-            'birthday'    => 'required|date|before:' . now()->subYears(18)->format('Y-m-d'), 
-            'joined_date' => 'required|date|before_or_equal:' . now()->format('Y-m-d'),
-            'address'     => 'required|string|max:200',
-            'sss_enrolled' => 'nullable|boolean',
-            'pagibig_enrolled' => 'nullable|boolean',
-            'philhealth_enrolled' => 'nullable|boolean',
+            'type' => 'nullable|string|max:50',
+            'mv_file_no' => [
+                'nullable',
+                'string',
+                'max:15',
+                Rule::unique('coopunits')->where(fn ($query) => $query->where('externaluser_id', Auth::id())),
+            ],
+            'engine_no' => [
+                'nullable',
+                'string',
+                'max:50',
+                Rule::unique('coopunits')->where(fn ($query) => $query->where('externaluser_id', Auth::id())),
+            ],
+            'chassis_no' => [
+                'nullable',
+                'string',
+                'max:50',
+                Rule::unique('coopunits')->where(fn ($query) => $query->where('externaluser_id', Auth::id())),
+            ],
+            'plate_no' => [
+                'nullable',
+                'string',
+                'max:10',
+                Rule::unique('coopunits')->where(fn ($query) => $query->where('externaluser_id', Auth::id())),
+            ],
+            'ltfrb_case_no' => 'nullable|string|max:50', // No uniqueness required
+            'date_granted' => 'nullable|date|before_or_equal:today',
+            'date_of_expiry' => 'nullable|date',
+            'origin' => 'nullable|string|max:100',
+            'via' => 'nullable|string|max:100',
+            'destination' => 'nullable|string|max:100',
         ]);
+        
         
         $user = Auth::user();
         $validated['externaluser_id'] = $user->id;
-        CoopMembership::create($validated);
+        $validated['owned_by'] = "coop";
+        CoopUnit::create($validated);
 
-        $this->updateGeneralInfoCounts();
-
-        return redirect()->route('membersMasterlist')->with('success', 'Member added successfully!');
+        return redirect()->route('cooperativeowned')->with('success', 'Unit added successfully!');
     }
 
     public function editCoopOwnedUnit($id)
     {
         $coopunit = CoopUnit::findOrFail($id);
         return view('myinformation.editcooperativeowned', compact('coopunit'))->with('mode', 'edit');;
+    }
+
+    public function updateCoopOwnedUnit(Request $request, $id)
+    {
+        $coopunit = CoopUnit::findOrFail($id);
+
+        $validated = $request->validate([
+            'type' => 'nullable|string|max:50',
+            'mv_file_no' => [
+                'nullable',
+                'string',
+                'max:15',
+                Rule::unique('coopunits')
+                    ->where(fn ($query) => $query->where('externaluser_id', Auth::id()))
+                    ->ignore($id), // Ignore the current record
+            ],
+            'engine_no' => [
+                'nullable',
+                'string',
+                'max:50',
+                Rule::unique('coopunits')
+                    ->where(fn ($query) => $query->where('externaluser_id', Auth::id()))
+                    ->ignore($id),
+            ],
+            'chassis_no' => [
+                'nullable',
+                'string',
+                'max:50',
+                Rule::unique('coopunits')
+                    ->where(fn ($query) => $query->where('externaluser_id', Auth::id()))
+                    ->ignore($id),
+            ],
+            'plate_no' => [
+                'nullable',
+                'string',
+                'max:10',
+                Rule::unique('coopunits')
+                    ->where(fn ($query) => $query->where('externaluser_id', Auth::id()))
+                    ->ignore($id),
+            ],
+            'ltfrb_case_no' => 'nullable|string|max:50', // No uniqueness required
+            'date_granted' => 'nullable|date|before_or_equal:today',
+            'date_of_expiry' => 'nullable|date',
+            'origin' => 'nullable|string|max:100',
+            'via' => 'nullable|string|max:100',
+            'destination' => 'nullable|string|max:100',
+        ]);
+
+        // Update the record
+        $coopunit->update($validated);
+
+        return redirect()->route('cooperativeowned')->with('success', 'Unit updated successfully.');
+    }
+
+    public function destroyCoopOwnedUnit($id)
+    {
+        $coopunit = CoopUnit::findOrFail($id); // Find the member
+        $coopunit->delete(); // Delete the member
+
+
+        return response()->json([
+            'message' => 'Unit deleted successfully.'
+        ]);
     }
 
 }

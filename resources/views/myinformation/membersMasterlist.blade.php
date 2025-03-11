@@ -194,31 +194,31 @@
 
 
     function confirmDelete(id, firstname, lastname) {
-    if (confirm(`Are you sure you want to delete ${firstname} ${lastname}?`)) {
-        fetch(`/myinformation/member/${id}`, {
-            method: 'DELETE',
-            headers: {
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            }
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
-            }
-            return response.json();
-        })
-        .then(data => {
-            alert(data.message);
-            let row = document.getElementById(`member-${id}`);
-            if (row) {
-                row.remove();  // Remove row from the table
-            }
-        })
-        .catch(error => console.error('Error:', error));
+        if (confirm(`Are you sure you want to delete ${firstname} ${lastname}?`)) {
+            fetch(`/myinformation/member/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                alert(data.message);
+                let row = document.getElementById(`member-${id}`);
+                if (row) {
+                    row.remove();  // Remove row from the table
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        }
     }
-}
 
 </script>
 @endsection

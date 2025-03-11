@@ -10,6 +10,9 @@ use Illuminate\Validation\Rule;
 
 class CoopController extends Controller
 {
+    // ---------------------------------------------
+    // ------------ MEMBERS ------------------------
+    // ---------------------------------------------
     public function showMembers() {
         $user = Auth::user();
         $coopMemberships = CoopMembership::where('externaluser_id', $user->id)
@@ -80,6 +83,22 @@ class CoopController extends Controller
 
         return redirect()->route('membersMasterlist')->with('success', 'Member updated successfully.');
     }
+
+    public function destroyMember($id)
+    {
+        $member = CoopMembership::findOrFail($id); // Find the member
+        $member->delete(); // Delete the member
+
+        return response()->json([
+            'message' => 'Member deleted successfully.'
+        ]);
+    }
+
+    // ---------------------------------------------
+    // ------------ UNITS ------------------------
+    // ---------------------------------------------
+    
+    //  do this section CRUD
 
 
 }

@@ -88,21 +88,12 @@ Route::middleware(['auth'])->group(function () {
 
 //MyInformation 
 Route::get('/myinformation/membersMasterlist', [CoopController::class, 'showMembers'])->name('membersMasterlist');
-Route::get('/myinformation/addmember', [CoopController::class, 'viewMember'] )->name('addMemberIndex');
-Route::post('/myinformation/addmember', [CoopController::class, 'addMember'])->name('addMember');
-Route::get('/myinformation/addmember/{id}/view', [CoopController::class, 'editMember'])->name('editMember');
-Route::put('/myinformation/addmember/{id}', [CoopController::class, 'updateMember'])->name('members.update');
+Route::get('/myinformation/member', [CoopController::class, 'viewMember'] )->name('addMemberIndex');
+Route::post('/myinformation/member', [CoopController::class, 'addMember'])->name('addMember');
+Route::get('/myinformation/member/{id}/view', [CoopController::class, 'editMember'])->name('editMember');
+Route::put('/myinformation/member/{id}', [CoopController::class, 'updateMember'])->name('members.update');
+Route::delete('/myinformation/member/{id}', [CoopController::class, 'destroyMember'])->name('members.destroy');
 
-
-//Driver List
-Route::get('/myinformation/driverMasterlist', function () {
-    return view('myinformation.driverMasterlist');
-})->name('driverMasterlist');
-
-//Edit Driver List
-Route::get('/myinformation/editDriverlist', function () {
-    return view('myinformation.editDriverlist');
-})->name('editDriverlist');
 
 //Training List
 Route::get('/myinformation/traininglist', function () {

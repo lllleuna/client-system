@@ -2,7 +2,7 @@
 <div x-data="{ 
     isOpen: false,
     menus: {
-        cooperative: {{ request()->routeIs('membersMasterlist', 'driverMasterlist', 'traininglist', 'cooperativeowned', 'individuallyowned') ? 'true' : 'false' }},
+        cooperative: {{ request()->routeIs('membersMasterlist', 'traininglist', 'cooperativeowned', 'individuallyowned') ? 'true' : 'false' }},
         operations: {{ request()->routeIs('generalinfo', 'membership', 'employment', 'units', 'franchise') ? 'true' : 'false' }},
         governance: {{ request()->routeIs('officers') ? 'true' : 'false' }},
         financial: {{ request()->routeIs('finances', 'grants', 'loans', 'businesses') ? 'true' : 'false' }},
@@ -60,10 +60,6 @@
                         <a href="{{ route('membersMasterlist') }}"
                            class="block px-4 py-2 text-sm rounded-lg transition-colors {{ request()->routeIs('membersMasterlist') ? 'bg-blue-50 text-blue-600 font-medium' : 'text-gray-600 hover:bg-gray-50' }}">
                             Members Masterlist
-                        </a>
-                        <a href="{{ route('driverMasterlist') }}"
-                           class="block px-4 py-2 text-sm rounded-lg transition-colors {{ request()->routeIs('driverMasterlist') ? 'bg-blue-50 text-blue-600 font-medium' : 'text-gray-600 hover:bg-gray-50' }}">
-                            Drivers List
                         </a>
                         <a href="{{ route('traininglist') }}"
                            class="block px-4 py-2 text-sm rounded-lg transition-colors {{ request()->routeIs('traininglist') ? 'bg-blue-50 text-blue-600 font-medium' : 'text-gray-600 hover:bg-gray-50' }}">

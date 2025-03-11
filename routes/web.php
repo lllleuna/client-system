@@ -130,11 +130,11 @@ Route::get('/myinformation/editindividuallyowned', function () {
 // General Info
 
 Route::get('/myinformation/generalinfo', [CoopController::class, 'showGenInfo'])->name('generalinfo');
+Route::get('/myinformation/edit', [CoopController::class, 'editGeneralInfo'])->name('editgeneralinfo');
+Route::put('/myinformation/update', [CoopController::class, 'updateGeneralInfo'])->name('updategeneralinfo');
 
-// Edit General Info
-Route::get('/myinformation/editgeneralinfo', function () {
-    return view('myinformation.editgeneralinfo');
-})->name('editgeneralinfo');
+
+
 
 // Membership
 Route::get('/myinformation/membership', function () {

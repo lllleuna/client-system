@@ -35,6 +35,8 @@
                         </div>
                     </div>
 
+                    <x-success-notif />
+
                     <!-- General Information Form -->
                     <div class="mt-6">
                         <div class="bg-blue-50 p-4 rounded-lg mb-6">
@@ -47,28 +49,24 @@
                                         <p class="text-sm text-gray-500 font-medium mb-1">NAME OF TC (IN FULL)</p>
                                         <p class="text-md font-semibold text-gray-800">{{ $externalUser->tc_name ?? 'Not Available' }}</p>
                                     </div>
+
                                     
                                     <div class="bg-white p-4 rounded-lg shadow-sm">
                                         <p class="text-sm text-gray-500 font-medium mb-1">BUSINESS ADDRESS</p>
-                                        <p class="text-md font-semibold text-gray-800">{{ $generalInfo->business_address ?? 'Not Available' }}</p>
-                                    </div>
-                                    
-                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                        <div class="bg-white p-4 rounded-lg shadow-sm">
-                                            <p class="text-sm text-gray-500 font-medium mb-1">OFFICIAL EMAIL ADDRESS</p>
-                                            <p class="text-md font-semibold text-gray-800">{{ $generalInfo->email ?? 'Not Available' }}</p>
-                                        </div>
-                                        
-                                        <div class="bg-white p-4 rounded-lg shadow-sm">
-                                            <p class="text-sm text-gray-500 font-medium mb-1">OFFICIAL CONTACT NO.</p>
-                                            <p class="text-md font-semibold text-gray-800">{{ $generalInfo->contact_no ?? 'Not Available' }}</p>
-                                        </div>
+                                        <p class="text-md font-semibold text-gray-800">{{ $fullAddress }}</p>
                                     </div>
                                     
                                     <div class="bg-white p-4 rounded-lg shadow-sm">
-                                        <p class="text-sm text-gray-500 font-medium mb-1">CONTACT PERSON</p>
-                                        <p class="text-md font-semibold text-gray-800">{{ $externalUser->chair_fname ?? 'Not Available' }}</p>
+                                        <p class="text-sm text-gray-500 font-medium mb-1">OFFICIAL EMAIL ADDRESS</p>
+                                        <p class="text-md font-semibold text-gray-800">{{ $generalInfo->email ?? 'Not Available' }}</p>
                                     </div>
+
+                                    <div class="bg-white p-4 rounded-lg shadow-sm">
+                                        <p class="text-sm text-gray-500 font-medium mb-1">OFFICIAL CONTACT NO.</p>
+                                        <p class="text-md font-semibold text-gray-800">{{ $generalInfo->contact_no ?? 'Not Available' }}</p>
+                                    </div>
+                                
+                                    
                                 </div>
                                 
                                 <!-- Registration Information -->

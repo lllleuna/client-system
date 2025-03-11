@@ -8,13 +8,16 @@ use App\Models\CoopMembership;
 use App\Models\ExternalUser;
 use Illuminate\Validation\Rule;
 use App\Models\CoopGeneralInfo;
+use Illuminate\Support\Facades\Http;
 
 class CoopController extends Controller
 {
     // ---------------------------------------------
     // ------------ MEMBERS ------------------------
     // ---------------------------------------------
-    public function showMembers() {
+
+    public function showMembers() 
+    {
         $user = Auth::user();
         $coopMemberships = CoopMembership::where('externaluser_id', $user->id)
             ->orderBy('created_at', 'desc') // Sorts by newest first
@@ -115,8 +118,6 @@ class CoopController extends Controller
     }
     
 
-
-
     public function destroyMember($id)
     {
         $member = CoopMembership::findOrFail($id); // Find the member
@@ -138,10 +139,98 @@ class CoopController extends Controller
         $externalUser = ExternalUser::where('id', $user->id)->first();
         $generalInfo = CoopGeneralInfo::where('externaluser_id', $user->id)->first();
     
-        return view('myinformation.generalinfo', compact('externalUser', 'generalInfo'));
+        // Check if generalInfo exists
+        if ($generalInfo) {
+            // Fetch location names from PSGC API
+            $barangay = Http::get("https://psgc.gitlab.io/api/barangays/{$generalInfo->barangay_code}")->json();
+            $city = Http::get("https://psgc.gitlab.io/api/cities/{$generalInfo->city_code}")->json();
+            $province = Http::get("https://psgc.gitlab.io/api/provinces/{$generalInfo->province_code}")->json();
+            $region = Http::get("https://psgc.gitlab.io/api/regions/{$generalInfo->region_code}")->json();
+    
+            // Extract names or fallback to "Unknown"
+            $barangayName = $barangay['name'] ?? '';
+            $cityName = $city['name'] ?? '';
+            $provinceName = $province['name'] ?? '';
+            $regionName = $region['name'] ?? '';
+    
+            // Construct full business address
+            $fullAddress = "{$generalInfo->business_address} {$barangayName} {$cityName} {$provinceName} {$regionName}";
+        } else {
+            $fullAddress = "Not Available";
+        }
+    
+        return view('myinformation.generalinfo', compact('externalUser', 'generalInfo', 'fullAddress'));
     }
     
+    public function editGeneralInfo()
+    {
+        $user = Auth::user();
+        
+        $externalUser = ExternalUser::where('id', $user->id)->first();
+        $generalInfo = CoopGeneralInfo::where('externaluser_id', $user->id)->first();
 
+        if (!$generalInfo) {
+            return redirect()->route('dashboard')->with('error', 'No general information found.');
+        }
+
+        return view('myinformation.editgeneralinfo', compact('externalUser', 'generalInfo'));
+    }
+
+    public function updateGeneralInfo(Request $request)
+    {
+        // Get the currently authenticated user
+        $user = Auth::user();
+    
+        // Validate the incoming request
+        $validatedData = $request->validate([
+            'tc_name' => 'required|string|max:100',
+            'business_address' => 'required|string|max:150',
+            'email' => 'required|email|max:100',
+            'contact_no' => 'required|regex:/^(639)\d{9}$/|max:12',
+            'cda_reg_no' => 'nullable|string|max:50',
+            'cda_registration_date' => 'nullable|date',
+            'common_bond_membership' => 'nullable|string|max:255',
+            'membership_fee' => 'nullable|numeric|min:0',
+            'employer_sss_reg_no' => 'nullable|string|max:50',
+            'employer_pagibig_reg_no' => 'nullable|string|max:50',
+            'employer_philhealth_reg_no' => 'nullable|string|max:50',
+            'bir_tin' => 'nullable|string|max:50',
+            'bir_tax_exemption_no' => 'nullable|string|max:50',
+            'bir_validity' => 'required|date|after_or_equal:today|before_or_equal:' . now()->addYears(5)->toDateString(),
+        ]);
+    
+        // Update ExternalUser Model
+        $externalUser = ExternalUser::where('id', $user->id)->first();
+        if ($externalUser) {
+            $externalUser->update([
+                'tc_name' => $validatedData['tc_name'],
+                'cda_reg_no' => $validatedData['cda_reg_no'] ?? null,
+            ]);
+        }
+    
+        // Update CoopGeneralInfo Model
+        $generalInfo = CoopGeneralInfo::where('externaluser_id', $user->id)->first();
+        if ($generalInfo) {
+            $generalInfo->update([
+                'business_address' => $validatedData['business_address'],
+                'email' => $validatedData['email'],
+                'contact_no' => $validatedData['contact_no'],
+                'cda_registration_date' => $validatedData['cda_registration_date'] ?? null,
+                'common_bond_membership' => $validatedData['common_bond_membership'] ?? null,
+                'membership_fee' => $validatedData['membership_fee'] ?? null,
+                'employer_sss_reg_no' => $validatedData['employer_sss_reg_no'] ?? null,
+                'employer_pagibig_reg_no' => $validatedData['employer_pagibig_reg_no'] ?? null,
+                'employer_philhealth_reg_no' => $validatedData['employer_philhealth_reg_no'] ?? null,
+                'bir_tin' => $validatedData['bir_tin'] ?? null,
+                'bir_tax_exemption_no' => $validatedData['bir_tax_exemption_no'] ?? null,
+                'bir_validity' => $validatedData['bir_validity'] ?? null,
+            ]);
+        }
+    
+        return redirect()->route('generalinfo')->with('success', 'General Information updated successfully.');
+
+    }
+    
 
 
 }

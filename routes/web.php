@@ -117,17 +117,15 @@ Route::put('/myinformation/coopownedunit/{id}', [CoopController::class, 'updateC
 Route::delete('/myinformation/coopownedunit/{id}', [CoopController::class, 'destroyCoopOwnedUnit'])->name('coopunit.destroy');
 
 
-
-
-//Edit Cooperative-Owned List
-Route::get('/myinformation/editcooperativeowned', function () {
-    return view('myinformation.editcooperativeowned');
-})->name('editcooperativeowned');
-
 //Individually-Owned List
-Route::get('/myinformation/individuallyowned', function () {
-    return view('myinformation.individuallyowned');
-})->name('individuallyowned');
+Route::get('/myinformation/individuallyowned', [CoopController::class, 'showIndivOwnedUnits'])->name('individuallyowned');
+Route::get('/myinformation/indivownedunit', [CoopController::class, 'viewIndivOwnedUnit'] )->name('addIndivUnitIndex');
+Route::post('/myinformation/indivownedunit', [CoopController::class, 'addIndivOwnedUnit'])->name('addIndivUnit');
+Route::get('/myinformation/indivownedunit/{id}/view', [CoopController::class, 'editIndivOwnedUnit'])->name('editIndivUnit');
+Route::put('/myinformation/indivownedunit/{id}', [CoopController::class, 'updateIndivOwnedUnit'])->name('indivunit.update');
+Route::delete('/myinformation/indivownedunit/{id}', [CoopController::class, 'destroyIndivOwnedUnit'])->name('indivunit.destroy');
+
+
 
 //Edit Individually-Owned List
 Route::get('/myinformation/editindividuallyowned', function () {

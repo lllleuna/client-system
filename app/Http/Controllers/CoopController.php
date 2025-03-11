@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\CoopMembership;
 use App\Models\ExternalUser;
 use Illuminate\Validation\Rule;
+use App\Models\CoopGeneralInfo;
 
 class CoopController extends Controller
 {
@@ -95,10 +96,20 @@ class CoopController extends Controller
     }
 
     // ---------------------------------------------
-    // ------------ UNITS ------------------------
+    // ------------ General Info ------------------------
     // ---------------------------------------------
     
-    //  do this section CRUD
+    public function showGenInfo()
+    {
+        $user = Auth::user(); 
+    
+        $externalUser = ExternalUser::where('id', $user->id)->first();
+        $generalInfo = CoopGeneralInfo::where('externaluser_id', $user->id)->first();
+    
+        return view('myinformation.generalinfo', compact('externalUser', 'generalInfo'));
+    }
+    
+
 
 
 }

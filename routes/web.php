@@ -128,9 +128,8 @@ Route::get('/myinformation/editindividuallyowned', function () {
 
 // OPERATIONS!
 // General Info
-Route::get('/myinformation/generalinfo', function () {
-    return view('myinformation.generalinfo');
-})->name('generalinfo');
+
+Route::get('/myinformation/generalinfo', [CoopController::class, 'showGenInfo'])->name('generalinfo');
 
 // Edit General Info
 Route::get('/myinformation/editgeneralinfo', function () {

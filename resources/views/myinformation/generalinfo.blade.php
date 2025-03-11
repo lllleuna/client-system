@@ -45,7 +45,7 @@
                                 <div class="space-y-4">
                                     <div class="bg-white p-4 rounded-lg shadow-sm">
                                         <p class="text-sm text-gray-500 font-medium mb-1">NAME OF TC (IN FULL)</p>
-                                        <p class="text-md font-semibold text-gray-800">{{ $generalInfo->name ?? 'Not Available' }}</p>
+                                        <p class="text-md font-semibold text-gray-800">{{ $externalUser->tc_name ?? 'Not Available' }}</p>
                                     </div>
                                     
                                     <div class="bg-white p-4 rounded-lg shadow-sm">
@@ -67,7 +67,7 @@
                                     
                                     <div class="bg-white p-4 rounded-lg shadow-sm">
                                         <p class="text-sm text-gray-500 font-medium mb-1">CONTACT PERSON</p>
-                                        <p class="text-md font-semibold text-gray-800">{{ $generalInfo->contact_person ?? 'Not Available' }}</p>
+                                        <p class="text-md font-semibold text-gray-800">{{ $externalUser->chair_fname ?? 'Not Available' }}</p>
                                     </div>
                                 </div>
                                 
@@ -75,8 +75,8 @@
                                 <div class="space-y-4">
                                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                         <div class="bg-white p-4 rounded-lg shadow-sm">
-                                            <p class="text-sm text-gray-500 font-medium mb-1">OTC ACCREDITATION NO. (RA9520)</p>
-                                            <p class="text-md font-semibold text-gray-800">{{ $generalInfo->otc_accreditation_no ?? 'Not Available' }}</p>
+                                            <p class="text-sm text-gray-500 font-medium mb-1">OTC ACCREDITATION NO. (RA9520)</p> <!-- Get from other model / TC can't edit -->
+                                            <p class="text-md font-semibold text-gray-800">{{ $mainrecord->otc_accreditation_no ?? 'Not Available' }}</p>
                                         </div>
                                         
                                         <div class="bg-white p-4 rounded-lg shadow-sm">
@@ -88,18 +88,18 @@
                                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                         <div class="bg-white p-4 rounded-lg shadow-sm">
                                             <p class="text-sm text-gray-500 font-medium mb-1">CDA REGISTRATION NO. (RA9520)</p>
-                                            <p class="text-md font-semibold text-gray-800">{{ $generalInfo->cda_registration_no ?? 'Not Available' }}</p>
+                                            <p class="text-md font-semibold text-gray-800">{{ $externalUser->cda_reg_no ?? 'Not Available' }}</p>
                                         </div>
                                         
                                         <div class="bg-white p-4 rounded-lg shadow-sm">
                                             <p class="text-sm text-gray-500 font-medium mb-1">DATE REGISTERED</p>
-                                            <p class="text-md font-semibold text-gray-800">{{ $generalInfo->date_registered ?? 'Not Available' }}</p>
+                                            <p class="text-md font-semibold text-gray-800">{{ $generalInfo->cda_registration_date ?? 'Not Available' }}</p>
                                         </div>
                                     </div>
                                     
                                     <div class="bg-white p-4 rounded-lg shadow-sm">
                                         <p class="text-sm text-gray-500 font-medium mb-1">COMMON BOND OF MEMBERSHIP</p>
-                                        <p class="text-md font-semibold text-gray-800">{{ $generalInfo->common_bond ?? 'Not Available' }}</p>
+                                        <p class="text-md font-semibold text-gray-800">{{ $generalInfo->common_bond_membership ?? 'Not Available' }}</p>
                                     </div>
                                     
                                     <div class="bg-white p-4 rounded-lg shadow-sm">
@@ -119,7 +119,7 @@
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     <div class="bg-white p-4 rounded-lg shadow-sm">
                                         <p class="text-sm text-gray-500 font-medium mb-1">SSS EMPLOYER REGISTRATION NUMBER</p>
-                                        <p class="text-md font-semibold text-gray-800">{{ $generalInfo->sss_reg_no ?? 'Not Available' }}</p>
+                                        <p class="text-md font-semibold text-gray-800">{{ $generalInfo->employer_sss_reg_no ?? 'Not Available' }}</p>
                                     </div>
                                     
                                     <div class="bg-white p-4 rounded-lg shadow-sm">
@@ -132,7 +132,7 @@
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     <div class="bg-white p-4 rounded-lg shadow-sm">
                                         <p class="text-sm text-gray-500 font-medium mb-1">PAGIBIG EMPLOYER REGISTRATION NUMBER</p>
-                                        <p class="text-md font-semibold text-gray-800">{{ $generalInfo->pagibig_reg_no ?? 'Not Available' }}</p>
+                                        <p class="text-md font-semibold text-gray-800">{{ $generalInfo->employer_pagibig_reg_no ?? 'Not Available' }}</p>
                                     </div>
                                     
                                     <div class="bg-white p-4 rounded-lg shadow-sm">
@@ -145,7 +145,7 @@
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     <div class="bg-white p-4 rounded-lg shadow-sm">
                                         <p class="text-sm text-gray-500 font-medium mb-1">PHILHEALTH EMPLOYER REGISTRATION NUMBER</p>
-                                        <p class="text-md font-semibold text-gray-800">{{ $generalInfo->philhealth_reg_no ?? 'Not Available' }}</p>
+                                        <p class="text-md font-semibold text-gray-800">{{ $generalInfo->employer_philhealth_reg_no ?? 'Not Available' }}</p>
                                     </div>
                                     
                                     <div class="bg-white p-4 rounded-lg shadow-sm">

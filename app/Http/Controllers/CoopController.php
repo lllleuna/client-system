@@ -9,6 +9,9 @@ use App\Models\ExternalUser;
 use Illuminate\Validation\Rule;
 use App\Models\CoopGeneralInfo;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
+use App\Mail\EmailVerificationMail;
 
 class CoopController extends Controller
 {
@@ -123,6 +126,8 @@ class CoopController extends Controller
         $member = CoopMembership::findOrFail($id); // Find the member
         $member->delete(); // Delete the member
 
+        $this->updateGeneralInfoCounts();
+
         return response()->json([
             'message' => 'Member deleted successfully.'
         ]);
@@ -178,17 +183,25 @@ class CoopController extends Controller
 
     public function updateGeneralInfo(Request $request)
     {
-        // Get the currently authenticated user
         $user = Auth::user();
     
-        // Validate the incoming request
         $validatedData = $request->validate([
             'tc_name' => 'required|string|max:100',
             'business_address' => 'required|string|max:150',
-            'email' => 'required|email|max:100',
-            'contact_no' => 'required|regex:/^(639)\d{9}$/|max:12',
+            'email' => [
+                'required',
+                'email',
+                'max:100',
+                Rule::unique('externalusers', 'email')->ignore($user->id),
+            ],
+            'contact_no' => [
+                'required',
+                'regex:/^(639)\d{9}$/',
+                'max:12',
+                Rule::unique('externalusers', 'contact_no')->ignore($user->id),
+            ],
             'cda_reg_no' => 'nullable|string|max:50',
-            'cda_registration_date' => 'nullable|date',
+            'cda_registration_date' => 'nullable|date|before_or_equal:today',
             'common_bond_membership' => 'nullable|string|max:255',
             'membership_fee' => 'nullable|numeric|min:0',
             'employer_sss_reg_no' => 'nullable|string|max:50',
@@ -199,19 +212,37 @@ class CoopController extends Controller
             'bir_validity' => 'required|date|after_or_equal:today|before_or_equal:' . now()->addYears(5)->toDateString(),
         ]);
     
-        // Update ExternalUser Model
         $externalUser = ExternalUser::where('id', $user->id)->first();
+    
         if ($externalUser) {
+            if ($externalUser->email !== $validatedData['email']) {
+                // Generate a verification token
+                $verificationToken = Str::random(32);
+    
+                // Save pending email and token
+                $externalUser->update([
+                    'pending_email' => $validatedData['email'],
+                    'email_verification_token' => $verificationToken,
+                ]);
+    
+                // Send verification email
+                Mail::to($validatedData['email'])->send(new EmailVerificationMail($externalUser));
+    
+                return redirect()->route('generalinfo')->with('success', 'Verification email sent. Please verify your email before updating.');
+            }
+    
+            // If email is not changed, update normally
             $externalUser->update([
                 'tc_name' => $validatedData['tc_name'],
                 'cda_reg_no' => $validatedData['cda_reg_no'] ?? null,
+                'email' => $validatedData['email'],
+                'contact_no' => $validatedData['contact_no'],
             ]);
         }
-    
-        // Update CoopGeneralInfo Model
-        $generalInfo = CoopGeneralInfo::where('externaluser_id', $user->id)->first();
-        if ($generalInfo) {
-            $generalInfo->update([
+
+        $generalInfo = CoopGeneralInfo::updateOrCreate(
+            ['externaluser_id' => $user->id], 
+            [
                 'business_address' => $validatedData['business_address'],
                 'email' => $validatedData['email'],
                 'contact_no' => $validatedData['contact_no'],
@@ -224,12 +255,13 @@ class CoopController extends Controller
                 'bir_tin' => $validatedData['bir_tin'] ?? null,
                 'bir_tax_exemption_no' => $validatedData['bir_tax_exemption_no'] ?? null,
                 'bir_validity' => $validatedData['bir_validity'] ?? null,
-            ]);
-        }
-    
-        return redirect()->route('generalinfo')->with('success', 'General Information updated successfully.');
+            ]
+        );
+        
 
+        return redirect()->route('generalinfo')->with('success', 'General Information updated successfully.');
     }
+    
     
 
 

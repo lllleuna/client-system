@@ -78,7 +78,7 @@
                                             Official Email Address <span class="text-red-500">*</span>
                                         </label>
                                         <input type="email" name="email"
-                                            value="{{ old('email', $generalInfo->email ?? '') }}"
+                                            value="{{ old('email', $externalUser->email ?? '') }}"
                                             class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-100 focus:border-blue-400 transition-all duration-200 @error('email') border-red-500 @enderror"
                                             placeholder="Enter email address" required>
                                         @error('email')
@@ -96,12 +96,13 @@
                                             Official Contact Number <span class="text-red-500">*</span>
                                         </label>
                                         <input type="text" name="contact_no"
-                                            value="{{ old('contact_no', $generalInfo->contact_no ?? '') }}"
+                                            value="{{ old('contact_no', $externalUser->contact_no ?? '') }}"
                                             class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-100 focus:border-blue-400 transition-all duration-200 @error('contact_no') border-red-500 @enderror"
-                                            placeholder="Enter contact number" required>
+                                            placeholder="639XXXXXXXXX" required pattern="639\d{9}" maxlength="12">
                                         @error('contact_no')
                                             <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
                                         @enderror
+
                                     </div>
 
                                 </div>
@@ -141,14 +142,19 @@
                                             </svg>
                                             Date Registered <span class="text-red-500">*</span>
                                         </label>
+                                        @php
+                                            $maxCdaDate = now()->toDateString(); // Today's date
+                                        @endphp
+                                        
                                         <input type="date" name="cda_registration_date"
                                             value="{{ old('cda_registration_date', $generalInfo->cda_registration_date ?? '') }}"
-                                            class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-100 focus:border-blue-400 transition-all duration-200 @error('date_registered') border-red-500 @enderror"
-                                            required>
-                                        @error('cda_registration_date')
-                                            <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
-                                        @enderror
-                                    </div>
+                                            class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-100 focus:border-blue-400 transition-all duration-200 @error('cda_registration_date') border-red-500 @enderror"
+                                            required max="{{ $maxCdaDate }}">
+                                        
+                                            @error('cda_registration_date')
+                                                <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
+                                            @enderror
+                                        </div>
 
                                     <div>
                                         <label class="flex items-center text-sm font-medium text-gray-700 mb-2">
@@ -291,9 +297,9 @@
                                         </div>
 
                                         @php
-                                        $minDate = now()->toDateString(); // Today's date
-                                        $maxDate = now()->addYears(5)->toDateString(); // 5 years in the future
-                                    @endphp
+                                            $minDate = now()->toDateString(); // Today's date
+                                            $maxDate = now()->addYears(5)->toDateString(); // 5 years in the future
+                                        @endphp
                                     
                                     <div>
                                         <label class="flex items-center text-sm font-medium text-gray-700 mb-2">

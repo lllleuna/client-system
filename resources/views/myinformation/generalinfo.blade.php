@@ -58,7 +58,7 @@
                                     
                                     <div class="bg-white p-4 rounded-lg shadow-sm">
                                         <p class="text-sm text-gray-500 font-medium mb-1">OFFICIAL EMAIL ADDRESS</p>
-                                        <p class="text-md font-semibold text-gray-800">{{ $generalInfo->email ?? 'Not Available' }}</p>
+                                        <p class="text-md font-semibold text-gray-800">{{ $externalUser->email ?? 'Not Available' }}</p>
                                     </div>
 
                                     <div class="bg-white p-4 rounded-lg shadow-sm">

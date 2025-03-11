@@ -135,5 +135,25 @@ class RegisteredUserController extends Controller
         }
     }
 
+    public function verifyEmail($token)
+    {
+        $user = ExternalUser::where('email_verification_token', $token)->first();
+
+        if (!$user) {
+            return redirect()->route('generalinfo')->with('error', 'Invalid or expired verification token.');
+        }
+
+        // Update email and reset token
+        $user->update([
+            'email' => $user->pending_email,
+            'pending_email' => null,
+            'email_verified_at' => now(),
+            'email_verification_token' => null,
+        ]);
+
+        return redirect()->route('generalinfo')->with('success', 'Email verified successfully!');
+    }
+
+
 
 }

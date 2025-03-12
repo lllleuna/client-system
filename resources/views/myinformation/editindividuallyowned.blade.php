@@ -12,7 +12,8 @@
             <div class="col-span-9">
                 <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-8">
                     <div class="flex items-center justify-between mb-8">
-                        <h2 class="text-2xl font-bold text-gray-800">Edit Individual Vehicle Details</h2>
+                        <h1 class="text-2xl font-bold mb-6">{{ $mode == 'create' ? 'Add Individually Owned Unit' : ($mode == 'edit' ? 'Edit Individually Owned Unit' : 'Individually Owned Unit Details') }}</h1>
+                        
                         <a href="#" class="text-gray-500 hover:text-gray-600">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -20,12 +21,28 @@
                         </a>
                     </div>
 
-                    <form action="#" method="POST" class="space-y-6" id="vehicleForm">
+                    <form action="{{ $mode == 'edit' ? route('indivunit.update', $indivunit->id) : route('addIndivUnit') }}" method="POST" class="space-y-6">
                         @csrf
-                        @method('PUT')
+                        @if($mode == 'edit')
+                            @method('PUT')
+                        @endif
+
                         <div class="grid grid-cols-2 gap-6">
                             {{-- Vehicle Information --}}
                             <div class="space-y-6">
+
+                                <div>
+                                    <select name="member_id" id="member_id" class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-100 focus:border-blue-400 transition-all duration-200">
+                                        <option value="">Select a Member</option>
+                                        @foreach ($members as $member)
+                                            <option value="{{ $member->id }}" 
+                                                {{ old('member_id', isset($indivunit) ? $indivunit->member_id : '') == $member->id ? 'selected' : '' }}>
+                                                {{ $member->firstname }} {{ $member->middlename }} {{ $member->lastname }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    
+                                </div>
                                 <div>
                                     <label class="flex items-center text-sm font-medium text-gray-700 mb-2">
                                         <svg class="w-4 h-4 mr-2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -33,12 +50,11 @@
                                         </svg>
                                         Type of Unit <span class="text-red-500">*</span>
                                     </label>
-                                    <input type="text" name="unit_type" value="{{ old('unit_type', $vehicle->unit_type ?? '') }}"
+                                    <input type="text" name="type" id="type" value="{{ old('type', $indivunit->type ?? '') }}"
                                            class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-100 focus:border-blue-400 transition-all duration-200 @error('unit_type') border-red-500 @enderror"
-                                           placeholder="Enter type of unit" required
-                                           oninvalid="this.setCustomValidity('Please enter the type of unit')"
-                                           oninput="this.setCustomValidity('')">
-                                    @error('unit_type')
+                                           placeholder="Enter type of unit" required>
+                                    <p id="unit_type_error" class="hidden mt-1 text-sm text-red-500">Please enter the type of unit</p>
+                                    @error('type')
                                         <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
                                     @enderror
                                 </div>
@@ -50,11 +66,10 @@
                                         </svg>
                                         MV File No. <span class="text-red-500">*</span>
                                     </label>
-                                    <input type="text" name="mv_file_no" value="{{ old('mv_file_no', $vehicle->mv_file_no ?? '') }}"
+                                    <input type="text" name="mv_file_no" id="mv_file_no" value="{{ old('mv_file_no', $indivunit->mv_file_no ?? '') }}"
                                            class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-100 focus:border-blue-400 transition-all duration-200 @error('mv_file_no') border-red-500 @enderror"
-                                           placeholder="Enter MV file number" required
-                                           oninvalid="this.setCustomValidity('Please enter the MV file number')"
-                                           oninput="this.setCustomValidity('')">
+                                           placeholder="Enter MV file number" required>
+                                    <p id="mv_file_no_error" class="hidden mt-1 text-sm text-red-500">Please enter the MV file number</p>
                                     @error('mv_file_no')
                                         <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
                                     @enderror
@@ -67,11 +82,10 @@
                                         </svg>
                                         Engine No. <span class="text-red-500">*</span>
                                     </label>
-                                    <input type="text" name="engine_no" value="{{ old('engine_no', $vehicle->engine_no ?? '') }}"
+                                    <input type="text" name="engine_no" id="engine_no" value="{{ old('engine_no', $indivunit->engine_no ?? '') }}"
                                            class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-100 focus:border-blue-400 transition-all duration-200 @error('engine_no') border-red-500 @enderror"
-                                           placeholder="Enter engine number" required
-                                           oninvalid="this.setCustomValidity('Please enter the engine number')"
-                                           oninput="this.setCustomValidity('')">
+                                           placeholder="Enter engine number" required>
+                                    <p id="engine_no_error" class="hidden mt-1 text-sm text-red-500">Please enter the engine number</p>
                                     @error('engine_no')
                                         <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
                                     @enderror
@@ -84,11 +98,10 @@
                                         </svg>
                                         Chassis No. <span class="text-red-500">*</span>
                                     </label>
-                                    <input type="text" name="chassis_no" value="{{ old('chassis_no', $vehicle->chassis_no ?? '') }}"
+                                    <input type="text" name="chassis_no" id="chassis_no" value="{{ old('chassis_no', $indivunit->chassis_no ?? '') }}"
                                            class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-100 focus:border-blue-400 transition-all duration-200 @error('chassis_no') border-red-500 @enderror"
-                                           placeholder="Enter chassis number" required
-                                           oninvalid="this.setCustomValidity('Please enter the chassis number')"
-                                           oninput="this.setCustomValidity('')">
+                                           placeholder="Enter chassis number" required>
+                                    <p id="chassis_no_error" class="hidden mt-1 text-sm text-red-500">Please enter the chassis number</p>
                                     @error('chassis_no')
                                         <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
                                     @enderror
@@ -101,16 +114,18 @@
                                         </svg>
                                         Plate No. <span class="text-red-500">*</span>
                                     </label>
-                                    <input type="text" name="plate_no" value="{{ old('plate_no', $vehicle->plate_no ?? '') }}"
+                                    <input type="text" name="plate_no" id="plate_no" value="{{ old('plate_no', $indivunit->plate_no ?? '') }}"
                                            class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-100 focus:border-blue-400 transition-all duration-200 @error('plate_no') border-red-500 @enderror"
-                                           placeholder="Enter plate number" required
-                                           oninvalid="this.setCustomValidity('Please enter the plate number')"
-                                           oninput="this.setCustomValidity('')">
+                                           placeholder="Enter plate number" required>
+                                    <p id="plate_no_error" class="hidden mt-1 text-sm text-red-500">Please enter the plate number</p>
                                     @error('plate_no')
                                         <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
                                     @enderror
                                 </div>
+                            </div>
 
+                            {{-- Registration Information --}}
+                            <div class="space-y-6">
                                 <div>
                                     <label class="flex items-center text-sm font-medium text-gray-700 mb-2">
                                         <svg class="w-4 h-4 mr-2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -118,19 +133,15 @@
                                         </svg>
                                         LTFRB Case No. <span class="text-red-500">*</span>
                                     </label>
-                                    <input type="text" name="ltfrb_case_no" value="{{ old('ltfrb_case_no', $vehicle->ltfrb_case_no ?? '') }}"
+                                    <input type="text" name="ltfrb_case_no" id="ltfrb_case_no" value="{{ old('ltfrb_case_no', $indivunit->ltfrb_case_no ?? '') }}"
                                            class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-100 focus:border-blue-400 transition-all duration-200 @error('ltfrb_case_no') border-red-500 @enderror"
-                                           placeholder="Enter LTFRB case number" required
-                                           oninvalid="this.setCustomValidity('Please enter the LTFRB case number')"
-                                           oninput="this.setCustomValidity('')">
+                                           placeholder="Enter LTFRB case number" required>
+                                    <p id="ltfrb_case_no_error" class="hidden mt-1 text-sm text-red-500">Please enter the LTFRB case number</p>
                                     @error('ltfrb_case_no')
                                         <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
                                     @enderror
                                 </div>
-                            </div>
 
-                            {{-- Owner Information & Additional Details --}}
-                            <div class="space-y-6">
                                 <div>
                                     <label class="flex items-center text-sm font-medium text-gray-700 mb-2">
                                         <svg class="w-4 h-4 mr-2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -138,11 +149,13 @@
                                         </svg>
                                         Date Granted <span class="text-red-500">*</span>
                                     </label>
-                                    <input type="date" name="date_granted" value="{{ old('date_granted', $vehicle->date_granted ?? '') }}"
-                                           class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-100 focus:border-blue-400 transition-all duration-200 @error('date_granted') border-red-500 @enderror"
-                                           required
-                                           oninvalid="this.setCustomValidity('Please select the date granted')"
-                                           oninput="this.setCustomValidity('')">
+                                    <input type="date" name="date_granted" id="date_granted" 
+                                        value="{{ old('date_granted', $indivunit->date_granted ?? '') }}"
+                                        max="{{ now()->toDateString() }}"
+                                        class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-100 focus:border-blue-400 transition-all duration-200 @error('date_granted') border-red-500 @enderror"
+                                        required>
+
+                                    <p id="date_granted_error" class="hidden mt-1 text-sm text-red-500">Please select the date granted</p>
                                     @error('date_granted')
                                         <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
                                     @enderror
@@ -155,61 +168,11 @@
                                         </svg>
                                         Date of Expiry <span class="text-red-500">*</span>
                                     </label>
-                                    <input type="date" name="date_expiry" value="{{ old('date_expiry', $vehicle->date_expiry ?? '') }}"
+                                    <input type="date" name="date_of_expiry" id="date_of_expiry" value="{{ old('date_of_expiry', $indivunit->date_of_expiry ?? '') }}"
                                            class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-100 focus:border-blue-400 transition-all duration-200 @error('date_expiry') border-red-500 @enderror"
-                                           required
-                                           oninvalid="this.setCustomValidity('Please select the date of expiry')"
-                                           oninput="this.setCustomValidity('')">
-                                    @error('date_expiry')
-                                        <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
-                                    @enderror
-                                </div>
-
-                                <div>
-                                    <label class="flex items-center text-sm font-medium text-gray-700 mb-2">
-                                        <svg class="w-4 h-4 mr-2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                                        </svg>
-                                        First Name <span class="text-red-500">*</span>
-                                    </label>
-                                    <input type="text" name="first_name" value="{{ old('first_name', $vehicle->first_name ?? '') }}"
-                                           class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-100 focus:border-blue-400 transition-all duration-200 @error('first_name') border-red-500 @enderror"
-                                           placeholder="Enter first name" required
-                                           oninvalid="this.setCustomValidity('Please enter the first name')"
-                                           oninput="this.setCustomValidity('')">
-                                    @error('first_name')
-                                        <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
-                                    @enderror
-                                </div>
-
-                                <div>
-                                    <label class="flex items-center text-sm font-medium text-gray-700 mb-2">
-                                        <svg class="w-4 h-4 mr-2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                                        </svg>
-                                        Middle Name
-                                    </label>
-                                    <input type="text" name="middle_name" value="{{ old('middle_name', $vehicle->middle_name ?? '') }}"
-                                           class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-100 focus:border-blue-400 transition-all duration-200 @error('middle_name') border-red-500 @enderror"
-                                           placeholder="Enter middle name">
-                                    @error('middle_name')
-                                        <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
-                                    @enderror
-                                </div>
-
-                                <div>
-                                    <label class="flex items-center text-sm font-medium text-gray-700 mb-2">
-                                        <svg class="w-4 h-4 mr-2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                                        </svg>
-                                        Last Name <span class="text-red-500">*</span>
-                                    </label>
-                                    <input type="text" name="last_name" value="{{ old('last_name', $vehicle->last_name ?? '') }}"
-                                           class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-100 focus:border-blue-400 transition-all duration-200 @error('last_name') border-red-500 @enderror"
-                                           placeholder="Enter last name" required
-                                           oninvalid="this.setCustomValidity('Please enter the last name')"
-                                           oninput="this.setCustomValidity('')">
-                                    @error('last_name')
+                                           required>
+                                    <p id="date_expiry_error" class="hidden mt-1 text-sm text-red-500">Please select the date of expiry</p>
+                                    @error('date_of_expiry')
                                         <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
                                     @enderror
                                 </div>
@@ -222,11 +185,10 @@
                                         </svg>
                                         Origin <span class="text-red-500">*</span>
                                     </label>
-                                    <input type="text" name="origin" value="{{ old('origin', $vehicle->origin ?? '') }}"
+                                    <input type="text" name="origin" id="origin" value="{{ old('origin', $indivunit->origin ?? '') }}"
                                            class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-100 focus:border-blue-400 transition-all duration-200 @error('origin') border-red-500 @enderror"
-                                           placeholder="Enter origin" required
-                                           oninvalid="this.setCustomValidity('Please enter the origin')"
-                                           oninput="this.setCustomValidity('')">
+                                           placeholder="Enter origin" required>
+                                    <p id="origin_error" class="hidden mt-1 text-sm text-red-500">Please enter the origin</p>
                                     @error('origin')
                                         <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
                                     @enderror
@@ -239,11 +201,10 @@
                                         </svg>
                                         Via <span class="text-red-500">*</span>
                                     </label>
-                                    <input type="text" name="via" value="{{ old('via', $vehicle->via ?? '') }}"
+                                    <input type="text" name="via" id="via" value="{{ old('via', $indivunit->via ?? '') }}"
                                            class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-100 focus:border-blue-400 transition-all duration-200 @error('via') border-red-500 @enderror"
-                                           placeholder="Enter via route" required
-                                           oninvalid="this.setCustomValidity('Please enter the via route')"
-                                           oninput="this.setCustomValidity('')">
+                                           placeholder="Enter route via" required>
+                                    <p id="via_error" class="hidden mt-1 text-sm text-red-500">Please enter the via route</p>
                                     @error('via')
                                         <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
                                     @enderror
@@ -257,11 +218,10 @@
                                         </svg>
                                         Destination <span class="text-red-500">*</span>
                                     </label>
-                                    <input type="text" name="destination" value="{{ old('destination', $vehicle->destination ?? '') }}"
+                                    <input type="text" name="destination" id="destination" value="{{ old('destination', $indivunit->destination ?? '') }}"
                                            class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-100 focus:border-blue-400 transition-all duration-200 @error('destination') border-red-500 @enderror"
-                                           placeholder="Enter destination" required
-                                           oninvalid="this.setCustomValidity('Please enter the destination')"
-                                           oninput="this.setCustomValidity('')">
+                                           placeholder="Enter destination" required>
+                                    <p id="destination_error" class="hidden mt-1 text-sm text-red-500">Please enter the destination</p>
                                     @error('destination')
                                         <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
                                     @enderror
@@ -269,14 +229,14 @@
                             </div>
                         </div>
 
-                        {{-- Submit Button --}}
                         <div class="flex items-center justify-end space-x-4 pt-6 border-t">
-                            <a href="#"
+                            <a href="{{ route('individuallyowned') }}"
                                class="px-6 py-2.5 rounded-lg text-gray-700 hover:bg-gray-50 border border-gray-300 transition-all duration-200">
                                 Cancel
                             </a>
-                            <button type="submit" class="px-6 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-200">
-                                Update Vehicle Details
+                            <button type="submit"
+                                    class="px-6 py-2.5 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition-all duration-200">
+                                Save Vehicle Details
                             </button>
                         </div>
                     </form>
@@ -287,34 +247,40 @@
 </div>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const form = document.getElementById('vehicleForm');
+function validateForm() {
+    let isValid = true;
+    const requiredFields = [
+        'unit_type', 'mv_file_no', 'engine_no', 'chassis_no', 'plate_no', 
+        'ltfrb_case_no', 'date_granted', 'date_expiry', 'origin', 'via', 'destination'
+    ];
     
-    form.addEventListener('submit', function(event) {
-        const requiredFields = form.querySelectorAll('[required]');
-        let isValid = true;
-        
-        requiredFields.forEach(function(field) {
-            if (!field.value.trim()) {
-                field.setCustomValidity('This field is required');
-                isValid = false;
-            } else {
-                field.setCustomValidity('');
-            }
-        });
-        
-        if (!isValid) {
-            event.preventDefault();
+    // Reset all error messages
+    requiredFields.forEach(field => {
+        document.getElementById(`${field}_error`).classList.add('hidden');
+    });
+    
+    // Check each required field
+    requiredFields.forEach(field => {
+        const input = document.getElementById(field);
+        if (!input.value.trim()) {
+            document.getElementById(`${field}_error`).classList.remove('hidden');
+            isValid = false;
         }
     });
     
-    // Reset custom validity when input changes
-    const allInputs = form.querySelectorAll('input');
-    allInputs.forEach(function(input) {
-        input.addEventListener('input', function() {
-            this.setCustomValidity('');
-        });
-    });
-});
+    // Additional validation for dates
+    if (document.getElementById('date_granted').value && document.getElementById('date_expiry').value) {
+        const dateGranted = new Date(document.getElementById('date_granted').value);
+        const dateExpiry = new Date(document.getElementById('date_expiry').value);
+        
+        if (dateExpiry <= dateGranted) {
+            document.getElementById('date_expiry_error').textContent = 'Expiry date must be after granted date';
+            document.getElementById('date_expiry_error').classList.remove('hidden');
+            isValid = false;
+        }
+    }
+    
+    return isValid;
+}
 </script>
 @endsection

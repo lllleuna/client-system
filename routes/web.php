@@ -117,17 +117,15 @@ Route::put('/myinformation/coopownedunit/{id}', [CoopController::class, 'updateC
 Route::delete('/myinformation/coopownedunit/{id}', [CoopController::class, 'destroyCoopOwnedUnit'])->name('coopunit.destroy');
 
 
-
-
-//Edit Cooperative-Owned List
-Route::get('/myinformation/editcooperativeowned', function () {
-    return view('myinformation.editcooperativeowned');
-})->name('editcooperativeowned');
-
 //Individually-Owned List
-Route::get('/myinformation/individuallyowned', function () {
-    return view('myinformation.individuallyowned');
-})->name('individuallyowned');
+Route::get('/myinformation/individuallyowned', [CoopController::class, 'showIndivOwnedUnits'])->name('individuallyowned');
+Route::get('/myinformation/indivownedunit', [CoopController::class, 'viewIndivOwnedUnit'] )->name('addIndivUnitIndex');
+Route::post('/myinformation/indivownedunit', [CoopController::class, 'addIndivOwnedUnit'])->name('addIndivUnit');
+Route::get('/myinformation/indivownedunit/{id}/view', [CoopController::class, 'editIndivOwnedUnit'])->name('editIndivUnit');
+Route::put('/myinformation/indivownedunit/{id}', [CoopController::class, 'updateIndivOwnedUnit'])->name('indivunit.update');
+Route::delete('/myinformation/indivownedunit/{id}', [CoopController::class, 'destroyIndivOwnedUnit'])->name('indivunit.destroy');
+
+
 
 //Edit Individually-Owned List
 Route::get('/myinformation/editindividuallyowned', function () {
@@ -185,14 +183,13 @@ Route::get('/myinformation/editcgs', function () {
 
 // GOVERNMENT!
 // Officers
-Route::get('/myinformation/officers', function () {
-    return view('myinformation.officers');
-})->name('officers');
+Route::get('/myinformation/officers', [CoopController::class, 'showOfficers'])->name('officerslist');
+Route::get('/myinformation/officer', [CoopController::class, 'viewOfficer'] )->name('addOfficerIndex');
+Route::post('/myinformation/officer', [CoopController::class, 'addOfficer'])->name('addOfficer');
+Route::get('/myinformation/officer/{id}/view', [CoopController::class, 'editOfficer'])->name('editOfficer');
+Route::put('/myinformation/officer/{id}', [CoopController::class, 'updateOfficer'])->name('Officer.update');
+Route::delete('/myinformation/officer/{id}', [CoopController::class, 'destroyOfficer'])->name('Officer.destroy');
 
-// Edit Officers
-Route::get('/myinformation/editofficers', function () {
-    return view('myinformation.editofficers');
-})->name('editofficers');
 
 // Grants
 Route::get('/myinformation/grants', function () {

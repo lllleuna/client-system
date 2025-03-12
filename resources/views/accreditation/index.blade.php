@@ -28,8 +28,9 @@
                 <li>Ready all required documents.
                     <ul class="list-disc pl-5 mt-1">
                         <li>Request Letter Signed by the TC Chairperson</li>
-                        <li>req 2</li>
-                        <li>req 3</li>
+                        <li>Photocopy of Certificate of Registration issued by the Cooperative Development Authority (CDA)</li>
+                        <li>At least 15 units of OR/CR together with the copy of Decision/Order of CPC</li>
+                        <li>Bank Certificate of Deposit representing the paid-up capital of the cooperative</li>
                     </ul>
                 </li>
                 <li>Click next and fill out the form.</li>

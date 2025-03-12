@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use App\Mail\EmailVerificationMail;
 use App\Models\CoopUnit;
+use App\Models\CoopGovernance;
 
 class CoopController extends Controller
 {
@@ -43,7 +44,7 @@ class CoopController extends Controller
             'sex'         => 'required|in:Male,Female',
             'role'        => 'required|string|max:100',
             'email'       => 'required|email|max:255|unique:members_masterlist,email',
-            'mobile_no'   => ['required', 'regex:/^63\d{10}$/'], 
+            'mobile_no'   => ['required', 'regex:/^639\d{9}$/'], 
             'birthday'    => 'required|date|before:' . now()->subYears(18)->format('Y-m-d'), 
             'joined_date' => 'required|date|before_or_equal:' . now()->format('Y-m-d'),
             'address'     => 'required|string|max:200',
@@ -85,7 +86,7 @@ class CoopController extends Controller
             ],
             'mobile_no'   => [
                 'required',
-                'regex:/^63\d{10}$/', 
+                'regex:/^639\d{9}$/', 
                 Rule::unique('members_masterlist')->ignore($membership->id),
             ], 
             'birthday'    => 'required|date|before:' . now()->subYears(18)->format('Y-m-d'), 
@@ -107,10 +108,17 @@ class CoopController extends Controller
     {
         $user = Auth::user(); 
     
+        // Count SSS, Pag-IBIG, and PhilHealth from CoopMembership
         $totalSSS = CoopMembership::where('externaluser_id', $user->id)->where('sss_enrolled', 1)->count();
         $totalPagibig = CoopMembership::where('externaluser_id', $user->id)->where('pagibig_enrolled', 1)->count();
         $totalPhilhealth = CoopMembership::where('externaluser_id', $user->id)->where('philhealth_enrolled', 1)->count();
     
+        // Add counts from CoopGovernance (instead of overwriting)
+        $totalSSS += CoopGovernance::where('externaluser_id', $user->id)->where('sss_enrolled', 1)->count();
+        $totalPagibig += CoopGovernance::where('externaluser_id', $user->id)->where('pagibig_enrolled', 1)->count();
+        $totalPhilhealth += CoopGovernance::where('externaluser_id', $user->id)->where('philhealth_enrolled', 1)->count();
+    
+        // Update or create the general info record
         CoopGeneralInfo::updateOrCreate(
             ['externaluser_id' => $user->id], 
             [
@@ -120,6 +128,7 @@ class CoopController extends Controller
             ]
         );
     }
+    
     
 
     public function destroyMember($id)
@@ -262,7 +271,6 @@ class CoopController extends Controller
 
         return redirect()->route('generalinfo')->with('success', 'General Information updated successfully.');
     }
-    
     
     // --------------------------------------------
     //  ------- COOPERATIVE OWNED UNITS -----------
@@ -545,7 +553,105 @@ class CoopController extends Controller
     }
 
     // --------------------------------------------
-    //  -------------- TRAINING -------------------
+    //  -------------- GOVERNANCE -------------------
     // --------------------------------------------
 
+    public function showOfficers() 
+    {
+        $user = Auth::user();
+        $coopOfficers = CoopGovernance::where('externaluser_id', $user->id)
+            ->orderBy('created_at', 'desc') // Sorts by newest first
+            ->paginate(10);
+    
+        return view('myinformation.officers', compact('user', 'coopOfficers'));
+    }
+
+    public function viewOfficer()
+    {
+        return view('myinformation.editofficers', ['officer' => null, 'mode' => 'create']);
+    }
+
+    public function addOfficer(Request $request) {
+        $validated = $request->validate([
+            'firstname'   => 'required|string|max:100',
+            'middlename'  => 'nullable|string|max:100',
+            'lastname'    => 'required|string|max:100',
+            'sex'         => 'required|in:Male,Female',
+            'role'        => 'required|string|max:100',
+            'email'       => 'required|email|max:255|unique:governance_list,email',
+            'mobile_no'   => ['required', 'regex:/^639\d{9}$/'], 
+            'birthday'    => 'required|date|before:' . now()->subYears(18)->format('Y-m-d'), 
+            'start_term' => 'required|date',  
+            'end_term' => 'required|date|after_or_equal:' . now()->format('Y-m-d'),
+
+            'address'     => 'required|string|max:200',
+            'sss_enrolled' => 'nullable|boolean',
+            'pagibig_enrolled' => 'nullable|boolean',
+            'philhealth_enrolled' => 'nullable|boolean',
+
+        ]);
+        
+        $user = Auth::user();
+        $validated['externaluser_id'] = $user->id;
+        CoopGovernance::create($validated);
+
+        $this->updateGeneralInfoCounts();
+
+        return redirect()->route('officerslist')->with('success', 'Officer added successfully!');
+    }
+    public function editOfficer($id)
+    {
+        $officer = CoopGovernance::findOrFail($id);
+        return view('myinformation.editofficers', compact('officer'))->with('mode', 'edit');;
+    }
+
+    public function updateOfficer(Request $request, $id)
+    {
+        $governance = CoopGovernance::findOrFail($id);
+
+        $validated = $request->validate([
+            'firstname'   => 'required|string|max:100',
+            'middlename'  => 'nullable|string|max:100',
+            'lastname'    => 'required|string|max:100',
+            'sex'         => 'required|in:Male,Female',
+            'role'        => 'required|string|max:100',
+            'email'       => [
+                'required',
+                'email',
+                'max:255',
+                Rule::unique('governance_list')->ignore($governance->id),
+            ],
+            'mobile_no'   => [
+                'required',
+                'regex:/^639\d{9}$/', 
+                Rule::unique('governance_list')->ignore($governance->id),
+            ], 
+            'birthday'    => 'required|date|before:' . now()->subYears(18)->format('Y-m-d'), 
+            'start_term' => 'required|date',  
+            'end_term' => 'required|date|after_or_equal:' . now()->format('Y-m-d'),
+
+            'address'     => 'required|string|max:200',
+            'sss_enrolled' => 'boolean',
+            'pagibig_enrolled' => 'boolean',
+            'philhealth_enrolled' => 'boolean',
+        ]);
+
+        // Update member record
+        $governance->update($validated);
+        $this->updateGeneralInfoCounts();
+
+        return redirect()->route('officerslist')->with('success', 'Officer updated successfully.');
+    }
+
+    public function destroyOfficer($id)
+    {
+        $officer = CoopGovernance::findOrFail($id); // Find the member
+        $officer->delete(); // Delete the member
+
+        $this->updateGeneralInfoCounts();
+
+        return response()->json([
+            'message' => 'Officer deleted successfully.'
+        ]);
+    }
 }

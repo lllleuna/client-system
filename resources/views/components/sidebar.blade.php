@@ -127,7 +127,7 @@
                         </svg>
                     </button>
                     <div x-show="menus.governance" class="ml-4 space-y-1 mt-1">
-                        <a href="{{ route('officers') }}" 
+                        <a href="{{ route('officerslist') }}" 
                            class="block px-4 py-2 text-sm rounded-lg transition-colors {{ request()->routeIs('officers') ? 'bg-blue-50 text-blue-600 font-medium' : 'text-gray-600 hover:bg-gray-50' }}">
                             Officers & BOD
                         </a>

@@ -115,8 +115,8 @@
                     @foreach($actions as $index => $action)
                         @if ($index < 2 && $disableFirstThree)
                             <a href="#" 
-                               class="flex items-center justify-between p-4 rounded-lg bg-gray-200 hover:bg-gray-300 transition-colors disabled"
-                               onclick="event.preventDefault();" title="Accreditation number is required.">
+                            class="flex items-center justify-between p-4 rounded-lg bg-gray-200 hover:bg-gray-300 transition-colors unauthorized-action"
+                            onclick="showUnauthorizedModal(event); " title="Accreditation number is required.">
                                 <span class="font-medium text-gray-500">{{ $action['text'] }}</span>
                                 <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
@@ -124,13 +124,14 @@
                             </a>
                         @else
                             <a href="{{ route($action['route']) }}" 
-                               class="flex items-center justify-between p-4 rounded-lg bg-{{ $action['color'] }}-50 hover:bg-{{ $action['color'] }}-100 transition-colors">
+                            class="flex items-center justify-between p-4 rounded-lg bg-{{ $action['color'] }}-50 hover:bg-{{ $action['color'] }}-100 transition-colors">
                                 <span class="font-medium text-{{ $action['color'] }}-700">{{ $action['text'] }}</span>
                                 <svg class="w-5 h-5 text-{{ $action['color'] }}-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
                                 </svg>
                             </a>
                         @endif
+                
                     @endforeach
                 </div>
                 
@@ -196,6 +197,24 @@
         </div>
     </div>
 </div>
+
+<script>
+    function showUnauthorizedModal(event) {
+    event.preventDefault(); // Prevent default action
+
+    if (shouldShowModal) {
+        openModal('modalCreate');
+        document.getElementById("modalCreate").classList.remove("hidden");
+    } else {
+        alert("Your Application for Accreditation is still on-process. Thank you for patiently waiting!");
+    }
+}
+
+function closeModal(id) {
+    document.getElementById(id).classList.add("hidden");
+}
+
+</script>
 @endsection
 
 

@@ -11,21 +11,12 @@ FOR FILE UPLOADS --}}
                 <h2 class="text-2xl font-semibold text-gray-800 mb-6">Getting Started</h2>
                 
                 <div class="space-y-8">
-                    <!-- First Tutorial -->
-                    <div class="space-y-4">
-                        <h3 class="text-lg font-medium text-gray-700">Steps in Compiling and Uploading Your Requirements</h3>
-                        <div class="flex justify-center bg-gray-50 rounded-lg p-4">
-                            <img src="{{ asset('images/tutorials.gif') }}" alt="Tutorial Steps" 
-                                class="w-full max-w-md h-auto object-contain rounded-lg">
-                        </div>
-                    </div>
-
-                    <!-- Second Tutorial -->
+                    <!-- Tutorial -->
                     <div class="space-y-4">
                         <h3 class="text-lg font-medium text-gray-700">Sample of Compiled Requirements</h3>
                         <div class="flex justify-center bg-gray-50 rounded-lg p-4">
-                            <img src="{{ asset('images/tutorials2.jpg') }}" alt="Sample Requirements" 
-                                class="w-full max-w-md h-auto object-contain rounded-lg">
+                            <img src="{{ asset('images/tutorials.png') }}" alt="Sample Requirements" 
+                                 class="w-full max-w-md h-auto object-contain rounded-lg">
                         </div>
                     </div>
                 </div>
@@ -106,19 +97,19 @@ FOR FILE UPLOADS --}}
                             <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                             </svg>
-                            <a href="mailto:info@umak.edu.ph" class="text-blue-600 hover:text-blue-800">info@umak.edu.ph</a>
+                            <a href="official@otc.gov.ph" class="text-blue-600 hover:text-blue-800">official@otc.gov.ph</a>
                         </div>
                         <div class="flex items-center space-x-2">
                             <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                             </svg>
-                            <a href="mailto:dprms@umak.edu.ph" class="text-blue-600 hover:text-blue-800">dprms@umak.edu.ph</a>
+                            <p class="text-blue-600 hover:text-blue-800">https://www.facebook.com/DOTR.OTC</a>
                         </div>
                         <div class="flex items-center space-x-2">
                             <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
                             </svg>
-                            <a href="mailto:tbl.lms@umak.edu.ph" class="text-blue-600 hover:text-blue-800">tbl.lms@umak.edu.ph</a>
+                            <p class="text-blue-600 hover:text-blue-800">09989461736 / 09772111310</a>
                         </div>
                     </div>
                 </div>

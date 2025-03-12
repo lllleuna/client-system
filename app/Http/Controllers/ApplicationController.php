@@ -27,6 +27,7 @@ class ApplicationController extends Controller
             'city_municipality' => 'required',
             'barangay' => 'required',
             'address' => 'required',
+            'application_type' => 'required',
         ]);
 
         $request->session()->put('form_data', $validatedData);

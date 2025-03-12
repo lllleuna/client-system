@@ -6,18 +6,25 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+    /**
+     * Run the migrations.
+     */
     public function up(): void
     {
         Schema::table('externalusers', function (Blueprint $table) {
-            $table->timestamp('contact_no_verified_at')->nullable()->after('email_verified_at');
-            $table->timestamp('google_code_verified_at')->nullable()->after('contact_no_verified_at');
+            $table->string('pending_email')->nullable()->after('email');
+            $table->string('email_verification_token')->nullable()->after('pending_email');
         });
     }
 
+    /**
+     * Reverse the migrations.
+     */
     public function down(): void
     {
         Schema::table('externalusers', function (Blueprint $table) {
-            $table->dropColumn(['contact_no_verified_at', 'google_code_verified_at']);
+            $table->dropColumn('pending_email');
+            $table->dropColumn('email_verification_token');
         });
     }
 };

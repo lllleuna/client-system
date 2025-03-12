@@ -8,6 +8,7 @@ use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\ContactController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
+use App\Http\Controllers\CoopController;
 // use Illuminate\Support\Facades\Auth;
 
 //Login Page
@@ -72,6 +73,9 @@ Route::post('/email/verification-notification', function (Request $request) {
  
     return back()->with('message', 'Verification link sent!');
 })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
+
+Route::get('/verify-email/{token}', [RegisteredUserController::class, 'verifyEmail'])->name('verify-email');
+
 // ------------------------------------------
 
 // Setting Up MFA ----------
@@ -86,24 +90,13 @@ Route::middleware(['auth'])->group(function () {
 
 
 //MyInformation 
-Route::get('/myinformation/membersMasterlist', function () {
-    return view('myinformation.membersMasterlist');
-})->name('membersMasterlist');
+Route::get('/myinformation/membersMasterlist', [CoopController::class, 'showMembers'])->name('membersMasterlist');
+Route::get('/myinformation/member', [CoopController::class, 'viewMember'] )->name('addMemberIndex');
+Route::post('/myinformation/member', [CoopController::class, 'addMember'])->name('addMember');
+Route::get('/myinformation/member/{id}/view', [CoopController::class, 'editMember'])->name('editMember');
+Route::put('/myinformation/member/{id}', [CoopController::class, 'updateMember'])->name('members.update');
+Route::delete('/myinformation/member/{id}', [CoopController::class, 'destroyMember'])->name('members.destroy');
 
-//Edit Member Details
-Route::get('/myinformation/editMemberlist', function () {
-    return view('myinformation.editMemberlist');
-})->name('editMemberlist');
-
-//Driver List
-Route::get('/myinformation/driverMasterlist', function () {
-    return view('myinformation.driverMasterlist');
-})->name('driverMasterlist');
-
-//Edit Driver List
-Route::get('/myinformation/editDriverlist', function () {
-    return view('myinformation.editDriverlist');
-})->name('editDriverlist');
 
 //Training List
 Route::get('/myinformation/traininglist', function () {
@@ -116,9 +109,15 @@ Route::get('/myinformation/editTraining', function () {
 })->name('editTraining');
 
 //Cooperative-Owned List
-Route::get('/myinformation/cooperativeowned', function () {
-    return view('myinformation.cooperativeowned');
-})->name('cooperativeowned');
+Route::get('/myinformation/cooperativeowned', [CoopController::class, 'showCoopOwnedUnits'])->name('cooperativeowned');
+Route::get('/myinformation/coopownedunit', [CoopController::class, 'viewCoopOwnedUnit'] )->name('addCoopUnitIndex');
+Route::post('/myinformation/coopownedunit', [CoopController::class, 'addCoopOwnedUnit'])->name('addCoopUnit');
+Route::get('/myinformation/coopownedunit/{id}/view', [CoopController::class, 'editCoopOwnedUnit'])->name('editCoopUnit');
+Route::put('/myinformation/coopownedunit/{id}', [CoopController::class, 'updateCoopOwnedUnit'])->name('coopunit.update');
+Route::delete('/myinformation/coopownedunit/{id}', [CoopController::class, 'destroyCoopOwnedUnit'])->name('coopunit.destroy');
+
+
+
 
 //Edit Cooperative-Owned List
 Route::get('/myinformation/editcooperativeowned', function () {
@@ -138,14 +137,11 @@ Route::get('/myinformation/editindividuallyowned', function () {
 
 // OPERATIONS!
 // General Info
-Route::get('/myinformation/generalinfo', function () {
-    return view('myinformation.generalinfo');
-})->name('generalinfo');
 
-// Edit General Info
-Route::get('/myinformation/editgeneralinfo', function () {
-    return view('myinformation.editgeneralinfo');
-})->name('editgeneralinfo');
+Route::get('/myinformation/generalinfo', [CoopController::class, 'showGenInfo'])->name('generalinfo');
+Route::get('/myinformation/edit', [CoopController::class, 'editGeneralInfo'])->name('editgeneralinfo');
+Route::put('/myinformation/update', [CoopController::class, 'updateGeneralInfo'])->name('updategeneralinfo');
+
 
 // Membership
 Route::get('/myinformation/membership', function () {

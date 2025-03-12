@@ -1,5 +1,9 @@
 @extends('layouts.layout')
 
+<head>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+</head>
+
 @section('content')
 <div class="min-h-screen bg-gray-50 py-6">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -14,7 +18,7 @@
                     <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-6 space-y-4 lg:space-y-0">
                         <h2 class="text-xl font-bold text-gray-800">Members Masterlist</h2>
                         <div class="flex flex-col sm:flex-row w-full lg:w-auto space-y-3 sm:space-y-0 sm:space-x-3">
-                            <a href="{{ route('editMemberlist') }}" class="inline-flex items-center justify-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all duration-200">
+                            <a href="{{ route('addMemberIndex') }}" class="inline-flex items-center justify-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all duration-200">
                                 <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                                 </svg>
@@ -63,6 +67,7 @@
 
                     <!-- Table Section -->
                     <div class="overflow-x-auto -mx-4 sm:-mx-6 lg:-mx-8">
+                        <x-success-notif />
                         <div class="inline-block min-w-full py-2 align-middle px-4 sm:px-6 lg:px-8">
                             <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 rounded-lg">
                                 <table class="min-w-full divide-y divide-gray-200">
@@ -77,9 +82,6 @@
                                             <th class="hidden md:table-cell px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                                 Contact Number
                                             </th>
-                                            <th class="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                                Status
-                                            </th>
                                             <th class="hidden sm:table-cell px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                                 Join Date
                                             </th>
@@ -89,33 +91,32 @@
                                         </tr>
                                     </thead>
                                     <tbody class="bg-white divide-y divide-gray-200">
-                                        <tr class="hover:bg-gray-50">
+                                        <tr class="sm:hidden">
+                                            <!-- Mobile-only info -->
+                                            {{-- <div class="sm:hidden mt-1 text-xs text-gray-500">
+                                                Type: # <br>
+                                                Contact: # <br>
+                                                Joined: #
+                                            </div> --}}
+                                        </tr>
+                                        @foreach($coopMemberships as $membership)
+                                        <tr class="hover:bg-gray-50" id="member-{{ $membership->id }}">
                                             <td class="px-3 sm:px-6 py-4">
-                                                <div class="text-sm font-medium text-gray-900">#</div>
-                                                <!-- Mobile-only info -->
-                                                <div class="sm:hidden mt-1 text-xs text-gray-500">
-                                                    Type: # <br>
-                                                    Contact: # <br>
-                                                    Joined: #
-                                                </div>
+                                                <div class="text-sm font-medium text-gray-900"> {{ $membership->firstname }} {{ $membership->middlename }} {{ $membership->lastname }}</div>
                                             </td>
-                                            <td class="hidden sm:table-cell px-3 sm:px-6 py-4 whitespace-nowrap">#</td>
-                                            <td class="hidden md:table-cell px-3 sm:px-6 py-4 whitespace-nowrap">#</td>
-                                            <td class="px-3 sm:px-6 py-4 whitespace-nowrap">
-                                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                                                    Active
-                                                </span>
-                                            </td>
-                                            <td class="hidden sm:table-cell px-3 sm:px-6 py-4 whitespace-nowrap">#</td>
+                                            <td class="hidden sm:table-cell px-3 sm:px-6 py-4 whitespace-nowrap"> {{ $membership->role }}</td>
+                                            <td class="hidden md:table-cell px-3 sm:px-6 py-4 whitespace-nowrap"> {{ $membership->mobile_no }}</td>
+                                            
+                                            <td class="hidden sm:table-cell px-3 sm:px-6 py-4 whitespace-nowrap">{{ $membership->joined_date }}</td>
                                             {{-- Edit and Delete Button --}}
                                             <td class="py-3 px-4 border text-center">
                                                 <div class="flex justify-center space-x-2">
-                                                    <a href="#" class="text-blue-600 hover:text-blue-800">
+                                                    <a href="{{ route('editMember', $membership->id) }}" class="text-blue-600 hover:text-blue-800">
                                                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                                                         </svg>
                                                     </a>
-                                                    <a href="#" class="text-red-600 hover:text-red-800">
+                                                    <a href="javascript:void(0);" onclick="confirmDelete({{ $membership->id }}, '{{ $membership->firstname }}', '{{ $membership->lastname }}')" class="text-red-600 hover:text-red-800">
                                                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                                                         </svg>
@@ -123,14 +124,19 @@
                                                 </div>
                                             </td>
                                         </tr>
+                                        @endforeach
                                     </tbody>
                                 </table>
+                                <!-- Pagination Links -->
+                                <div class="my-5 mx-8">
+                                    {{ $coopMemberships->links() }}
+                                </div>
                             </div>
                         </div>
                     </div>
 
                     <!-- Pagination -->
-                    <div class="mt-6 flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0">
+                    {{-- <div class="mt-6 flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0">
                         <div class="text-sm text-gray-700 text-center sm:text-left">
                             Showing <span class="font-medium">1</span> to <span class="font-medium">2</span> of <span class="font-medium">20</span> results
                         </div>
@@ -140,7 +146,7 @@
                             <button class="px-3 py-1 border rounded-md">2</button>
                             <button class="px-3 py-1 border rounded-md">Next</button>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
         </div>
@@ -169,9 +175,7 @@
         </div>
     </div>
 </div>
-@endsection
 
-@push('scripts')
 <script>
     // Search functionality
     const searchInput = document.querySelector('input[type="text"]');
@@ -187,5 +191,38 @@
     function closeModal() {
         document.getElementById('importModal').classList.add('hidden');
     }
+
+
+    function confirmDelete(id, firstname, lastname) {
+        if (confirm(`Are you sure you want to delete ${firstname} ${lastname}?`)) {
+            fetch(`/myinformation/member/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                alert(data.message);
+                let row = document.getElementById(`member-${id}`);
+                if (row) {
+                    row.remove();  // Remove row from the table
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    }
+
 </script>
+@endsection
+
+@push('scripts')
+
 @endpush

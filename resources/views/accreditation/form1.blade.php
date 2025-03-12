@@ -18,6 +18,8 @@
             </x-form-select>
             <x-form-error name="cooperative_type" />
 
+            <input type="text" name="application_type" class="hidden" value="accreditation"/>
+
             <!-- Transport Cooperative Name -->
             <x-form-label for="tc_name">Transport Cooperative Name</x-form-label>
             <x-form-input name="tc_name" id="tc_name" type="text" value="{{ old('tc_name', $formData['tc_name'] ?? Auth::user()->tc_name) }}" required />
@@ -27,7 +29,7 @@
             <div class="flex w-full space-x-2">
                 <div class="w-1/2">
                     <x-form-label for="cda_reg_no">CDA Registration No.</x-form-label>
-                    <x-form-input name="cda_reg_no" id="cda_reg_no" type="text" value="{{ $formData['cda_reg_no'] ?? '' }}" required />
+                    <x-form-input name="cda_reg_no" id="cda_reg_no" type="text" value="{{ old('tc_name', $formData['cda_reg_no'] ?? Auth::user()->cda_reg_no) }}" required />
                     <x-form-error name="cda_reg_no" />
                 </div>
                 <div class="w-1/2">

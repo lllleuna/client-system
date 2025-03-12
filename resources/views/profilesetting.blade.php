@@ -47,7 +47,7 @@
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">First Name <span class="text-red-500">*</span></label>
-                        <input type="text" name="first_name" id="first_name" placeholder="First Name" required
+                        <input type="text" name="first_name" id="first_name" value="{{ Auth::user()->chair_fname}}" placeholder="First Name" required
                             class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
                         <p id="first-name-error" class="text-sm text-red-500 mt-1"></p>
                     </div>

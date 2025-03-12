@@ -12,7 +12,8 @@
             <div class="col-span-9">
                 <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-8">
                     <div class="flex items-center justify-between mb-8">
-                        <h2 class="text-2xl font-bold text-gray-800">Edit Cooperative Vehicle Details</h2>
+                        <h1 class="text-2xl font-bold mb-6">{{ $mode == 'create' ? 'Add Cooperative Owned Unit' : ($mode == 'edit' ? 'Edit Cooperative Owned Unit' : 'Cooperative Owned Unit Details') }}</h1>
+                        
                         <a href="#" class="text-gray-500 hover:text-gray-600">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -20,9 +21,12 @@
                         </a>
                     </div>
 
-                    <form action="#" method="POST" class="space-y-6" onsubmit="return validateForm()">
+                    <form action="{{ $mode == 'edit' ? route('coopunit.update', $coopunit->id) : route('addCoopUnit') }}" method="POST" class="space-y-6">
                         @csrf
-                        @method('PUT')
+                        @if($mode == 'edit')
+                            @method('PUT')
+                        @endif
+
                         <div class="grid grid-cols-2 gap-6">
                             {{-- Vehicle Information --}}
                             <div class="space-y-6">
@@ -33,11 +37,11 @@
                                         </svg>
                                         Type of Unit <span class="text-red-500">*</span>
                                     </label>
-                                    <input type="text" name="unit_type" id="unit_type" value="{{ old('unit_type', $vehicle->unit_type ?? '') }}"
+                                    <input type="text" name="type" id="type" value="{{ old('type', $coopunit->type ?? '') }}"
                                            class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-100 focus:border-blue-400 transition-all duration-200 @error('unit_type') border-red-500 @enderror"
                                            placeholder="Enter type of unit" required>
                                     <p id="unit_type_error" class="hidden mt-1 text-sm text-red-500">Please enter the type of unit</p>
-                                    @error('unit_type')
+                                    @error('type')
                                         <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
                                     @enderror
                                 </div>
@@ -49,7 +53,7 @@
                                         </svg>
                                         MV File No. <span class="text-red-500">*</span>
                                     </label>
-                                    <input type="text" name="mv_file_no" id="mv_file_no" value="{{ old('mv_file_no', $vehicle->mv_file_no ?? '') }}"
+                                    <input type="text" name="mv_file_no" id="mv_file_no" value="{{ old('mv_file_no', $coopunit->mv_file_no ?? '') }}"
                                            class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-100 focus:border-blue-400 transition-all duration-200 @error('mv_file_no') border-red-500 @enderror"
                                            placeholder="Enter MV file number" required>
                                     <p id="mv_file_no_error" class="hidden mt-1 text-sm text-red-500">Please enter the MV file number</p>
@@ -65,7 +69,7 @@
                                         </svg>
                                         Engine No. <span class="text-red-500">*</span>
                                     </label>
-                                    <input type="text" name="engine_no" id="engine_no" value="{{ old('engine_no', $vehicle->engine_no ?? '') }}"
+                                    <input type="text" name="engine_no" id="engine_no" value="{{ old('engine_no', $coopunit->engine_no ?? '') }}"
                                            class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-100 focus:border-blue-400 transition-all duration-200 @error('engine_no') border-red-500 @enderror"
                                            placeholder="Enter engine number" required>
                                     <p id="engine_no_error" class="hidden mt-1 text-sm text-red-500">Please enter the engine number</p>
@@ -81,7 +85,7 @@
                                         </svg>
                                         Chassis No. <span class="text-red-500">*</span>
                                     </label>
-                                    <input type="text" name="chassis_no" id="chassis_no" value="{{ old('chassis_no', $vehicle->chassis_no ?? '') }}"
+                                    <input type="text" name="chassis_no" id="chassis_no" value="{{ old('chassis_no', $coopunit->chassis_no ?? '') }}"
                                            class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-100 focus:border-blue-400 transition-all duration-200 @error('chassis_no') border-red-500 @enderror"
                                            placeholder="Enter chassis number" required>
                                     <p id="chassis_no_error" class="hidden mt-1 text-sm text-red-500">Please enter the chassis number</p>
@@ -97,7 +101,7 @@
                                         </svg>
                                         Plate No. <span class="text-red-500">*</span>
                                     </label>
-                                    <input type="text" name="plate_no" id="plate_no" value="{{ old('plate_no', $vehicle->plate_no ?? '') }}"
+                                    <input type="text" name="plate_no" id="plate_no" value="{{ old('plate_no', $coopunit->plate_no ?? '') }}"
                                            class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-100 focus:border-blue-400 transition-all duration-200 @error('plate_no') border-red-500 @enderror"
                                            placeholder="Enter plate number" required>
                                     <p id="plate_no_error" class="hidden mt-1 text-sm text-red-500">Please enter the plate number</p>
@@ -116,7 +120,7 @@
                                         </svg>
                                         LTFRB Case No. <span class="text-red-500">*</span>
                                     </label>
-                                    <input type="text" name="ltfrb_case_no" id="ltfrb_case_no" value="{{ old('ltfrb_case_no', $vehicle->ltfrb_case_no ?? '') }}"
+                                    <input type="text" name="ltfrb_case_no" id="ltfrb_case_no" value="{{ old('ltfrb_case_no', $coopunit->ltfrb_case_no ?? '') }}"
                                            class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-100 focus:border-blue-400 transition-all duration-200 @error('ltfrb_case_no') border-red-500 @enderror"
                                            placeholder="Enter LTFRB case number" required>
                                     <p id="ltfrb_case_no_error" class="hidden mt-1 text-sm text-red-500">Please enter the LTFRB case number</p>
@@ -132,9 +136,12 @@
                                         </svg>
                                         Date Granted <span class="text-red-500">*</span>
                                     </label>
-                                    <input type="date" name="date_granted" id="date_granted" value="{{ old('date_granted', $vehicle->date_granted ?? '') }}"
-                                           class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-100 focus:border-blue-400 transition-all duration-200 @error('date_granted') border-red-500 @enderror"
-                                           required>
+                                    <input type="date" name="date_granted" id="date_granted" 
+                                        value="{{ old('date_granted', $coopunit->date_granted ?? '') }}"
+                                        max="{{ now()->toDateString() }}"
+                                        class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-100 focus:border-blue-400 transition-all duration-200 @error('date_granted') border-red-500 @enderror"
+                                        required>
+
                                     <p id="date_granted_error" class="hidden mt-1 text-sm text-red-500">Please select the date granted</p>
                                     @error('date_granted')
                                         <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
@@ -148,11 +155,11 @@
                                         </svg>
                                         Date of Expiry <span class="text-red-500">*</span>
                                     </label>
-                                    <input type="date" name="date_expiry" id="date_expiry" value="{{ old('date_expiry', $vehicle->date_expiry ?? '') }}"
+                                    <input type="date" name="date_of_expiry" id="date_of_expiry" value="{{ old('date_of_expiry', $coopunit->date_of_expiry ?? '') }}"
                                            class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-100 focus:border-blue-400 transition-all duration-200 @error('date_expiry') border-red-500 @enderror"
                                            required>
                                     <p id="date_expiry_error" class="hidden mt-1 text-sm text-red-500">Please select the date of expiry</p>
-                                    @error('date_expiry')
+                                    @error('date_of_expiry')
                                         <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
                                     @enderror
                                 </div>
@@ -165,7 +172,7 @@
                                         </svg>
                                         Origin <span class="text-red-500">*</span>
                                     </label>
-                                    <input type="text" name="origin" id="origin" value="{{ old('origin', $vehicle->origin ?? '') }}"
+                                    <input type="text" name="origin" id="origin" value="{{ old('origin', $coopunit->origin ?? '') }}"
                                            class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-100 focus:border-blue-400 transition-all duration-200 @error('origin') border-red-500 @enderror"
                                            placeholder="Enter origin" required>
                                     <p id="origin_error" class="hidden mt-1 text-sm text-red-500">Please enter the origin</p>
@@ -181,7 +188,7 @@
                                         </svg>
                                         Via <span class="text-red-500">*</span>
                                     </label>
-                                    <input type="text" name="via" id="via" value="{{ old('via', $vehicle->via ?? '') }}"
+                                    <input type="text" name="via" id="via" value="{{ old('via', $coopunit->via ?? '') }}"
                                            class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-100 focus:border-blue-400 transition-all duration-200 @error('via') border-red-500 @enderror"
                                            placeholder="Enter route via" required>
                                     <p id="via_error" class="hidden mt-1 text-sm text-red-500">Please enter the via route</p>
@@ -198,7 +205,7 @@
                                         </svg>
                                         Destination <span class="text-red-500">*</span>
                                     </label>
-                                    <input type="text" name="destination" id="destination" value="{{ old('destination', $vehicle->destination ?? '') }}"
+                                    <input type="text" name="destination" id="destination" value="{{ old('destination', $coopunit->destination ?? '') }}"
                                            class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-100 focus:border-blue-400 transition-all duration-200 @error('destination') border-red-500 @enderror"
                                            placeholder="Enter destination" required>
                                     <p id="destination_error" class="hidden mt-1 text-sm text-red-500">Please enter the destination</p>
@@ -210,7 +217,7 @@
                         </div>
 
                         <div class="flex items-center justify-end space-x-4 pt-6 border-t">
-                            <a href="#"
+                            <a href="{{ route('cooperativeowned') }}"
                                class="px-6 py-2.5 rounded-lg text-gray-700 hover:bg-gray-50 border border-gray-300 transition-all duration-200">
                                 Cancel
                             </a>

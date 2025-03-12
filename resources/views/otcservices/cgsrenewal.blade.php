@@ -2,26 +2,9 @@
 
 @section('content')
 <div class="max-w-4xl mx-auto p-6">
-    {{-- Progress Indicator --}}
-    <div class="mb-8">
-        <div class="flex items-center justify-between">
-            <div class="flex items-center">
-                <span class="h-8 w-8 rounded-full bg-blue-600 text-white flex items-center justify-center">1</span>
-                <div class="ml-4">
-                    <p class="text-sm font-medium text-blue-600">Step 1</p>
-                    <p class="text-sm text-gray-500">Review Requirements</p>
-                </div>
-            </div>
-            <div class="flex-1 h-0.5 mx-4 bg-gray-200"></div>
-            <div class="flex items-center">
-                <span class="h-8 w-8 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center">2</span>
-                <div class="ml-4">
-                    <p class="text-sm font-medium text-gray-600">Step 2</p>
-                    <p class="text-sm text-gray-500">Document Upload</p>
-                </div>
-            </div>
-        </div>
-    </div>
+
+    {{-- DISABLE! --}}
+    {{-- <x-cgs-modals /> --}}
 
     {{-- Header Section with Enhanced Information --}}
     <div class="mb-8 bg-white rounded-lg shadow-md p-6">
@@ -68,30 +51,6 @@
                                     <li>Ensure all signatures are complete</li>
                                 </ul>
                             </div>
-                        </div>
-                    </div>
-                </div>
-
-                {{-- OTC Annual Report Form Notice --}}
-                <div class="bg-green-50 border-l-4 border-green-400 p-4 mb-6">
-                    <div class="flex">
-                        <div class="flex-shrink-0">
-                            <svg class="h-5 w-5 text-green-400" viewBox="0 0 20 20" fill="currentColor">
-                                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
-                            </svg>
-                        </div>
-                        <div class="ml-3">
-                            <p class="text-sm text-green-700">
-                                <strong>Download Required Template:</strong>
-                            </p>
-                            <p class="text-sm text-green-700 mt-1">
-                                The OTC Annual Report Form template can be downloaded from:
-                                <a href="https://otc.gov.ph/wp-content/uploads/2024/06/2024-OTC-Annual-Report-Form-FINAL-REVISED-06-20-2024.xlsx" 
-                                   class="underline hover:text-green-900" 
-                                   target="_blank">
-                                    Download Template
-                                </a>
-                            </p>
                         </div>
                     </div>
                 </div>

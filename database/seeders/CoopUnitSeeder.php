@@ -13,6 +13,6 @@ class CoopUnitSeeder extends Seeder
      */
     public function run()
     {
-        CoopUnit::factory()->count(30)->create();
+        CoopUnit::factory()->count(90)->create();
     }
 }

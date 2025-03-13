@@ -22,9 +22,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        CoopGeneralInfo::factory()->count(2)->create();
+        CoopGeneralInfo::factory()->count(10)->create();
         CoopMembership::factory()->count(20)->create();
-        CoopGovernance::factory()->count(20)->create();
+        CoopGovernance::factory()->count(10)->create();
         CoopUnit::factory()->count(20)->create();
         CoopFranchise::factory()->count(20)->create();
         CoopFinance::factory()->count(10)->create();

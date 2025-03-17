@@ -152,9 +152,7 @@ Route::get('/myinformation/editmembership', function () {
 })->name('editmembership');
 
 // Employment
-Route::get('/myinformation/employment', function () {
-    return view('myinformation.employment');
-})->name('employment');
+Route::get('/myinformation/employment', [CoopController::class, 'showEmployment'])->name('employment');
 
 // Edit Employment
 Route::get('/myinformation/editemployment', function () {

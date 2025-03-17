@@ -51,6 +51,7 @@ class CoopController extends Controller
             'sss_enrolled' => 'nullable|boolean',
             'pagibig_enrolled' => 'nullable|boolean',
             'philhealth_enrolled' => 'nullable|boolean',
+            'employment_type' => 'nullable|string',
         ]);
         
         $user = Auth::user();
@@ -95,6 +96,7 @@ class CoopController extends Controller
             'sss_enrolled' => 'boolean', // Now always receives 0 or 1
             'pagibig_enrolled' => 'boolean',
             'philhealth_enrolled' => 'boolean',
+            'employment_type' => 'nullable|string',
         ]);
 
         // Update member record
@@ -118,6 +120,30 @@ class CoopController extends Controller
         $totalPagibig += CoopGovernance::where('externaluser_id', $user->id)->where('pagibig_enrolled', 1)->count();
         $totalPhilhealth += CoopGovernance::where('externaluser_id', $user->id)->where('philhealth_enrolled', 1)->count();
     
+         /** COUNT MEMBERS MASTERLIST **/
+    
+        $roles = ['Driver', 'Operator', 'Allied'];
+        $employmentTypes = ['Regular', 'Probationary'];
+        $sexes = ['Male', 'Female'];
+
+        $counts = [];
+
+        foreach ($roles as $role) {
+            foreach ($employmentTypes as $employmentType) {
+                foreach ($sexes as $sex) {
+                    $count = CoopMembership::where('externaluser_id', $user->id)
+                        ->where('role', $role)
+                        ->where('employment_type', $employmentType)
+                        ->where('sex', $sex)
+                        ->count();
+
+                    // Format the key e.g., driver_regular_male
+                    $key = strtolower(str_replace(' ', '_', $role)) . '_' . strtolower($employmentType) . '_' . strtolower($sex);
+                    $counts[$key] = $count;
+                }
+            }
+        }
+        
         // Update or create the general info record
         CoopGeneralInfo::updateOrCreate(
             ['externaluser_id' => $user->id], 
@@ -127,9 +153,12 @@ class CoopController extends Controller
                 'total_philhealth_enrolled' => $totalPhilhealth,
             ]
         );
+
+        CoopGeneralInfo::updateOrCreate(
+            ['externaluser_id' => $user->id],
+            $counts
+        );
     }
-    
-    
 
     public function destroyMember($id)
     {
@@ -553,6 +582,18 @@ class CoopController extends Controller
     }
 
     // --------------------------------------------
+    //  -------------- Employment -------------------
+    // --------------------------------------------
+
+    public function showEmployment() 
+    {
+        $user = Auth::user();
+        $coopEmployment = CoopGeneralInfo::where('externaluser_id', $user->id)->first();
+    
+        return view('myinformation.employment', compact('user', 'coopEmployment'));
+    }
+
+    // --------------------------------------------
     //  -------------- GOVERNANCE -------------------
     // --------------------------------------------
 
@@ -654,4 +695,6 @@ class CoopController extends Controller
             'message' => 'Officer deleted successfully.'
         ]);
     }
+
+
 }

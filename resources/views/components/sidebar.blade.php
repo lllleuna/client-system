@@ -94,10 +94,10 @@
                            class="block px-4 py-2 text-sm rounded-lg transition-colors {{ request()->routeIs('generalinfo') ? 'bg-blue-50 text-blue-600 font-medium' : 'text-gray-600 hover:bg-gray-50' }}">
                             General Info
                         </a>
-                        <a href="{{ route('membership') }}" 
+                        {{-- <a href="{{ route('membership') }}" 
                            class="block px-4 py-2 text-sm rounded-lg transition-colors {{ request()->routeIs('membership') ? 'bg-blue-50 text-blue-600 font-medium' : 'text-gray-600 hover:bg-gray-50' }}">
                             Membership
-                        </a>
+                        </a> --}}
                         <a href="{{ route('employment') }}" 
                            class="block px-4 py-2 text-sm rounded-lg transition-colors {{ request()->routeIs('employment') ? 'bg-blue-50 text-blue-600 font-medium' : 'text-gray-600 hover:bg-gray-50' }}">
                             Employment

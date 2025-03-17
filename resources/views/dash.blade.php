@@ -26,7 +26,7 @@
 <div class="flex justify-between items-center my-6 px-6">
     <div>
         <h1 class="text-3xl font-bold text-gray-900">Dashboard</h1>
-        <p class="text-gray-600 mt-1">Welcome, {{ $user->name ?? 'Cooperative Chairperson' }}</p>
+        <p class="text-gray-600 mt-1">Welcome, {{ $user->name ?? 'Cooperative Chairperson' }}</p> {{-- Backend: Replace with actual user name --}}
     </div>
     <div class="flex-row">
         <p class="text-sm text-gray-500">Last Login: {{ $user->last_login ?? 'First time login' }} </p>
@@ -75,23 +75,104 @@
     </div>
 
     <!-- Status Cards Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        {{-- Backend: Replace with actual status counts --}}
-        @php
-            $statusCards = [
-                ['title' => 'Training Status', 'value' => $accreditationStatus ?? 'None', 'color' => 'blue'],
-                ['title' => 'CGS Status', 'value' => $cgsStatus ?? 'Active (Until MM/DD/YYYY)', 'color' => 'green'],
-                ['title' => 'Active Members', 'value' => $memberCount ?? '150', 'color' => 'purple'],
-                ['title' => 'Pending Tasks', 'value' => $pendingTasks ?? '0', 'color' => 'yellow']
-            ];
-        @endphp
-
-        @foreach($statusCards as $card)
-            <div class="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow p-6">
-                <h3 class="text-gray-500 text-sm font-medium">{{ $card['title'] }}</h3>
-                <p class="text-2xl font-bold text-{{ $card['color'] }}-600 mt-2">{{ $card['value'] }}</p>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 mb-8">
+        <!-- CGS Status Card with Interactive Progress Bar -->
+        <div class="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow p-6 cursor-pointer relative overflow-hidden group" 
+            onclick="window.location.href='#'" 
+            {{-- Attention! Namme, Pa-edit ng route na paputang CGS Renewal yung onclick="window.location.href='#'" sa taas nito.  --}}
+            id="cgs-status-card">
+            <!-- Hover effect overlay -->
+            <div class="absolute inset-0 bg-green-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            
+            <div class="relative z-10"> <!-- Content above the overlay -->
+                <div class="flex justify-between items-center">
+                    <h3 class="text-gray-500 text-sm font-medium">CGS Status</h3>
+                    <span class="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full font-medium">Active</span>
+                </div>
+                
+                <p class="text-2xl font-bold text-green-600 mt-2">{{ $cgsStatus ?? 'Valid Until 04/25/2025' }}</p>
+                
+                <!-- Progress Bar Section -->
+                <div class="mt-4">
+                    <div class="flex justify-between items-center mb-1">
+                        <span class="text-xs text-gray-500">Application Window:</span>
+                        <span class="text-xs font-medium text-gray-700" id="cgs-countdown">{{ $daysRemaining ?? '21' }} days remaining</span>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-3">
+                        <div class="bg-green-600 h-3 rounded-full relative" style="width: {{ $progressPercentage ?? '65' }}%" id="cgs-progress-bar">
+                            <div class="absolute right-0 top-0 h-3 w-3 bg-white border-2 border-green-600 rounded-full transform translate-x-1/2 shadow-sm"></div>
+                        </div>
+                    </div>
+                    <div class="flex justify-between text-xs text-gray-500 mt-1">
+                        <span>{{ $applicationStartDate ?? 'Apr 7, 2025' }}</span>
+                        <span class="font-medium">{{ $applicationDeadline ?? 'May 12, 2025' }}</span>
+                    </div>
+                    <div class="mt-3 text-xs flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-500 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <span class="text-gray-600">Recommended: Apply at least 2 weeks before deadline</span>
+                    </div>
+                </div>
+                
+                <!-- View Details Button -->
+                <div class="mt-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <button class="w-full py-2 bg-green-600 hover:bg-green-700 text-white rounded-md text-sm font-medium transition-colors duration-200 flex items-center justify-center">
+                        <span>View Renewal Details</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                        </svg>
+                    </button>
+                </div>
             </div>
-        @endforeach
+        </div>
+
+        <!-- Total Units Card with Interactive Pie Chart -->
+        <div class="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow p-6 cursor-pointer relative overflow-hidden group" 
+            onclick="showUnitDetails()" 
+            id="units-card">
+            <!-- Hover effect overlay -->
+            <div class="absolute inset-0 bg-purple-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            
+            <div class="relative z-10"> <!-- Content above the overlay -->
+                <div class="flex justify-between items-center">
+                    <h3 class="text-gray-500 text-sm font-medium">Total Units</h3>
+                    <span class="px-2 py-1 bg-purple-100 text-purple-800 text-xs rounded-full font-medium" id="units-change">+3 this month</span>
+                </div>
+                
+                <p class="text-2xl font-bold text-purple-600 mt-2">{{ $memberCount ?? '150' }}</p>
+                
+                <!-- Pie Chart Section -->
+                <div class="mt-4 flex flex-col items-center">
+                    <!-- Canvas for Chart.js -->
+                    <div class="w-40 h-40 relative">
+                        <canvas id="unitsChart" width="160" height="160"></canvas>
+                    </div>
+                    
+                    <!-- Interactive Legend -->
+                    <div class="flex justify-center gap-6 mt-4">
+                        <div class="flex items-center cursor-pointer hover:opacity-80 transition-opacity" onclick="toggleChartSegment(0)">
+                            <div class="w-3 h-3 rounded-full bg-purple-500 mr-2"></div>
+                            <span class="text-sm text-gray-700">Cooperative <span class="font-medium">({{ $cooperativeCount ?? '98' }})</span></span>
+                        </div>
+                        <div class="flex items-center cursor-pointer hover:opacity-80 transition-opacity" onclick="toggleChartSegment(1)">
+                            <div class="w-3 h-3 rounded-full bg-purple-200 mr-2"></div>
+                            <span class="text-sm text-gray-700">Individual <span class="font-medium">({{ $individualCount ?? '52' }})</span></span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- View Details Button -->
+                <div class="mt-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <button class="w-full py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-md text-sm font-medium transition-colors duration-200 flex items-center justify-center">
+                        <span>View Unit Details</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- Main Content Grid -->
@@ -214,6 +295,120 @@ function closeModal(id) {
     document.getElementById(id).classList.add("hidden");
 }
 
+</script>
+<!-- Include Chart.js library -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    // Initialize the pie chart using Chart.js
+    document.addEventListener('DOMContentLoaded', function() {
+        // Pie chart setup for units
+        const ctx = document.getElementById('unitsChart').getContext('2d');
+        window.unitsChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Cooperative', 'Individual'],
+                datasets: [{
+                    data: [{{ $cooperativeCount ?? 98 }}, {{ $individualCount ?? 52 }}],
+                    backgroundColor: [
+                        '#8b5cf6', // purple-500
+                        '#ddd6fe'  // purple-200
+                    ],
+                    borderColor: [
+                        '#ffffff',
+                        '#ffffff'
+                    ],
+                    borderWidth: 2,
+                    hoverOffset: 4
+                }]
+            },
+            options: {
+                cutout: '65%',
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                const label = context.label || '';
+                                const value = context.raw || 0;
+                                const total = context.dataset.data.reduce((acc, data) => acc + data, 0);
+                                const percentage = Math.round((value / total) * 100);
+                                return `${label}: ${value} units (${percentage}%)`;
+                            }
+                        }
+                    }
+                },
+                animation: {
+                    animateScale: true,
+                    animateRotate: true
+                }
+            }
+        });
+        
+        // CGS progress bar animation
+        animateProgressBar('cgs-progress-bar', {{ $progressPercentage ?? 65 }});
+        
+        // Update countdown timer every day
+        updateCountdown();
+    });
+    
+    // Function to toggle visibility of chart segments when clicking on legend
+    function toggleChartSegment(index) {
+        const meta = window.unitsChart.getDatasetMeta(0);
+        const isHidden = meta.data[index].hidden || false;
+        meta.data[index].hidden = !isHidden;
+        window.unitsChart.update();
+    }
+    
+    // Function to animate the progress bar on load
+    function animateProgressBar(elementId, targetPercentage) {
+        const progressBar = document.getElementById(elementId);
+        let width = 0;
+        const intervalTime = 10;
+        const increment = targetPercentage / (1000 / intervalTime);
+        
+        const interval = setInterval(() => {
+            if (width >= targetPercentage) {
+                clearInterval(interval);
+            } else {
+                width += increment;
+                progressBar.style.width = width + '%';
+            }
+        }, intervalTime);
+    }
+    
+    // Function to update the countdown timer
+    function updateCountdown() {
+        // Replace with actual deadline date calculation
+        const deadlineDate = new Date('2025-05-12');
+        const currentDate = new Date();
+        const timeRemaining = deadlineDate - currentDate;
+        
+        // Convert to days and round down
+        const daysRemaining = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
+        
+        document.getElementById('cgs-countdown').textContent = 
+            daysRemaining > 0 ? `${daysRemaining} days remaining` : 'Deadline reached';
+            
+        // Apply urgency styling if less than 7 days
+        if (daysRemaining <= 7 && daysRemaining > 0) {
+            document.getElementById('cgs-countdown').classList.add('text-amber-600', 'font-bold');
+        } else if (daysRemaining <= 0) {
+            document.getElementById('cgs-countdown').classList.add('text-red-600', 'font-bold');
+        }
+    }
+    
+    // Show unit details modal/page
+    function showUnitDetails() {
+        // Placeholder for navigation to details page or modal display
+        window.location.href = '{{ route("units") }}';
+        // Or show a modal:
+        // document.getElementById('unit-details-modal').classList.remove('hidden');
+    }
 </script>
 @endsection
 

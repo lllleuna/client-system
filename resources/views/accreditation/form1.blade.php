@@ -5,19 +5,6 @@
         <form action="{{ route('processForm1') }}" method="POST" id="form" name="form" class="w-full">
             @csrf
 
-            <!-- Cooperative Type Selection -->
-            <x-form-label for="cooperative_type">Cooperative Type</x-form-label>
-            <x-form-select name="cooperative_type" id="cooperative_type" required>
-                <option value="" disabled selected>Select Type</option>
-                <option value="Franchise Cooperative" {{ old('cooperative_type') === 'Franchise Cooperative' ? 'selected' : '' }}>
-                    Franchise Cooperative
-                </option>
-                <option value="Non-Franchise Cooperative" {{ old('cooperative_type') === 'Non-Franchise Cooperative' ? 'selected' : '' }}>
-                    Non-Franchise Cooperative
-                </option>
-            </x-form-select>
-            <x-form-error name="cooperative_type" />
-
             <input type="text" name="application_type" class="hidden" value="accreditation"/>
 
             <!-- Transport Cooperative Name -->

@@ -43,38 +43,7 @@
                     </div>
                 </div>
 
-                <!-- Chairperson Details -->
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">First Name <span class="text-red-500">*</span></label>
-                        <input type="text" name="first_name" id="first_name" value="{{ Auth::user()->chair_fname}}" placeholder="First Name" required
-                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        <p id="first-name-error" class="text-sm text-red-500 mt-1"></p>
-                    </div>
-                    
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Middle Name</label>
-                        <input type="text" name="middle_name" id="middle_name" placeholder="Middle Name"
-                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    </div>
-                    
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Surname <span class="text-red-500">*</span></label>
-                        <input type="text" name="surname" id="surname" placeholder="Surname" required
-                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        <p id="surname-error" class="text-sm text-red-500 mt-1"></p>
-                    </div>
-                </div>
-
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Birthdate <span class="text-red-500">*</span></label>
-                        <input type="date" name="birthdate" id="birthdate" required
-                            max="{{ date('Y-m-d', strtotime('-18 years')) }}"
-                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        <p id="birthdate-error" class="text-sm text-red-500 mt-1"></p>
-                        <p class="text-sm text-gray-500 mt-1">Must be at least 18 years old</p>
-                    </div>
 
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">Email Address <span class="text-red-500">*</span></label>

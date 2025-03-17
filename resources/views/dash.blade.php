@@ -259,20 +259,106 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {{-- Backend: Replace with actual support links and FAQs --}}
                     @php
-                        $supportLinks = [
-                            ['title' => 'Guidelines for Training', 'url' => '#', 'icon' => 'book'],
-                            ['title' => 'Contact Support', 'url' => '#', 'icon' => 'phone'],
-                            ['title' => 'FAQ', 'url' => '#', 'icon' => 'question'],
-                            ['title' => 'Documentation', 'url' => '#', 'icon' => 'document']
-                        ];
+                    $supportLinks = [
+                        ['title' => "Citizen's Charter", 'url' => 'https://otc.gov.ph/about/citizens-charter-2/', 'icon' => 'book'],
+                        ['title' => 'Terms and Conditions', 'url' => '#', 'icon' => 'phone'],
+                        ['title' => 'Privacy Policy', 'url' => '#', 'icon' => 'question'],
+                        ['title' => 'Contact Support', 'url' => '#', 'icon' => 'mail', 'modal' => 'contactModal'],
+                    ];
                     @endphp
-
+                   
                     @foreach($supportLinks as $link)
-                        <a href="{{ $link['url'] }}" 
-                           class="flex items-center p-4 rounded-lg bg-gray-50 hover:bg-gray-100 transition-colors">
+                        @if(isset($link['modal']))
+                            <button type="button" 
+                                onclick="document.getElementById('{{ $link['modal'] }}').classList.remove('hidden')"
+                                class="flex items-center p-4 rounded-lg bg-gray-50 hover:bg-gray-100 transition-colors">
+                                <span class="text-blue-600 hover:text-blue-700">{{ $link['title'] }}</span>
+                            </button>
+                        @else
+                            <a href="{{ $link['url'] }}" 
+                            class="flex items-center p-4 rounded-lg bg-gray-50 hover:bg-gray-100 transition-colors"
+                            @if(str_starts_with($link['url'], 'http')) target="_blank" rel="noopener noreferrer" @endif>
                             <span class="text-blue-600 hover:text-blue-700">{{ $link['title'] }}</span>
-                        </a>
+                            </a>
+                        @endif
                     @endforeach
+                </div>
+                
+                <!-- Contact Support Modal -->
+                <div id="contactModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden z-50">
+                    <div class="relative top-20 mx-auto p-5 border w-11/12 md:w-1/2 lg:w-1/3 shadow-lg rounded-md bg-white">
+                        <div class="flex justify-between items-center border-b pb-3">
+                            <h3 class="text-lg font-medium text-gray-900">Contact Information</h3>
+                            <button onclick="document.getElementById('contactModal').classList.add('hidden')" class="text-gray-400 hover:text-gray-500">
+                                <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                </svg>
+                            </button>
+                        </div>
+                        
+                        <div class="mt-4 space-y-3">
+                            <div class="flex items-start">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-600 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                </svg>
+                                <span class="ml-3">
+                                    <span class="font-medium block">Address:</span>
+                                    5th Floor Ben-Lor Bldg., Brgy. Paligsahan, 1184 Quezon Avenue, Quezon City 1103
+                                </span>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-600 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                                </svg>
+                                <span class="ml-3">
+                                    <span class="font-medium block">Email:</span>
+                                    official@otc.gov.ph
+                                </span>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-600 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                                </svg>
+                                <span class="ml-3">
+                                    <span class="font-medium block">Cellphone:</span>
+                                    09989461736 / 09772111310
+                                </span>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-600 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                                </svg>
+                                <span class="ml-3">
+                                    <span class="font-medium block">Telephone:</span>
+                                    (02) 8332-9315
+                                </span>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-600 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 8l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2M5 3a2 2 0 00-2 2v1c0 8.284 6.716 15 15 15h1a2 2 0 002-2v-3.28a1 1 0 00-.684-.948l-4.493-1.498a1 1 0 00-1.21.502l-1.13 2.257a11.042 11.042 0 01-5.516-5.517l2.257-1.13a1 1 0 00.502-1.21L9.228 3.683A1 1 0 008.279 3H5z" />
+                                </svg>
+                                <span class="ml-3">
+                                    <span class="font-medium block">Facebook:</span>
+                                    <a href="https://www.facebook.com/DOTR.OTC" target="_blank" rel="noopener noreferrer" 
+                                       class="text-blue-600 hover:underline">
+                                        https://www.facebook.com/DOTR.OTC
+                                    </a>
+                                </span>
+                            </div>                            
+                        </div>
+                        
+                        <div class="mt-6 flex justify-end">
+                            <button onclick="document.getElementById('contactModal').classList.add('hidden')" 
+                                class="px-4 py-2 bg-blue-600 text-white text-base font-medium rounded-md shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                Close
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

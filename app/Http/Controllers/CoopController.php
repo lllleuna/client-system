@@ -14,6 +14,7 @@ use Illuminate\Support\Str;
 use App\Mail\EmailVerificationMail;
 use App\Models\CoopUnit;
 use App\Models\CoopGovernance;
+use App\Models\CoopGrants;
 
 class CoopController extends Controller
 {
@@ -52,6 +53,7 @@ class CoopController extends Controller
             'pagibig_enrolled' => 'nullable|boolean',
             'philhealth_enrolled' => 'nullable|boolean',
             'employment_type' => 'nullable|string',
+            'share_capital' => 'nullable|numeric',
         ]);
         
         $user = Auth::user();
@@ -97,6 +99,7 @@ class CoopController extends Controller
             'pagibig_enrolled' => 'boolean',
             'philhealth_enrolled' => 'boolean',
             'employment_type' => 'nullable|string',
+            'share_capital' => 'nullable|numeric',
         ]);
 
         // Update member record
@@ -696,5 +699,82 @@ class CoopController extends Controller
         ]);
     }
 
+    // --------------------------------------------
+    //  ----------- GRANTS AND DONATIONS ----------
+    // --------------------------------------------
+
+    public function showGrants() 
+    {
+        $user = Auth::user();
+
+        // Fetch grants/donations paginated
+        $coopGrants = CoopGrants::where('externaluser_id', $user->id)
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
+
+        // Get totals per year
+        $grantsPerYear = CoopGrants::selectRaw('YEAR(date_acquired) as year, SUM(amount) as total_amount, COUNT(*) as total_grants')
+            ->where('externaluser_id', $user->id)
+            ->groupByRaw('YEAR(date_acquired)')
+            ->orderBy('year', 'desc')
+            ->get();
+
+        return view('myinformation.grants', compact('user', 'coopGrants', 'grantsPerYear'));
+    }
+
+
+    // When button Add Grant is clicked
+    public function viewGrant()
+    {
+        return view('myinformation.editgrants', ['grant' => null, 'mode' => 'create']);
+    }
+
+    public function addGrant(Request $request) {
+        $validated = $request->validate([
+            'date_acquired' => 'required|date|before_or_equal:today',
+            'amount'          => 'required|numeric',
+            'source'          => 'required|string|max:200',
+            'status_remarks'  => 'nullable|string|max:255',
+        ]);        
+        
+        $user = Auth::user();
+        $validated['externaluser_id'] = $user->id;
+        CoopGrants::create($validated);
+
+        return redirect()->route('grants')->with('success', 'Added successfully!');
+    }
+
+    public function editGrant($id)
+    {
+        $grant = CoopGrants::findOrFail($id);
+        return view('myinformation.editgrants', compact('grant'))->with('mode', 'edit');;
+    }
+
+    public function updateGrant(Request $request, $id)
+    {
+        $grant = CoopGrants::findOrFail($id);
+
+        $validated = $request->validate([
+            'date_acquired'   => 'required|date',
+            'amount'          => 'required|numeric',
+            'source'          => 'required|string|max:200',
+            'status_remarks'  => 'nullable|string|max:255',
+        ]); 
+
+        $grant->update($validated);
+
+        return redirect()->route('grants')->with('success', 'Updated successfully.');
+    }
+
+    public function destroyGrant($id)
+    {
+        $grant = CoopGrants::findOrFail($id); 
+        $grant->delete(); 
+
+
+        return response()->json([
+            'message' => 'Deleted successfully.'
+        ]);
+    }
 
 }

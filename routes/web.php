@@ -190,14 +190,13 @@ Route::delete('/myinformation/officer/{id}', [CoopController::class, 'destroyOff
 
 
 // Grants
-Route::get('/myinformation/grants', function () {
-    return view('myinformation.grants');
-})->name('grants');
+Route::get('/myinformation/grants', [CoopController::class, 'showGrants'])->name('grants');
+Route::get('/myinformation/editgrants', [CoopController::class, 'viewGrant'] )->name('editgrants');
+Route::post('/myinformation/editgrants', [CoopController::class, 'addGrant'] )->name('addGrant');
+Route::get('/myinformation/editgrants/{id}/view', [CoopController::class, 'editGrant'])->name('editGrant');
+Route::put('/myinformation/editgrants/{id}', [CoopController::class, 'updateGrant'])->name('grant.update');
+Route::delete('/myinformation/editgrants/{id}', [CoopController::class, 'destroyGrant'])->name('grant.destroy');
 
-// Edit Grants
-Route::get('/myinformation/editgrants', function () {
-    return view('myinformation.editgrants');
-})->name('editgrants');
 
 // Loans
 Route::get('/myinformation/loans', function () {

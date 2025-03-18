@@ -50,7 +50,7 @@
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                                     </svg>
-                                    Middle Name <span class="text-red-500">*</span>
+                                    Middle Name 
                                 </label>
                                 <input type="text" name="middlename"
                                     value="{{ old('middlename', $membership->middlename ?? '') }}"
@@ -154,7 +154,6 @@
                                 @enderror
                             </div>
 
-
                             <div>
                                 <label class="flex items-center text-sm font-medium text-gray-700 mb-2">
                                     <svg class="w-4 h-4 mr-2 text-gray-400" fill="none" stroke="currentColor"
@@ -162,18 +161,19 @@
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                                     </svg>
-                                    Email <span class="text-red-500">*</span>
+                                    Share Capital <span class="text-red-500">*</span>
                                 </label>
-                                <input type="email" name="email"
-                                    value="{{ old('email', $membership->email ?? '') }}"
+                                <input type="number" name="share_capital"
+                                    value="{{ old('share_capital', $membership->share_capital ?? '') }}"
                                     class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-100 focus:border-blue-400 transition-all duration-200 @error('last_name') border-red-500 @enderror"
-                                    placeholder="Enter last name" required
+                                    placeholder="0.00" required
                                     oninvalid="this.setCustomValidity('Please fill out this field')"
                                     oninput="this.setCustomValidity('')">
-                                @error('email')
+                                @error('share_capital')
                                     <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
                                 @enderror
                             </div>
+
 
                             <!-- Membership Type -->
                             <div>
@@ -201,6 +201,26 @@
                                         Allied Worker</option>
                                 </select>
                                 @error('role')
+                                    <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
+                                @enderror
+                            </div>
+
+                            <div>
+                                <label class="flex items-center text-sm font-medium text-gray-700 mb-2">
+                                    <svg class="w-4 h-4 mr-2 text-gray-400" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                    </svg>
+                                    Email <span class="text-red-500">*</span>
+                                </label>
+                                <input type="email" name="email"
+                                    value="{{ old('email', $membership->email ?? '') }}"
+                                    class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-100 focus:border-blue-400 transition-all duration-200 @error('last_name') border-red-500 @enderror"
+                                    placeholder="Enter last name" required
+                                    oninvalid="this.setCustomValidity('Please fill out this field')"
+                                    oninput="this.setCustomValidity('')">
+                                @error('email')
                                     <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
                                 @enderror
                             </div>

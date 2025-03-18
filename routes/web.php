@@ -199,14 +199,13 @@ Route::delete('/myinformation/editgrants/{id}', [CoopController::class, 'destroy
 
 
 // Loans
-Route::get('/myinformation/loans', function () {
-    return view('myinformation.loans');
-})->name('loans');
+Route::get('/myinformation/loans', [CoopController::class, 'showLoans'])->name('loans');
+Route::get('/myinformation/editloans', [CoopController::class, 'viewLoan'] )->name('editloans');
+Route::post('/myinformation/editloans', [CoopController::class, 'addLoan'] )->name('addloan');
+Route::get('/myinformation/editloans/{id}/view', [CoopController::class, 'editLoan'])->name('editloan');
+Route::put('/myinformation/editloans/{id}', [CoopController::class, 'updateLoan'])->name('loan.update');
+Route::delete('/myinformation/editloans/{id}', [CoopController::class, 'destroyLoan'])->name('loan.destroy');
 
-// Edit Loans
-Route::get('/myinformation/editloans', function () {
-    return view('myinformation.editloans');
-})->name('editloans');
 
 // Businesses
 Route::get('/myinformation/businesses', function () {

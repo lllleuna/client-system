@@ -15,6 +15,7 @@ use App\Mail\EmailVerificationMail;
 use App\Models\CoopUnit;
 use App\Models\CoopGovernance;
 use App\Models\CoopGrants;
+use App\Models\CoopLoan;
 
 class CoopController extends Controller
 {
@@ -722,7 +723,6 @@ class CoopController extends Controller
         return view('myinformation.grants', compact('user', 'coopGrants', 'grantsPerYear'));
     }
 
-
     // When button Add Grant is clicked
     public function viewGrant()
     {
@@ -776,5 +776,86 @@ class CoopController extends Controller
             'message' => 'Deleted successfully.'
         ]);
     }
+
+    // --------------------------------------------
+    //  --------------- LOANS --------------------
+    // --------------------------------------------
+
+    public function showLoans() 
+    {
+        $user = Auth::user();
+
+        // Fetch paginated loans
+        $Loans = CoopLoan::where('externaluser_id', $user->id)
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
+
+        // Group by year, total amount & count
+        $loansPerYear = CoopLoan::selectRaw('YEAR(acquired_at) as year, SUM(amount) as total_amount, COUNT(*) as total_loans')
+            ->where('externaluser_id', $user->id)
+            ->groupByRaw('YEAR(acquired_at)')
+            ->orderBy('year', 'desc')
+            ->get();
+
+        return view('myinformation.loans', compact('user', 'Loans', 'loansPerYear'));
+    }
+
+
+    // When button Add Grant is clicked
+    public function viewLoan()
+    {
+        return view('myinformation.editloans', ['loan' => null, 'mode' => 'create']);
+    }
+
+    public function addLoan(Request $request) {
+        $validated = $request->validate([
+            'financing_institution' => 'required|string|max:100',
+            'acquired_at'          => 'required|date|before_or_equal:today',
+            'amount'          => 'required|numeric',
+            'utilization'  => 'required',
+            'remarks'  => 'nullable|string|max:255',
+        ]);        
+        
+        $user = Auth::user();
+        $validated['externaluser_id'] = $user->id;
+        CoopLoan::create($validated);
+
+        return redirect()->route('loans')->with('success', 'Added successfully!');
+    }
+
+    public function editLoan($id)
+    {
+        $loan = CoopLoan::findOrFail($id);
+        return view('myinformation.editloans', compact('loan'))->with('mode', 'edit');;
+    }
+
+    public function updateLoan(Request $request, $id)
+    {
+        $loan = CoopLoan::findOrFail($id);
+
+        $validated = $request->validate([
+            'financing_institution' => 'required|string|max:100',
+            'acquired_at'          => 'required|date|before_or_equal:today',
+            'amount'          => 'required|numeric',
+            'utilization'  => 'required',
+            'remarks'  => 'nullable|string|max:255',
+        ]); 
+
+        $loan->update($validated);
+
+        return redirect()->route('loans')->with('success', 'Updated successfully.');
+    }
+
+    public function destroyLoan($id)
+    {
+        $loan = CoopLoan::findOrFail($id); 
+        $loan->delete(); 
+
+
+        return response()->json([
+            'message' => 'Deleted successfully.'
+        ]);
+    }
+
 
 }

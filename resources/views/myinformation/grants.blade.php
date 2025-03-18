@@ -121,7 +121,7 @@
                                                                 </svg>
                                                             </a>
                                                             <a href="javascript:void(0);"
-                                                                onclick="confirmDelete({{ $grant->id }}, '{{ $grant->id }}')"
+                                                                onclick="confirmDelete({{ $grant->id }}, '{{ $grant->source }}')"
                                                                 class="text-red-600 hover:text-red-800">
                                                                 <svg class="w-5 h-5" fill="none" stroke="currentColor"
                                                                     viewBox="0 0 24 24">

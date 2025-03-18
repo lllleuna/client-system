@@ -185,10 +185,10 @@
                            class="block px-4 py-2 text-sm rounded-lg transition-colors {{ request()->routeIs('trainings') ? 'bg-blue-50 text-blue-600 font-medium' : 'text-gray-600 hover:bg-gray-50' }}">
                             Trainings & Seminars
                         </a>
-                        <a href="{{ route('scholarships') }}"
+                        {{-- <a href="{{ route('scholarships') }}"
                            class="block px-4 py-2 text-sm rounded-lg transition-colors {{ request()->routeIs('scholarships') ? 'bg-blue-50 text-blue-600 font-medium' : 'text-gray-600 hover:bg-gray-50' }}">
                             Scholarships
-                        </a>
+                        </a> --}}
                         {{-- <a href="{{ route('cetos') }}"
                            class="block px-4 py-2 text-sm rounded-lg transition-colors {{ request()->routeIs('cetos') ? 'bg-blue-50 text-blue-600 font-medium' : 'text-gray-600 hover:bg-gray-50' }}">
                             CETOS

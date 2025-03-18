@@ -18,6 +18,7 @@ use App\Models\CoopGrants;
 use App\Models\CoopLoan;
 use App\Models\CoopTraining;
 use Illuminate\Support\Facades\DB;
+use App\Models\CoopAward;
 
 class CoopController extends Controller
 {
@@ -936,6 +937,75 @@ class CoopController extends Controller
     {
         $train = CoopTraining::findOrFail($id); 
         $train->delete(); 
+
+
+        return response()->json([
+            'message' => 'Deleted successfully.'
+        ]);
+    }
+
+    // --------------------------------------------
+    //  --------------- AWARDS --------------------
+    // --------------------------------------------
+
+    public function showAwards() 
+    {
+        $user = Auth::user();
+
+        // Fetch paginated trainings
+        $awards = CoopAward::where('externaluser_id', $user->id)
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
+
+        return view('myinformation.awards', compact('user', 'awards'));
+    }
+
+    // When button Add Grant is clicked
+    public function viewAward()
+    {
+        return view('myinformation.editawards', ['award' => null, 'mode' => 'create']);
+    }
+
+    public function addAward(Request $request) {
+        $validated = $request->validate([
+            'awarding_body' => 'required|string|max:300',
+            'nature_of_award'        => 'required|string|max:300',
+            'date_received'          => 'required|date',
+        ]);               
+        
+        $user = Auth::user();
+        $validated['externaluser_id'] = $user->id;
+        CoopAward::create($validated);
+
+        return redirect()->route('awards')->with('success', 'Added successfully!');
+    }
+
+    public function editAward($id)
+    {
+        $award = CoopAward::findOrFail($id);
+        return view('myinformation.editawards', compact('award'))->with('mode', 'edit');;
+    }
+
+    public function updateAward(Request $request, $id)
+    {
+        $award = CoopAward::findOrFail($id);
+
+        $validated = $request->validate([
+            'awarding_body' => 'required|string|max:300',
+            'nature_of_award'        => 'required|string|max:300',
+            'date_received'          => 'required|date',
+        ]); 
+        
+
+        $award->update($validated);
+
+        return redirect()->route('awards')->with('success', 'Updated successfully.');
+    }
+
+    public function destroyAward($id)
+    {
+        $award = CoopAward::findOrFail($id); 
+        $award->delete(); 
 
 
         return response()->json([

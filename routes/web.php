@@ -247,14 +247,12 @@ Route::get('/myinformation/editcetos', function () {
 })->name('editcetos');
 
 // Awards 
-Route::get('/myinformation/awards', function () {
-    return view('myinformation.awards');
-})->name('awards');
-
-// Edit Awards 
-Route::get('/myinformation/editawards', function () {
-    return view('myinformation.editawards');
-})->name('editawards');
+Route::get('/myinformation/awards', [CoopController::class, 'showAwards'])->name('awards');
+Route::get('/myinformation/award', [CoopController::class, 'viewAward'] )->name('editawards'); // add button
+Route::post('/myinformation/award', [CoopController::class, 'addAward'] )->name('addaward');
+Route::get('/myinformation/award/{id}/view', [CoopController::class, 'editAward'])->name('editaward'); // edit button
+Route::put('/myinformation/award/{id}', [CoopController::class, 'updateAward'])->name('award.update');
+Route::delete('/myinformation/award/{id}', [CoopController::class, 'destroyAward'])->name('award.destroy');
 
 
 // Authentication 

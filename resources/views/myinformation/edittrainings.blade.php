@@ -20,18 +20,22 @@
                         </a>
                     </div>
 
-                    <form action="#" method="POST" class="space-y-6">
+                    <form action="{{ $mode == 'edit' ? route('training.update', $training->id) : route('addtraining') }}"
+                        method="POST" class="space-y-6">
                         @csrf
+                        @if ($mode == 'edit')
+                            @method('PUT')
+                        @endif
                         
                         <!-- Title of Training -->
                         <div class="mb-6">
-                            <label for="training_title" class="flex items-center text-sm font-medium text-gray-700 mb-2">
+                            <label for="title_of_training" class="flex items-center text-sm font-medium text-gray-700 mb-2">
                                 <svg class="w-4 h-4 mr-2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
                                 </svg>
                                 Title of Training <span class="text-red-500">*</span>
                             </label>
-                            <input type="text" id="training_title" name="training_title" value="{{ old('training_title', $training->training_title ?? '') }}" 
+                            <input type="text" id="title_of_training" name="title_of_training" value="{{ old('title_of_training', $training->title_of_training ?? '') }}" 
                                    class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-100 focus:border-blue-400 transition-all duration-200"
                                    required>
                         </div>
@@ -67,15 +71,33 @@
                         
                         <!-- Number of Attendees -->
                         <div class="mb-6">
-                            <label for="attendees" class="flex items-center text-sm font-medium text-gray-700 mb-2">
+                            <label for="no_of_attendees" class="flex items-center text-sm font-medium text-gray-700 mb-2">
                                 <svg class="w-4 h-4 mr-2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                                 </svg>
                                 Number of Attendees <span class="text-red-500">*</span>
                             </label>
-                            <input type="number" id="attendees" name="attendees" value="{{ old('attendees', $training->attendees ?? 0) }}" 
+                            <input type="number" id="no_of_attendees" name="no_of_attendees" value="{{ old('no_of_attendees', $training->no_of_attendees ?? 0) }}" 
                                    class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-100 focus:border-blue-400 transition-all duration-200"
                                    min="0" required>
+                        </div>
+
+                        <div>
+                            <label class="flex items-center text-sm font-medium text-gray-700 mb-2">
+                                <svg class="w-4 h-4 mr-2 text-gray-400" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                                Total Fund <span class="text-red-500">*</span>
+                            </label>
+                            <input type="number" step="0.01" name="total_fund"
+                                value="{{ old('total_fund', $training->total_fund ?? '') }}"
+                                class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-100 focus:border-blue-400 transition-all duration-200 @error('amount') border-red-500 @enderror"
+                                placeholder="Enter loan amount" required>
+                            @error('total_fund')
+                                <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
+                            @enderror
                         </div>
                         
                         <!-- Remarks -->
@@ -84,10 +106,10 @@
                                 <svg class="w-4 h-4 mr-2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
                                 </svg>
-                                Remarks <span class="text-red-500">*</span>
+                                Remarks
                             </label>
                             <textarea id="remarks" name="remarks" rows="4" 
-                                     class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-100 focus:border-blue-400 transition-all duration-200" required>{{ old('remarks', $training->remarks ?? '') }}</textarea>
+                                     class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-100 focus:border-blue-400 transition-all duration-200" >{{ old('remarks', $training->remarks ?? '') }}</textarea>
                         </div>
 
                         <!-- Form Actions -->

@@ -218,14 +218,13 @@ Route::get('/myinformation/editbusinesses', function () {
 })->name('editbusinesses');
 
 // Trainings 
-Route::get('/myinformation/trainings', function () {
-    return view('myinformation.trainings');
-})->name('trainings');
+Route::get('/myinformation/trainings', [CoopController::class, 'showTrainings'])->name('trainings');
+Route::get('/myinformation/edittraining', [CoopController::class, 'viewTraining'] )->name('edittrainings'); // add button
+Route::post('/myinformation/edittraining', [CoopController::class, 'addTraining'] )->name('addtraining');
+Route::get('/myinformation/edittraining/{id}/view', [CoopController::class, 'editTraining'])->name('edittraining'); // edit button
+Route::put('/myinformation/edittraining/{id}', [CoopController::class, 'updateTraining'])->name('training.update');
+Route::delete('/myinformation/edittraining/{id}', [CoopController::class, 'destroyTraining'])->name('training.destroy');
 
-// Edit Trainings 
-Route::get('/myinformation/edittrainings', function () {
-    return view('myinformation.edittrainings');
-})->name('edittrainings');
 
 // Scholarships 
 Route::get('/myinformation/scholarships', function () {

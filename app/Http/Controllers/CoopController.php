@@ -16,6 +16,8 @@ use App\Models\CoopUnit;
 use App\Models\CoopGovernance;
 use App\Models\CoopGrants;
 use App\Models\CoopLoan;
+use App\Models\CoopTraining;
+use Illuminate\Support\Facades\DB;
 
 class CoopController extends Controller
 {
@@ -800,7 +802,6 @@ class CoopController extends Controller
         return view('myinformation.loans', compact('user', 'Loans', 'loansPerYear'));
     }
 
-
     // When button Add Grant is clicked
     public function viewLoan()
     {
@@ -857,5 +858,89 @@ class CoopController extends Controller
         ]);
     }
 
+    // --------------------------------------------
+    //  ------- TRAININGS AND SEMINAR --------------
+    // --------------------------------------------
+
+    public function showTrainings() 
+    {
+        $user = Auth::user();
+
+        // Fetch paginated trainings
+        $trainings = CoopTraining::where('externaluser_id', $user->id)
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
+
+        // Group total funds by year (from start_date)
+        $yearlyTotals = CoopTraining::select(
+                DB::raw('YEAR(start_date) as year'),
+                DB::raw('SUM(total_fund) as total_fund')
+            )
+            ->where('externaluser_id', $user->id)
+            ->groupBy(DB::raw('YEAR(start_date)'))
+            ->orderBy('year', 'desc')
+            ->get();
+
+        return view('myinformation.trainings', compact('user', 'trainings', 'yearlyTotals'));
+    }
+
+    // When button Add Grant is clicked
+    public function viewTraining()
+    {
+        return view('myinformation.edittrainings', ['training' => null, 'mode' => 'create']);
+    }
+
+    public function addTraining(Request $request) {
+        $validated = $request->validate([
+            'title_of_training' => 'required|string|max:300',
+            'start_date'        => 'required|date',
+            'end_date'          => 'required|date|after_or_equal:start_date',
+            'no_of_attendees'   => 'required|integer|min:1',
+            'total_fund'        => 'required|numeric|min:0',
+            'remarks'           => 'nullable|string|max:255',
+        ]);               
+        
+        $user = Auth::user();
+        $validated['externaluser_id'] = $user->id;
+        CoopTraining::create($validated);
+
+        return redirect()->route('trainings')->with('success', 'Added successfully!');
+    }
+
+    public function editTraining($id)
+    {
+        $training = CoopTraining::findOrFail($id);
+        return view('myinformation.edittrainings', compact('training'))->with('mode', 'edit');;
+    }
+
+    public function updateTraining(Request $request, $id)
+    {
+        $train = CoopTraining::findOrFail($id);
+
+        $validated = $request->validate([
+            'title_of_training' => 'required|string|max:300',
+            'start_date'        => 'required|date',
+            'end_date'          => 'required|date|after_or_equal:start_date',
+            'no_of_attendees'   => 'required|integer|min:1',
+            'total_fund'        => 'required|numeric|min:0',
+            'remarks'           => 'nullable|string|max:255',
+        ]);
+        
+
+        $train->update($validated);
+
+        return redirect()->route('trainings')->with('success', 'Updated successfully.');
+    }
+
+    public function destroyTraining($id)
+    {
+        $train = CoopTraining::findOrFail($id); 
+        $train->delete(); 
+
+
+        return response()->json([
+            'message' => 'Deleted successfully.'
+        ]);
+    }
 
 }

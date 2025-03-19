@@ -14,6 +14,11 @@ use Illuminate\Support\Str;
 use App\Mail\EmailVerificationMail;
 use App\Models\CoopUnit;
 use App\Models\CoopGovernance;
+use App\Models\CoopGrants;
+use App\Models\CoopLoan;
+use App\Models\CoopTraining;
+use Illuminate\Support\Facades\DB;
+use App\Models\CoopAward;
 
 class CoopController extends Controller
 {
@@ -52,6 +57,7 @@ class CoopController extends Controller
             'pagibig_enrolled' => 'nullable|boolean',
             'philhealth_enrolled' => 'nullable|boolean',
             'employment_type' => 'nullable|string',
+            'share_capital' => 'nullable|numeric',
         ]);
         
         $user = Auth::user();
@@ -97,6 +103,7 @@ class CoopController extends Controller
             'pagibig_enrolled' => 'boolean',
             'philhealth_enrolled' => 'boolean',
             'employment_type' => 'nullable|string',
+            'share_capital' => 'nullable|numeric',
         ]);
 
         // Update member record
@@ -696,5 +703,314 @@ class CoopController extends Controller
         ]);
     }
 
+    // --------------------------------------------
+    //  ----------- GRANTS AND DONATIONS ----------
+    // --------------------------------------------
+
+    public function showGrants() 
+    {
+        $user = Auth::user();
+
+        // Fetch grants/donations paginated
+        $coopGrants = CoopGrants::where('externaluser_id', $user->id)
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
+
+        // Get totals per year
+        $grantsPerYear = CoopGrants::selectRaw('YEAR(date_acquired) as year, SUM(amount) as total_amount, COUNT(*) as total_grants')
+            ->where('externaluser_id', $user->id)
+            ->groupByRaw('YEAR(date_acquired)')
+            ->orderBy('year', 'desc')
+            ->get();
+
+        return view('myinformation.grants', compact('user', 'coopGrants', 'grantsPerYear'));
+    }
+
+    // When button Add Grant is clicked
+    public function viewGrant()
+    {
+        return view('myinformation.editgrants', ['grant' => null, 'mode' => 'create']);
+    }
+
+    public function addGrant(Request $request) {
+        $validated = $request->validate([
+            'date_acquired' => 'required|date|before_or_equal:today',
+            'amount'          => 'required|numeric',
+            'source'          => 'required|string|max:200',
+            'status_remarks'  => 'nullable|string|max:255',
+        ]);        
+        
+        $user = Auth::user();
+        $validated['externaluser_id'] = $user->id;
+        CoopGrants::create($validated);
+
+        return redirect()->route('grants')->with('success', 'Added successfully!');
+    }
+
+    public function editGrant($id)
+    {
+        $grant = CoopGrants::findOrFail($id);
+        return view('myinformation.editgrants', compact('grant'))->with('mode', 'edit');;
+    }
+
+    public function updateGrant(Request $request, $id)
+    {
+        $grant = CoopGrants::findOrFail($id);
+
+        $validated = $request->validate([
+            'date_acquired'   => 'required|date',
+            'amount'          => 'required|numeric',
+            'source'          => 'required|string|max:200',
+            'status_remarks'  => 'nullable|string|max:255',
+        ]); 
+
+        $grant->update($validated);
+
+        return redirect()->route('grants')->with('success', 'Updated successfully.');
+    }
+
+    public function destroyGrant($id)
+    {
+        $grant = CoopGrants::findOrFail($id); 
+        $grant->delete(); 
+
+
+        return response()->json([
+            'message' => 'Deleted successfully.'
+        ]);
+    }
+
+    // --------------------------------------------
+    //  --------------- LOANS --------------------
+    // --------------------------------------------
+
+    public function showLoans() 
+    {
+        $user = Auth::user();
+
+        // Fetch paginated loans
+        $Loans = CoopLoan::where('externaluser_id', $user->id)
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
+
+        // Group by year, total amount & count
+        $loansPerYear = CoopLoan::selectRaw('YEAR(acquired_at) as year, SUM(amount) as total_amount, COUNT(*) as total_loans')
+            ->where('externaluser_id', $user->id)
+            ->groupByRaw('YEAR(acquired_at)')
+            ->orderBy('year', 'desc')
+            ->get();
+
+        return view('myinformation.loans', compact('user', 'Loans', 'loansPerYear'));
+    }
+
+    // When button Add Grant is clicked
+    public function viewLoan()
+    {
+        return view('myinformation.editloans', ['loan' => null, 'mode' => 'create']);
+    }
+
+    public function addLoan(Request $request) {
+        $validated = $request->validate([
+            'financing_institution' => 'required|string|max:100',
+            'acquired_at'          => 'required|date|before_or_equal:today',
+            'amount'          => 'required|numeric',
+            'utilization'  => 'required',
+            'remarks'  => 'nullable|string|max:255',
+        ]);        
+        
+        $user = Auth::user();
+        $validated['externaluser_id'] = $user->id;
+        CoopLoan::create($validated);
+
+        return redirect()->route('loans')->with('success', 'Added successfully!');
+    }
+
+    public function editLoan($id)
+    {
+        $loan = CoopLoan::findOrFail($id);
+        return view('myinformation.editloans', compact('loan'))->with('mode', 'edit');;
+    }
+
+    public function updateLoan(Request $request, $id)
+    {
+        $loan = CoopLoan::findOrFail($id);
+
+        $validated = $request->validate([
+            'financing_institution' => 'required|string|max:100',
+            'acquired_at'          => 'required|date|before_or_equal:today',
+            'amount'          => 'required|numeric',
+            'utilization'  => 'required',
+            'remarks'  => 'nullable|string|max:255',
+        ]); 
+
+        $loan->update($validated);
+
+        return redirect()->route('loans')->with('success', 'Updated successfully.');
+    }
+
+    public function destroyLoan($id)
+    {
+        $loan = CoopLoan::findOrFail($id); 
+        $loan->delete(); 
+
+
+        return response()->json([
+            'message' => 'Deleted successfully.'
+        ]);
+    }
+
+    // --------------------------------------------
+    //  ------- TRAININGS AND SEMINAR --------------
+    // --------------------------------------------
+
+    public function showTrainings() 
+    {
+        $user = Auth::user();
+
+        // Fetch paginated trainings
+        $trainings = CoopTraining::where('externaluser_id', $user->id)
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
+
+        // Group total funds by year (from start_date)
+        $yearlyTotals = CoopTraining::select(
+                DB::raw('YEAR(start_date) as year'),
+                DB::raw('SUM(total_fund) as total_fund')
+            )
+            ->where('externaluser_id', $user->id)
+            ->groupBy(DB::raw('YEAR(start_date)'))
+            ->orderBy('year', 'desc')
+            ->get();
+
+        return view('myinformation.trainings', compact('user', 'trainings', 'yearlyTotals'));
+    }
+
+    // When button Add Grant is clicked
+    public function viewTraining()
+    {
+        return view('myinformation.edittrainings', ['training' => null, 'mode' => 'create']);
+    }
+
+    public function addTraining(Request $request) {
+        $validated = $request->validate([
+            'title_of_training' => 'required|string|max:300',
+            'start_date'        => 'required|date',
+            'end_date'          => 'required|date|after_or_equal:start_date',
+            'no_of_attendees'   => 'required|integer|min:1',
+            'total_fund'        => 'required|numeric|min:0',
+            'remarks'           => 'nullable|string|max:255',
+        ]);               
+        
+        $user = Auth::user();
+        $validated['externaluser_id'] = $user->id;
+        CoopTraining::create($validated);
+
+        return redirect()->route('trainings')->with('success', 'Added successfully!');
+    }
+
+    public function editTraining($id)
+    {
+        $training = CoopTraining::findOrFail($id);
+        return view('myinformation.edittrainings', compact('training'))->with('mode', 'edit');;
+    }
+
+    public function updateTraining(Request $request, $id)
+    {
+        $train = CoopTraining::findOrFail($id);
+
+        $validated = $request->validate([
+            'title_of_training' => 'required|string|max:300',
+            'start_date'        => 'required|date',
+            'end_date'          => 'required|date|after_or_equal:start_date',
+            'no_of_attendees'   => 'required|integer|min:1',
+            'total_fund'        => 'required|numeric|min:0',
+            'remarks'           => 'nullable|string|max:255',
+        ]);
+        
+
+        $train->update($validated);
+
+        return redirect()->route('trainings')->with('success', 'Updated successfully.');
+    }
+
+    public function destroyTraining($id)
+    {
+        $train = CoopTraining::findOrFail($id); 
+        $train->delete(); 
+
+
+        return response()->json([
+            'message' => 'Deleted successfully.'
+        ]);
+    }
+
+    // --------------------------------------------
+    //  --------------- AWARDS --------------------
+    // --------------------------------------------
+
+    public function showAwards() 
+    {
+        $user = Auth::user();
+
+        // Fetch paginated trainings
+        $awards = CoopAward::where('externaluser_id', $user->id)
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
+
+        return view('myinformation.awards', compact('user', 'awards'));
+    }
+
+    // When button Add Grant is clicked
+    public function viewAward()
+    {
+        return view('myinformation.editawards', ['award' => null, 'mode' => 'create']);
+    }
+
+    public function addAward(Request $request) {
+        $validated = $request->validate([
+            'awarding_body' => 'required|string|max:300',
+            'nature_of_award'        => 'required|string|max:300',
+            'date_received'          => 'required|date',
+        ]);               
+        
+        $user = Auth::user();
+        $validated['externaluser_id'] = $user->id;
+        CoopAward::create($validated);
+
+        return redirect()->route('awards')->with('success', 'Added successfully!');
+    }
+
+    public function editAward($id)
+    {
+        $award = CoopAward::findOrFail($id);
+        return view('myinformation.editawards', compact('award'))->with('mode', 'edit');;
+    }
+
+    public function updateAward(Request $request, $id)
+    {
+        $award = CoopAward::findOrFail($id);
+
+        $validated = $request->validate([
+            'awarding_body' => 'required|string|max:300',
+            'nature_of_award'        => 'required|string|max:300',
+            'date_received'          => 'required|date',
+        ]); 
+        
+
+        $award->update($validated);
+
+        return redirect()->route('awards')->with('success', 'Updated successfully.');
+    }
+
+    public function destroyAward($id)
+    {
+        $award = CoopAward::findOrFail($id); 
+        $award->delete(); 
+
+
+        return response()->json([
+            'message' => 'Deleted successfully.'
+        ]);
+    }
 
 }

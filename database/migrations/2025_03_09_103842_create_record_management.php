@@ -140,7 +140,7 @@ return new class extends Migration
                     $table->date('acquired_at');
                     $table->decimal('amount', 15, 2);
                     $table->string('utilization');
-                    $table->string('remarks');
+                    $table->string('remarks')->nullable();
 
                 }
                 if ($tableName === 'coop_businesses') {

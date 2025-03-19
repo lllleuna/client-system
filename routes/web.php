@@ -190,24 +190,22 @@ Route::delete('/myinformation/officer/{id}', [CoopController::class, 'destroyOff
 
 
 // Grants
-Route::get('/myinformation/grants', function () {
-    return view('myinformation.grants');
-})->name('grants');
+Route::get('/myinformation/grants', [CoopController::class, 'showGrants'])->name('grants');
+Route::get('/myinformation/editgrants', [CoopController::class, 'viewGrant'] )->name('editgrants');
+Route::post('/myinformation/editgrants', [CoopController::class, 'addGrant'] )->name('addGrant');
+Route::get('/myinformation/editgrants/{id}/view', [CoopController::class, 'editGrant'])->name('editGrant');
+Route::put('/myinformation/editgrants/{id}', [CoopController::class, 'updateGrant'])->name('grant.update');
+Route::delete('/myinformation/editgrants/{id}', [CoopController::class, 'destroyGrant'])->name('grant.destroy');
 
-// Edit Grants
-Route::get('/myinformation/editgrants', function () {
-    return view('myinformation.editgrants');
-})->name('editgrants');
 
 // Loans
-Route::get('/myinformation/loans', function () {
-    return view('myinformation.loans');
-})->name('loans');
+Route::get('/myinformation/loans', [CoopController::class, 'showLoans'])->name('loans');
+Route::get('/myinformation/editloans', [CoopController::class, 'viewLoan'] )->name('editloans');
+Route::post('/myinformation/editloans', [CoopController::class, 'addLoan'] )->name('addloan');
+Route::get('/myinformation/editloans/{id}/view', [CoopController::class, 'editLoan'])->name('editloan');
+Route::put('/myinformation/editloans/{id}', [CoopController::class, 'updateLoan'])->name('loan.update');
+Route::delete('/myinformation/editloans/{id}', [CoopController::class, 'destroyLoan'])->name('loan.destroy');
 
-// Edit Loans
-Route::get('/myinformation/editloans', function () {
-    return view('myinformation.editloans');
-})->name('editloans');
 
 // Businesses
 Route::get('/myinformation/businesses', function () {
@@ -220,14 +218,13 @@ Route::get('/myinformation/editbusinesses', function () {
 })->name('editbusinesses');
 
 // Trainings 
-Route::get('/myinformation/trainings', function () {
-    return view('myinformation.trainings');
-})->name('trainings');
+Route::get('/myinformation/trainings', [CoopController::class, 'showTrainings'])->name('trainings');
+Route::get('/myinformation/edittraining', [CoopController::class, 'viewTraining'] )->name('edittrainings'); // add button
+Route::post('/myinformation/edittraining', [CoopController::class, 'addTraining'] )->name('addtraining');
+Route::get('/myinformation/edittraining/{id}/view', [CoopController::class, 'editTraining'])->name('edittraining'); // edit button
+Route::put('/myinformation/edittraining/{id}', [CoopController::class, 'updateTraining'])->name('training.update');
+Route::delete('/myinformation/edittraining/{id}', [CoopController::class, 'destroyTraining'])->name('training.destroy');
 
-// Edit Trainings 
-Route::get('/myinformation/edittrainings', function () {
-    return view('myinformation.edittrainings');
-})->name('edittrainings');
 
 // Scholarships 
 Route::get('/myinformation/scholarships', function () {
@@ -250,14 +247,12 @@ Route::get('/myinformation/editcetos', function () {
 })->name('editcetos');
 
 // Awards 
-Route::get('/myinformation/awards', function () {
-    return view('myinformation.awards');
-})->name('awards');
-
-// Edit Awards 
-Route::get('/myinformation/editawards', function () {
-    return view('myinformation.editawards');
-})->name('editawards');
+Route::get('/myinformation/awards', [CoopController::class, 'showAwards'])->name('awards');
+Route::get('/myinformation/award', [CoopController::class, 'viewAward'] )->name('editawards'); // add button
+Route::post('/myinformation/award', [CoopController::class, 'addAward'] )->name('addaward');
+Route::get('/myinformation/award/{id}/view', [CoopController::class, 'editAward'])->name('editaward'); // edit button
+Route::put('/myinformation/award/{id}', [CoopController::class, 'updateAward'])->name('award.update');
+Route::delete('/myinformation/award/{id}', [CoopController::class, 'destroyAward'])->name('award.destroy');
 
 
 // Authentication 

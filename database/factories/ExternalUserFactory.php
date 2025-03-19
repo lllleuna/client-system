@@ -34,7 +34,7 @@ class ExternalUserFactory extends Factory
             'chair_suffix' => $this->faker->optional()->suffix,
             'contact_no' => '63' . $this->faker->numberBetween(9000000000, 9999999999),
             'email' => $this->faker->unique()->safeEmail,
-            'password' => bcrypt('password'), // Default password for testing
+            'password' => bcrypt('!Password1234'), // Default password for testing
             'id_type' => $this->faker->randomElement(['Passport', 'Driver\'s License', 'National ID']),
             'id_number' => $this->faker->unique()->regexify('[A-Z0-9]{12}'),
         ];

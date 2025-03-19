@@ -4,20 +4,20 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Models\CoopMembership;
-use App\Models\ExternalUser;
 use Illuminate\Validation\Rule;
-use App\Models\CoopGeneralInfo;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
 use App\Mail\EmailVerificationMail;
-use App\Models\CoopUnit;
+use App\Models\ExternalUser;
+use App\Models\CoopMembership;
+use App\Models\CoopGeneralInfo;
+use App\Models\CoopUnit; // invidividually and coop owned
 use App\Models\CoopGovernance;
 use App\Models\CoopGrants;
 use App\Models\CoopLoan;
 use App\Models\CoopTraining;
-use Illuminate\Support\Facades\DB;
 use App\Models\CoopAward;
 
 class CoopController extends Controller
@@ -303,7 +303,8 @@ class CoopController extends Controller
                 'bir_validity' => $validatedData['bir_validity'] ?? null,
             ]
         );
-        
+
+        $this->updateGeneralInfoCounts();
 
         return redirect()->route('generalinfo')->with('success', 'General Information updated successfully.');
     }

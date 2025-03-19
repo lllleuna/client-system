@@ -119,7 +119,7 @@
                                 <label for="contact_no" class="block text-sm font-medium text-gray-600 mb-1">
                                     Contact Number
                                 </label>
-                                <div class="relative" title="Format: 10 digits (e.g., 9123456789)">
+                                <div class="relative" title="Format: 10 digits Only (e.g., 9123456789)">
                                     <div class="absolute inset-y-0 left-0 pl-2 flex items-center pointer-events-none">
                                         <span class="text-gray-500 sm:text-sm">+63</span>
                                     </div>
@@ -136,7 +136,7 @@
                                     />
                                 </div>
                                 <p class="text-xs text-gray-500 mt-1">
-                                    Format: 10 digits (e.g., 9123456789).
+                                    Format: 10 digits Only (e.g., 9123456789).
                                 </p>
                                 <x-form-error name="contact_no" bag="signup" class="text-red-500 text-xs mt-1"/>
                             </div>
@@ -189,8 +189,19 @@
                                             <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
                                         </svg>
                                     </div>
-                                    <x-form-input name="email" id="email" type="email" placeholder="name@company.com" :value="old('email')" class="pl-10 w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500 shadow-sm" required/>
+                                    <x-form-input 
+                                        name="email" 
+                                        id="email" 
+                                        type="email" 
+                                        placeholder="name@company.com" 
+                                        :value="old('email')" 
+                                        class="pl-10 w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500 shadow-sm" 
+                                        required
+                                        oninput="validateEmail(this)"
+                                        onblur="validateEmail(this, true)"
+                                    />
                                 </div>
+                                <div id="email-error" class="text-red-500 text-xs mt-1 hidden">Please include an @ in the email address</div>
                                 <x-form-error name="email" bag="signup" class="text-red-500 text-xs mt-1"/>
                             </div>
                             
@@ -399,7 +410,6 @@ function setIdInputMask() {
     
     checkFormValidity();
 }
-
         // Additional security measures for form submission
         function checkFormValidity() {
             const form = document.querySelector('form');
@@ -568,6 +578,7 @@ function setIdInputMask() {
                 } else {
                     lengthCheck.classList.remove('text-green-500');
                     lengthCheck.classList.add('text-red-500');
+                    lengthCheck.textContent = "Password must be at least 12 characters long.";
                 }
                 
                 // Check uppercase
@@ -577,6 +588,7 @@ function setIdInputMask() {
                 } else {
                     uppercaseCheck.classList.remove('text-green-500');
                     uppercaseCheck.classList.add('text-red-500');
+                    uppercaseCheck.textContent = "Password must contain at least one capital letter.";
                 }
                 
                 // Check special character
@@ -586,6 +598,7 @@ function setIdInputMask() {
                 } else {
                     specialCheck.classList.remove('text-green-500');
                     specialCheck.classList.add('text-red-500');
+                    specialCheck.textContent = "Password must contain at least one special character.";
                 }
                 
                 // Check password match
@@ -596,21 +609,24 @@ function setIdInputMask() {
             function checkPasswordsMatch() {
                 const password = passwordInput.value;
                 const confirmPassword = confirmPasswordInput.value;
-                
+
                 if (confirmPassword.length > 0) {
                     matchCheck.classList.remove('hidden');
-                    
+
                     if (password === confirmPassword) {
                         matchCheck.classList.remove('text-red-500');
                         matchCheck.classList.add('text-green-500');
+                        matchCheck.textContent = "Passwords match";
                     } else {
                         matchCheck.classList.remove('text-green-500');
                         matchCheck.classList.add('text-red-500');
+                        matchCheck.textContent = "Passwords do not match";
                     }
                 } else {
                     matchCheck.classList.add('hidden');
                 }
             }
+
             
             // Toggle password visibility
             togglePassword.addEventListener('click', function() {
@@ -631,5 +647,32 @@ function setIdInputMask() {
             passwordInput.addEventListener('input', validatePassword);
             confirmPasswordInput.addEventListener('input', checkPasswordsMatch);
         });
+        //Email Validation
+        function validateEmail(input, showError = false) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const errorElement = document.getElementById('email-error');
+        const isValid = emailRegex.test(input.value);
+        
+        // Add/remove validity classes
+        if (!isValid && (showError || input.value.length > 0)) {
+            input.classList.add('border-red-500');
+            input.classList.remove('border-gray-300', 'focus:border-blue-500');
+            errorElement.classList.remove('hidden');
+        } else {
+            input.classList.remove('border-red-500');
+            input.classList.add('border-gray-300', 'focus:border-blue-500');
+            errorElement.classList.add('hidden');
+        }
+        
+        return isValid;
+    }
+    
+    // Form submission validation
+    document.querySelector('form').addEventListener('submit', function(event) {
+        const emailInput = document.getElementById('email');
+        if (!validateEmail(emailInput, true)) {
+            event.preventDefault();
+        }
+    });
     </script>
 @endsection

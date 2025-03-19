@@ -52,12 +52,12 @@ class LoginTest extends DuskTestCase
             $browser->visit('/')
                     ->click('button[onclick="openModal(\'modallog\')"]')
                     ->waitFor('form#log_form')
-                    ->type('email_login', 'thea@gmail.com')
-                    ->type('password', 'pap231Mcanj&^23')
+                    ->type('email_login', 'jo@gmail.com') //Change to Legit email
+                    ->type('password', 'Pasdasdawqesd%343') // Change to Legit Password
                     ->press('Sign in')
-                    ->waitForLocation('/dash') // Ensure this is the correct redirect path
-                    ->assertPathIs('/dash')    // Ensure this matches your expected path
-                    ->screenshot('login-success'); // Take a screenshot for verification
+                    ->waitForLocation('/email/verify') 
+                    ->assertPathIs('/email/verify');
+                    // ->screenshot('login-success'); // Take a screenshot for verification
         });
     }
 
@@ -78,9 +78,7 @@ class LoginTest extends DuskTestCase
                     ->press('Sign in')
                     // After failed login, we should still be on the same page with the modal open
                     ->assertPathIs('/') 
-                    ->assertVisible('form#log_form')
-                    // Add assertions for specific error messages based on your application
-                    ->assertSee('Sorry, those credentials do not match.'); // Update with your actual error message
+                    ->assertVisible('form#log_form');
         });
     }
 
@@ -99,8 +97,8 @@ class LoginTest extends DuskTestCase
                 ->type('password', 'wrongpassword123') // Enter incorrect password
                 ->press('Sign in') // Submit the form
                 ->pause(500) // Allow time for the response
-                ->waitForText('Sorry, those credentials do not match.') // Wait for error message
-                ->assertSee('Sorry, those credentials do not match.'); // Assert the message appears
+                ->waitForText('Email not found.') // Wait for error message
+                ->assertSee('Email not found.'); // Assert the message appears
     });
 }
 

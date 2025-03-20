@@ -96,6 +96,13 @@ FOR FILE UPLOADS --}}
                         I am giving my consent for the Office of the Transportation Cooperatives to collect and process my data.
                     </label>
                 </div>
+                <div class="flex items-start space-x-3 mt-2">
+                    <input type="checkbox" id="oath" name="oath" 
+                        class="mt-1 w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                    <label for="oath" class="text-sm text-gray-600">
+                        I hereby certify that all information I have provided prior to and during this application, as recorded on this website, is true, correct, and updated to the best of my knowledge.
+                    </label>
+                </div>
             </div>
 
             <!-- Contact Section -->

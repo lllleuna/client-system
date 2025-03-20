@@ -892,7 +892,8 @@ class CoopController extends Controller
         return view('myinformation.edittrainings', ['training' => null, 'mode' => 'create']);
     }
 
-    public function addTraining(Request $request) {
+    public function addTraining(Request $request) 
+    {
         $validated = $request->validate([
             'title_of_training' => 'required|string|max:300',
             'start_date'        => 'required|date',
@@ -901,13 +902,19 @@ class CoopController extends Controller
             'total_fund'        => 'required|numeric|min:0',
             'remarks'           => 'nullable|string|max:255',
         ]);               
-        
+    
         $user = Auth::user();
         $validated['externaluser_id'] = $user->id;
+    
+        $totalMembers = CoopMembership::where('externaluser_id', $user->id)->count();
+    
+        $validated['total_members'] = $totalMembers;
+    
         CoopTraining::create($validated);
-
+    
         return redirect()->route('trainings')->with('success', 'Added successfully!');
     }
+    
 
     public function editTraining($id)
     {

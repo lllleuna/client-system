@@ -55,12 +55,11 @@ class LoginTest extends DuskTestCase
                     ->type('email_login', 'jo@gmail.com') //Change to Legit email
                     ->type('password', 'Pasdasdawqesd%343') // Change to Legit Password
                     ->press('Sign in')
-                    ->waitForLocation('/email/verify') 
-                    ->assertPathIs('/email/verify');
+                    ->waitForLocation('/dash') 
+                    ->assertPathIs('/dash');
                     // ->screenshot('login-success'); // Take a screenshot for verification
         });
     }
-
 
     /**
      * Test login with invalid credentials.

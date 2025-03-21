@@ -109,9 +109,17 @@ class ApplicationController extends Controller
 
         if ($request->hasFile('file_upload')) {
             $file = $request->file('file_upload');
-            $filePath = $file->store('uploads', 'public');
-            $allFormData['file_path'] = $filePath;
+        
+            // Generate unique filename
+            $filename = time() . '_' . $file->getClientOriginalName();
+        
+            // Move to shared/uploads folder
+            $file->move(public_path('shared/uploads'), $filename);
+        
+            // Store relative path
+            $allFormData['file_path'] = 'shared/uploads/' . $filename;
         }
+        
 
         $application = Application::create($allFormData);
         $referenceNumber = 'APP-' . str_pad($application->id, 6, '0', STR_PAD_LEFT);

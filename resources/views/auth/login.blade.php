@@ -9,11 +9,14 @@
     <x-form-input 
         name="email_login" 
         id="email" 
+        type="email" 
         placeholder="Email" 
         :value="old('email_login')" 
-        required
+        required 
+        pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+        title="Please enter a valid email address"
     />
-    <x-form-error name="email" bag="login" />
+    <x-form-error name="email_login" bag="login" />
 
     <x-form-input 
         name="password" 
@@ -21,15 +24,55 @@
         type="password" 
         placeholder="Password" 
         required
+        minlength="12"
+        title="Password must be at least 12 characters long"
     />
     <x-form-error name="password" bag="login" />
 
     <div class="mt-6">
-        <x-form-submit-button class="w-full py-3 px-4 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition duration-200 flex items-center justify-center space-x-2" >
+        <x-form-submit-button 
+            id="login-button"
+            class="w-full py-3 px-4 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition duration-200 flex items-center justify-center space-x-2" 
+        >
             <span>Sign in</span>
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M5 12h13M12 5l7 7-7 7"/>
             </svg>
         </x-form-submit-button>
     </div>
+
+    @if(session('lockout_time'))
+    <div id="lockout-message" class="text-red-600 text-sm mt-4">
+        Too many login attempts. Please try again in <span id="countdown">{{ session('lockout_time') }}</span> seconds.
+    </div>
+
+    <script>
+        let timeLeft = {{ session('lockout_time') }};
+        const countdownElement = document.getElementById("countdown");
+        const loginButton = document.getElementById("login-button");
+
+        // Disable login button
+        loginButton.disabled = true;
+        loginButton.classList.add("opacity-50", "cursor-not-allowed");
+
+        function updateCountdown() {
+            if (timeLeft > 0) {
+                timeLeft--;
+                countdownElement.textContent = timeLeft;
+                setTimeout(updateCountdown, 1000);
+            } else {
+                // Remove lockout message
+                document.getElementById("lockout-message").remove();
+
+                // Enable login button
+                loginButton.disabled = false;
+                loginButton.classList.remove("opacity-50", "cursor-not-allowed");
+            }
+        }
+
+        updateCountdown();
+    </script>
+    @endif
+
 </form>
+

@@ -35,7 +35,7 @@ class CoopGeneralInfoFactory extends Factory
             'barangay' => $this->faker->streetName,
             'business_address' => $this->faker->address,
             'email' => $this->faker->unique()->safeEmail,
-            'contact_no' => $this->faker->phoneNumber,
+            'contact_no' => '639' . $this->faker->numberBetween(100000000, 999999999),
         ];
     }
 }

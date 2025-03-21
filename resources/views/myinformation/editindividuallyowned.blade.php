@@ -32,6 +32,14 @@
                             <div class="space-y-6">
 
                                 <div>
+                                    <label class="flex items-center text-sm font-medium text-gray-700 mb-2">
+                                        <svg class="w-4 h-4 mr-2 text-gray-400" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                        </svg>
+                                        Member Name <span class="text-red-500">*</span>
+                                    </label>
                                     <select name="member_id" id="member_id" class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-100 focus:border-blue-400 transition-all duration-200">
                                         <option value="">Select a Member</option>
                                         @foreach ($members as $member)
@@ -45,15 +53,49 @@
                                 </div>
                                 <div>
                                     <label class="flex items-center text-sm font-medium text-gray-700 mb-2">
-                                        <svg class="w-4 h-4 mr-2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                        <svg class="w-4 h-4 mr-2 text-gray-400" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
                                         </svg>
                                         Type of Unit <span class="text-red-500">*</span>
                                     </label>
-                                    <input type="text" name="type" id="type" value="{{ old('type', $indivunit->type ?? '') }}"
-                                           class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-100 focus:border-blue-400 transition-all duration-200 @error('unit_type') border-red-500 @enderror"
-                                           placeholder="Enter type of unit" required>
-                                    <p id="unit_type_error" class="hidden mt-1 text-sm text-red-500">Please enter the type of unit</p>
+                                    <select name="type"
+                                        class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-100 focus:border-blue-400 transition-all duration-200 @error('sex') border-red-500 @enderror"
+                                        required oninvalid="this.setCustomValidity('Please select an option')"
+                                        oninput="this.setCustomValidity('')">
+                                        <option value="">Select type</option>
+                                        <option value="PUJ TRADITIONAL"
+                                            {{ old('type', $indivunit->type ?? '') == 'PUJ TRADITIONAL' ? 'selected' : '' }}>PUJ TRADITIONAL</option>
+                                        <option value="UV EXPRESS TRADITIONAL"
+                                            {{ old('type', $indivunit->type ?? '') == 'UV EXPRESS TRADITIONAL' ? 'selected' : '' }}>UV EXPRESS TRADITIONAL
+                                        </option>
+                                        <option value="MULTICAB/FILCAB"
+                                            {{ old('type', $indivunit->type ?? '') == 'MULTICAB/FILCAB' ? 'selected' : '' }}>MULTICAB/FILCAB</option>
+                                        <option value="BUS"
+                                            {{ old('type', $indivunit->type ?? '') == 'BUS' ? 'selected' : '' }}>BUS
+                                        </option>
+                                        <option value="MINIBUS"
+                                            {{ old('type', $indivunit->type ?? '') == 'MINIBUS' ? 'selected' : '' }}>MINIBUS</option>
+                                        <option value="TOURIST"
+                                            {{ old('type', $indivunit->type ?? '') == 'TOURIST' ? 'selected' : '' }}>TOURIST
+                                        </option>
+                                        <option value="TAXI"
+                                            {{ old('type', $indivunit->type ?? '') == 'TAXI' ? 'selected' : '' }}>TAXI</option>
+                                        <option value="TRUCK"
+                                            {{ old('type', $indivunit->type ?? '') == 'TRUCK' ? 'selected' : '' }}>TRUCK
+                                        </option>
+                                        <option value="MPUV C1 ELECTRTIC"
+                                            {{ old('type', $indivunit->type ?? '') == 'MPUV C1 ELECTRTIC' ? 'selected' : '' }}>MPUV C1 ELECTRTIC</option>
+                                        <option value="MPUV C1 EURO"
+                                            {{ old('type', $indivunit->type ?? '') == 'MPUV C1 EURO' ? 'selected' : '' }}>MPUV C1 EURO
+                                        </option>
+                                        <option value="MPUV C1 SOLAR"
+                                            {{ old('type', $indivunit->type ?? '') == 'MPUV C1 SOLAR' ? 'selected' : '' }}>MPUV C1 SOLAR</option>
+                                        <option value="VAN (TOURIST)"
+                                            {{ old('type', $indivunit->type ?? '') == 'VAN (TOURIST)' ? 'selected' : '' }}>VAN (TOURIST)
+                                        </option>
+                                    </select>
                                     @error('type')
                                         <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
                                     @enderror

@@ -6,21 +6,31 @@ FOR FILE UPLOADS --}}
 
         <!-- Tutorial Section -->
         <div class="space-y-6">
-            <!-- Steps Section -->
-            <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
-                <h2 class="text-2xl font-semibold text-gray-800 mb-6">Getting Started</h2>
-                
-                <div class="space-y-8">
-                    <!-- Tutorial -->
-                    <div class="space-y-4">
-                        <h3 class="text-lg font-medium text-gray-700">Sample of Compiled Requirements</h3>
-                        <div class="flex justify-center bg-gray-50 rounded-lg p-4">
-                            <img src="{{ asset('images/tutorials.png') }}" alt="Sample Requirements" 
-                                 class="w-full max-w-md h-auto object-contain rounded-lg">
-                        </div>
+        <!-- Steps Section -->
+        <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+            <h2 class="text-2xl font-semibold text-gray-800 mb-6">Getting Started</h2>
+
+            <div class="space-y-8">
+                <!-- Tutorial -->
+                <div class="space-y-4">
+                    <h3 class="text-lg font-medium text-gray-700">Sample of Compiled Requirements</h3>
+                    <div class="flex justify-center bg-gray-50 rounded-lg p-4">
+                        <img src="{{ asset('images/tutorials.png') }}" alt="Sample Requirements" 
+                            class="w-full max-w-md h-auto object-contain rounded-lg cursor-pointer"
+                            onclick="openModal(this)">
                     </div>
                 </div>
             </div>
+        </div>
+
+        <!-- Image Modal -->
+        <div id="imageModal" class="fixed inset-0 bg-black bg-opacity-75 flex justify-center items-center hidden">
+            <div class="relative">
+                <img id="modalImage" src="" class="max-w-full max-h-screen rounded-lg shadow-lg">
+                <button type="button" class="absolute top-2 right-2 text-white text-3xl font-bold" onclick="closeModal()">&times;</button>
+            </div>
+        </div>
+
 
             <!-- File Upload Section -->
             <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
@@ -86,6 +96,13 @@ FOR FILE UPLOADS --}}
                         I am giving my consent for the Office of the Transportation Cooperatives to collect and process my data.
                     </label>
                 </div>
+                <div class="flex items-start space-x-3 mt-2">
+                    <input type="checkbox" id="oath" name="oath" 
+                        class="mt-1 w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                    <label for="oath" class="text-sm text-gray-600">
+                        I hereby certify that all information I have provided prior to and during this application, as recorded on this website, is true, correct, and updated to the best of my knowledge.
+                    </label>
+                </div>
             </div>
 
             <!-- Contact Section -->
@@ -127,3 +144,14 @@ FOR FILE UPLOADS --}}
 
     </form>
 </x-accredit-steps>
+<!-- JavaScript -->
+<script>
+    function openModal(img) {
+        document.getElementById('modalImage').src = img.src;
+        document.getElementById('imageModal').classList.remove('hidden');
+    }
+
+    function closeModal() {
+        document.getElementById('imageModal').classList.add('hidden');
+    }
+</script>

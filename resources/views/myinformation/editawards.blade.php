@@ -20,9 +20,13 @@
                         </a>
                     </div>
 
-                    <form action="#" method="POST" class="space-y-6">
+                    <form action="{{ $mode == 'edit' ? route('award.update', $award->id) : route('addaward') }}"
+                        method="POST" class="space-y-6">
                         @csrf
-                        @method('PUT')
+                        @if ($mode == 'edit')
+                            @method('PUT')
+                        @endif
+
                         <div class="space-y-6">
                             {{-- Award Information --}}
                             <div>

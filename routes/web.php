@@ -10,6 +10,9 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 use App\Http\Controllers\CoopController;
 // use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\CGSRenewalController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ServicesController;
 
 //Login Page
 Route::get('/', function () {
@@ -48,13 +51,9 @@ Route::post('users/create', [RegisteredUserController::class, 'store']);
 
 
 // Logged in portal... DASHBOARD
-Route::get('/dash', function () {
-    if (!auth()->user()) {
-        return redirect('/');
-    }
-
-    return view('/dash');
-})->middleware(['auth', 'verified']);
+Route::get('/dash', [DashboardController::class, 'index'])
+    ->middleware(['auth', 'verified'])
+    ->name('dashboard');
 
 
 // Email Verification ---------------
@@ -152,9 +151,7 @@ Route::get('/myinformation/editmembership', function () {
 })->name('editmembership');
 
 // Employment
-Route::get('/myinformation/employment', function () {
-    return view('myinformation.employment');
-})->name('employment');
+Route::get('/myinformation/employment', [CoopController::class, 'showEmployment'])->name('employment');
 
 // Edit Employment
 Route::get('/myinformation/editemployment', function () {
@@ -192,24 +189,22 @@ Route::delete('/myinformation/officer/{id}', [CoopController::class, 'destroyOff
 
 
 // Grants
-Route::get('/myinformation/grants', function () {
-    return view('myinformation.grants');
-})->name('grants');
+Route::get('/myinformation/grants', [CoopController::class, 'showGrants'])->name('grants');
+Route::get('/myinformation/editgrants', [CoopController::class, 'viewGrant'] )->name('editgrants');
+Route::post('/myinformation/editgrants', [CoopController::class, 'addGrant'] )->name('addGrant');
+Route::get('/myinformation/editgrants/{id}/view', [CoopController::class, 'editGrant'])->name('editGrant');
+Route::put('/myinformation/editgrants/{id}', [CoopController::class, 'updateGrant'])->name('grant.update');
+Route::delete('/myinformation/editgrants/{id}', [CoopController::class, 'destroyGrant'])->name('grant.destroy');
 
-// Edit Grants
-Route::get('/myinformation/editgrants', function () {
-    return view('myinformation.editgrants');
-})->name('editgrants');
 
 // Loans
-Route::get('/myinformation/loans', function () {
-    return view('myinformation.loans');
-})->name('loans');
+Route::get('/myinformation/loans', [CoopController::class, 'showLoans'])->name('loans');
+Route::get('/myinformation/editloans', [CoopController::class, 'viewLoan'] )->name('editloans');
+Route::post('/myinformation/editloans', [CoopController::class, 'addLoan'] )->name('addloan');
+Route::get('/myinformation/editloans/{id}/view', [CoopController::class, 'editLoan'])->name('editloan');
+Route::put('/myinformation/editloans/{id}', [CoopController::class, 'updateLoan'])->name('loan.update');
+Route::delete('/myinformation/editloans/{id}', [CoopController::class, 'destroyLoan'])->name('loan.destroy');
 
-// Edit Loans
-Route::get('/myinformation/editloans', function () {
-    return view('myinformation.editloans');
-})->name('editloans');
 
 // Businesses
 Route::get('/myinformation/businesses', function () {
@@ -222,14 +217,13 @@ Route::get('/myinformation/editbusinesses', function () {
 })->name('editbusinesses');
 
 // Trainings 
-Route::get('/myinformation/trainings', function () {
-    return view('myinformation.trainings');
-})->name('trainings');
+Route::get('/myinformation/trainings', [CoopController::class, 'showTrainings'])->name('trainings');
+Route::get('/myinformation/edittraining', [CoopController::class, 'viewTraining'] )->name('edittrainings'); // add button
+Route::post('/myinformation/edittraining', [CoopController::class, 'addTraining'] )->name('addtraining');
+Route::get('/myinformation/edittraining/{id}/view', [CoopController::class, 'editTraining'])->name('edittraining'); // edit button
+Route::put('/myinformation/edittraining/{id}', [CoopController::class, 'updateTraining'])->name('training.update');
+Route::delete('/myinformation/edittraining/{id}', [CoopController::class, 'destroyTraining'])->name('training.destroy');
 
-// Edit Trainings 
-Route::get('/myinformation/edittrainings', function () {
-    return view('myinformation.edittrainings');
-})->name('edittrainings');
 
 // Scholarships 
 Route::get('/myinformation/scholarships', function () {
@@ -252,14 +246,12 @@ Route::get('/myinformation/editcetos', function () {
 })->name('editcetos');
 
 // Awards 
-Route::get('/myinformation/awards', function () {
-    return view('myinformation.awards');
-})->name('awards');
-
-// Edit Awards 
-Route::get('/myinformation/editawards', function () {
-    return view('myinformation.editawards');
-})->name('editawards');
+Route::get('/myinformation/awards', [CoopController::class, 'showAwards'])->name('awards');
+Route::get('/myinformation/award', [CoopController::class, 'viewAward'] )->name('editawards'); // add button
+Route::post('/myinformation/award', [CoopController::class, 'addAward'] )->name('addaward');
+Route::get('/myinformation/award/{id}/view', [CoopController::class, 'editAward'])->name('editaward'); // edit button
+Route::put('/myinformation/award/{id}', [CoopController::class, 'updateAward'])->name('award.update');
+Route::delete('/myinformation/award/{id}', [CoopController::class, 'destroyAward'])->name('award.destroy');
 
 
 // Authentication 
@@ -269,9 +261,7 @@ Route::post('/logout', [SessionController::class, 'destroy']);
 
 
 //Services
-Route::get('/otcservices/cgsrenewal', function () {
-    return view('otcservices.cgsrenewal');
-})->name('cgsrenewal');
+Route::get('/otcservices/cgsrenewal', [CGSRenewalController::class, 'index'])->name('cgsrenewal');
 
 Route::get('/otcservices/training', function () {
     return view('otcservices.training');
@@ -289,9 +279,9 @@ Route::get('/otcservices/accreditationcert', function () {
     return view('otcservices.accreditationcert');
 })->name('accreditationcert');
 
-Route::get('/otcservices/cgshistory', function () {
-    return view('otcservices.cgshistory');
-})->name('cgshistory');
+Route::get('/otcservices/cgshistory', [ServicesController::class, 'cgs'])->name('cgshistory');
+Route::get('/download-cgs/{filename}', [ServicesController::class, 'downloadCGS'])->name('download.cgs');
+
 
 Route::get('/otcservices/traininghistory', function () {
     return view('otcservices.traininghistory');

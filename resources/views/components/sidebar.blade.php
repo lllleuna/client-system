@@ -61,10 +61,10 @@
                            class="block px-4 py-2 text-sm rounded-lg transition-colors {{ request()->routeIs('membersMasterlist') ? 'bg-blue-50 text-blue-600 font-medium' : 'text-gray-600 hover:bg-gray-50' }}">
                             Members Masterlist
                         </a>
-                        <a href="{{ route('traininglist') }}"
+                        {{-- <a href="{{ route('traininglist') }}"
                            class="block px-4 py-2 text-sm rounded-lg transition-colors {{ request()->routeIs('traininglist') ? 'bg-blue-50 text-blue-600 font-medium' : 'text-gray-600 hover:bg-gray-50' }}">
                             Training Attendees
-                        </a>
+                        </a> --}}
                         <a href="{{ route('cooperativeowned') }}"
                            class="block px-4 py-2 text-sm rounded-lg transition-colors {{ request()->routeIs('cooperativeowned') ? 'bg-blue-50 text-blue-600 font-medium' : 'text-gray-600 hover:bg-gray-50' }}">
                             Cooperative-Owned Units
@@ -94,10 +94,10 @@
                            class="block px-4 py-2 text-sm rounded-lg transition-colors {{ request()->routeIs('generalinfo') ? 'bg-blue-50 text-blue-600 font-medium' : 'text-gray-600 hover:bg-gray-50' }}">
                             General Info
                         </a>
-                        <a href="{{ route('membership') }}" 
+                        {{-- <a href="{{ route('membership') }}" 
                            class="block px-4 py-2 text-sm rounded-lg transition-colors {{ request()->routeIs('membership') ? 'bg-blue-50 text-blue-600 font-medium' : 'text-gray-600 hover:bg-gray-50' }}">
                             Membership
-                        </a>
+                        </a> --}}
                         <a href="{{ route('employment') }}" 
                            class="block px-4 py-2 text-sm rounded-lg transition-colors {{ request()->routeIs('employment') ? 'bg-blue-50 text-blue-600 font-medium' : 'text-gray-600 hover:bg-gray-50' }}">
                             Employment
@@ -160,10 +160,10 @@
                            class="block px-4 py-2 text-sm rounded-lg transition-colors {{ request()->routeIs('loans') ? 'bg-blue-50 text-blue-600 font-medium' : 'text-gray-600 hover:bg-gray-50' }}">
                             Loans
                         </a>
-                        <a href="{{ route('businesses') }}" 
+                        {{-- <a href="{{ route('businesses') }}" 
                            class="block px-4 py-2 text-sm rounded-lg transition-colors {{ request()->routeIs('businesses') ? 'bg-blue-50 text-blue-600 font-medium' : 'text-gray-600 hover:bg-gray-50' }}">
                             Businesses
-                        </a>
+                        </a> --}}
                     </div>
                 </div>
 
@@ -185,14 +185,14 @@
                            class="block px-4 py-2 text-sm rounded-lg transition-colors {{ request()->routeIs('trainings') ? 'bg-blue-50 text-blue-600 font-medium' : 'text-gray-600 hover:bg-gray-50' }}">
                             Trainings & Seminars
                         </a>
-                        <a href="{{ route('scholarships') }}"
+                        {{-- <a href="{{ route('scholarships') }}"
                            class="block px-4 py-2 text-sm rounded-lg transition-colors {{ request()->routeIs('scholarships') ? 'bg-blue-50 text-blue-600 font-medium' : 'text-gray-600 hover:bg-gray-50' }}">
                             Scholarships
-                        </a>
-                        <a href="{{ route('cetos') }}"
+                        </a> --}}
+                        {{-- <a href="{{ route('cetos') }}"
                            class="block px-4 py-2 text-sm rounded-lg transition-colors {{ request()->routeIs('cetos') ? 'bg-blue-50 text-blue-600 font-medium' : 'text-gray-600 hover:bg-gray-50' }}">
                             CETOS
-                        </a>
+                        </a> --}}
                         <a href="{{ route('awards') }}" 
                            class="block px-4 py-2 text-sm rounded-lg transition-colors {{ request()->routeIs('awards') ? 'bg-blue-50 text-blue-600 font-medium' : 'text-gray-600 hover:bg-gray-50' }}">
                             Awards

@@ -30,7 +30,7 @@ class CoopMembershipFactory extends Factory
             'sex' => $this->faker->randomElement(['Male', 'Female']),
             'role' => $this->faker->randomElement(['Driver', 'Operator', 'Allied Workers', 'Others']),
             'email' => $this->faker->unique()->safeEmail,
-            'mobile_no' => $this->faker->phoneNumber,
+            'mobile_no' => '639' . $this->faker->numberBetween(100000000, 999999999),
             'birthday' => $this->faker->date
         ];
     }

@@ -12,12 +12,6 @@
                     <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-6 space-y-4 lg:space-y-0">
                         <h2 class="text-xl font-bold text-gray-800">Operations</h2>
                         <div class="flex flex-col sm:flex-row w-full lg:w-auto space-y-3 sm:space-y-0 sm:space-x-3">
-                            <a href="{{ route('editemployment') }}" class="inline-flex items-center justify-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all duration-200">
-                                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                                </svg>
-                                Edit
-                            </a>
                             <div class="flex w-full sm:w-auto space-x-2">
                                 <button class="flex-1 sm:flex-none inline-flex items-center justify-center px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-all duration-200">
                                     <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -60,78 +54,78 @@
                                     <tbody>
                                         <tr>
                                             <td class="py-3 px-4 border text-left">Drivers</td>
-                                            <td class="py-3 px-4 border text-center">{{ $employment->drivers_probationary_male ?? '0' }}</td>
-                                            <td class="py-3 px-4 border text-center">{{ $employment->drivers_probationary_female ?? '0' }}</td>
-                                            <td class="py-3 px-4 border text-center">{{ $employment->drivers_regular_male ?? '0' }}</td>
-                                            <td class="py-3 px-4 border text-center">{{ $employment->drivers_regular_female ?? '0' }}</td>
+                                            <td class="py-3 px-4 border text-center">{{ $coopEmployment->driver_probationary_male ?? '0' }}</td>
+                                            <td class="py-3 px-4 border text-center">{{ $coopEmployment->driver_probationary_female ?? '0' }}</td>
+                                            <td class="py-3 px-4 border text-center">{{ $coopEmployment->driver_regular_male ?? '0' }}</td>
+                                            <td class="py-3 px-4 border text-center">{{ $coopEmployment->driver_regular_female ?? '0' }}</td>
                                             <td class="py-3 px-4 border text-center">
-                                                {{ ($employment->drivers_probationary_male ?? 0) + 
-                                                   ($employment->drivers_probationary_female ?? 0) + 
-                                                   ($employment->drivers_regular_male ?? 0) + 
-                                                   ($employment->drivers_regular_female ?? 0) }}
+                                                {{ ($coopEmployment->driver_probationary_male ?? 0) + 
+                                                   ($coopEmployment->driver_probationary_female ?? 0) + 
+                                                   ($coopEmployment->driver_regular_male ?? 0) + 
+                                                   ($coopEmployment->driver_regular_female ?? 0) }}
                                             </td>
                                         </tr>
                                         <tr class="bg-gray-50">
                                             <td class="py-3 px-4 border text-left">Management Staff</td>
-                                            <td class="py-3 px-4 border text-center">{{ $employment->management_probationary_male ?? '0' }}</td>
-                                            <td class="py-3 px-4 border text-center">{{ $employment->management_probationary_female ?? '0' }}</td>
-                                            <td class="py-3 px-4 border text-center">{{ $employment->management_regular_male ?? '0' }}</td>
-                                            <td class="py-3 px-4 border text-center">{{ $employment->management_regular_female ?? '0' }}</td>
+                                            <td class="py-3 px-4 border text-center">{{ $coopEmployment->operator_probationary_male ?? '0' }}</td>
+                                            <td class="py-3 px-4 border text-center">{{ $coopEmployment->operator_probationary_female ?? '0' }}</td>
+                                            <td class="py-3 px-4 border text-center">{{ $coopEmployment->operator_regular_male ?? '0' }}</td>
+                                            <td class="py-3 px-4 border text-center">{{ $coopEmployment->operator_regular_female ?? '0' }}</td>
                                             <td class="py-3 px-4 border text-center">
-                                                {{ ($employment->management_probationary_male ?? 0) + 
-                                                   ($employment->management_probationary_female ?? 0) + 
-                                                   ($employment->management_regular_male ?? 0) + 
-                                                   ($employment->management_regular_female ?? 0) }}
+                                                {{ ($coopEmployment->operator_probationary_male ?? 0) + 
+                                                   ($coopEmployment->operator_probationary_female ?? 0) + 
+                                                   ($coopEmployment->operator_regular_male ?? 0) + 
+                                                   ($coopEmployment->operator_regular_female ?? 0) }}
                                             </td>
                                         </tr>
                                         <tr>
                                             <td class="py-3 px-4 border text-left">Allied Workers</td>
-                                            <td class="py-3 px-4 border text-center">{{ $employment->allied_probationary_male ?? '0' }}</td>
-                                            <td class="py-3 px-4 border text-center">{{ $employment->allied_probationary_female ?? '0' }}</td>
-                                            <td class="py-3 px-4 border text-center">{{ $employment->allied_regular_male ?? '0' }}</td>
-                                            <td class="py-3 px-4 border text-center">{{ $employment->allied_regular_female ?? '0' }}</td>
+                                            <td class="py-3 px-4 border text-center">{{ $coopEmployment->allied_probationary_male ?? '0' }}</td>
+                                            <td class="py-3 px-4 border text-center">{{ $coopEmployment->allied_probationary_female ?? '0' }}</td>
+                                            <td class="py-3 px-4 border text-center">{{ $coopEmployment->allied_regular_male ?? '0' }}</td>
+                                            <td class="py-3 px-4 border text-center">{{ $coopEmployment->allied_regular_female ?? '0' }}</td>
                                             <td class="py-3 px-4 border text-center">
-                                                {{ ($employment->allied_probationary_male ?? 0) + 
-                                                   ($employment->allied_probationary_female ?? 0) + 
-                                                   ($employment->allied_regular_male ?? 0) + 
-                                                   ($employment->allied_regular_female ?? 0) }}
+                                                {{ ($coopEmployment->allied_probationary_male ?? 0) + 
+                                                   ($coopEmployment->allied_probationary_female ?? 0) + 
+                                                   ($coopEmployment->allied_regular_male ?? 0) + 
+                                                   ($coopEmployment->allied_regular_female ?? 0) }}
                                             </td>
                                         </tr>
                                         <tr class="bg-blue-50 font-bold">
                                             <td class="py-3 px-4 border text-left">TOTAL</td>
                                             <td class="py-3 px-4 border text-center">
-                                                {{ ($employment->drivers_probationary_male ?? 0) + 
-                                                   ($employment->management_probationary_male ?? 0) + 
-                                                   ($employment->allied_probationary_male ?? 0) }}
+                                                {{ ($coopEmployment->driver_probationary_male ?? 0) + 
+                                                   ($coopEmployment->operator_probationary_male ?? 0) + 
+                                                   ($coopEmployment->allied_probationary_male ?? 0) }}
                                             </td>
                                             <td class="py-3 px-4 border text-center">
-                                                {{ ($employment->drivers_probationary_female ?? 0) + 
-                                                   ($employment->management_probationary_female ?? 0) + 
-                                                   ($employment->allied_probationary_female ?? 0) }}
+                                                {{ ($coopEmployment->driver_probationary_female ?? 0) + 
+                                                   ($coopEmployment->operator_probationary_female ?? 0) + 
+                                                   ($coopEmployment->allied_probationary_female ?? 0) }}
                                             </td>
                                             <td class="py-3 px-4 border text-center">
-                                                {{ ($employment->drivers_regular_male ?? 0) + 
-                                                   ($employment->management_regular_male ?? 0) + 
-                                                   ($employment->allied_regular_male ?? 0) }}
+                                                {{ ($coopEmployment->driver_regular_male ?? 0) + 
+                                                   ($coopEmployment->operator_regular_male ?? 0) + 
+                                                   ($coopEmployment->allied_regular_male ?? 0) }}
                                             </td>
                                             <td class="py-3 px-4 border text-center">
-                                                {{ ($employment->drivers_regular_female ?? 0) + 
-                                                   ($employment->management_regular_female ?? 0) + 
-                                                   ($employment->allied_regular_female ?? 0) }}
+                                                {{ ($coopEmployment->driver_regular_female ?? 0) + 
+                                                   ($coopEmployment->operator_regular_female ?? 0) + 
+                                                   ($coopEmployment->allied_regular_female ?? 0) }}
                                             </td>
                                             <td class="py-3 px-4 border text-center">
-                                                {{ ($employment->drivers_probationary_male ?? 0) + 
-                                                   ($employment->drivers_probationary_female ?? 0) + 
-                                                   ($employment->drivers_regular_male ?? 0) + 
-                                                   ($employment->drivers_regular_female ?? 0) +
-                                                   ($employment->management_probationary_male ?? 0) + 
-                                                   ($employment->management_probationary_female ?? 0) + 
-                                                   ($employment->management_regular_male ?? 0) + 
-                                                   ($employment->management_regular_female ?? 0) +
-                                                   ($employment->allied_probationary_male ?? 0) + 
-                                                   ($employment->allied_probationary_female ?? 0) + 
-                                                   ($employment->allied_regular_male ?? 0) + 
-                                                   ($employment->allied_regular_female ?? 0) }}
+                                                {{ ($coopEmployment->driver_probationary_male ?? 0) + 
+                                                   ($coopEmployment->driver_probationary_female ?? 0) + 
+                                                   ($coopEmployment->driver_regular_male ?? 0) + 
+                                                   ($coopEmployment->driver_regular_female ?? 0) +
+                                                   ($coopEmployment->operator_probationary_male ?? 0) + 
+                                                   ($coopEmployment->operator_probationary_female ?? 0) + 
+                                                   ($coopEmployment->operator_regular_male ?? 0) + 
+                                                   ($coopEmployment->operator_regular_female ?? 0) +
+                                                   ($coopEmployment->allied_probationary_male ?? 0) + 
+                                                   ($coopEmployment->allied_probationary_female ?? 0) + 
+                                                   ($coopEmployment->allied_regular_male ?? 0) + 
+                                                   ($coopEmployment->allied_regular_female ?? 0) }}
                                             </td>
                                         </tr>
                                     </tbody>
@@ -143,23 +137,23 @@
                                 <div class="bg-white p-4 rounded-lg shadow-sm">
                                     <h4 class="text-md font-medium text-gray-600 mb-2">Probationary Employees</h4>
                                     <p class="text-2xl font-bold text-blue-600">
-                                        {{ ($employment->drivers_probationary_male ?? 0) + 
-                                           ($employment->drivers_probationary_female ?? 0) +
-                                           ($employment->management_probationary_male ?? 0) + 
-                                           ($employment->management_probationary_female ?? 0) +
-                                           ($employment->allied_probationary_male ?? 0) + 
-                                           ($employment->allied_probationary_female ?? 0) }}
+                                        {{ ($coopEmployment->driver_probationary_male ?? 0) + 
+                                           ($coopEmployment->driver_probationary_female ?? 0) +
+                                           ($coopEmployment->operator_probationary_male ?? 0) + 
+                                           ($coopEmployment->operator_probationary_female ?? 0) +
+                                           ($coopEmployment->allied_probationary_male ?? 0) + 
+                                           ($coopEmployment->allied_probationary_female ?? 0) }}
                                     </p>
                                     <div class="flex justify-between text-sm mt-2">
                                         <span class="text-blue-800">Males: 
-                                            {{ ($employment->drivers_probationary_male ?? 0) + 
-                                               ($employment->management_probationary_male ?? 0) + 
-                                               ($employment->allied_probationary_male ?? 0) }}
+                                            {{ ($coopEmployment->driver_probationary_male ?? 0) + 
+                                               ($coopEmployment->operator_probationary_male ?? 0) + 
+                                               ($coopEmployment->allied_probationary_male ?? 0) }}
                                         </span>
                                         <span class="text-pink-600">Females: 
-                                            {{ ($employment->drivers_probationary_female ?? 0) + 
-                                               ($employment->management_probationary_female ?? 0) + 
-                                               ($employment->allied_probationary_female ?? 0) }}
+                                            {{ ($coopEmployment->driver_probationary_female ?? 0) + 
+                                               ($coopEmployment->operator_probationary_female ?? 0) + 
+                                               ($coopEmployment->allied_probationary_female ?? 0) }}
                                         </span>
                                     </div>
                                 </div>
@@ -167,23 +161,23 @@
                                 <div class="bg-white p-4 rounded-lg shadow-sm">
                                     <h4 class="text-md font-medium text-gray-600 mb-2">Regular Employees</h4>
                                     <p class="text-2xl font-bold text-blue-600">
-                                        {{ ($employment->drivers_regular_male ?? 0) + 
-                                           ($employment->drivers_regular_female ?? 0) +
-                                           ($employment->management_regular_male ?? 0) + 
-                                           ($employment->management_regular_female ?? 0) +
-                                           ($employment->allied_regular_male ?? 0) + 
-                                           ($employment->allied_regular_female ?? 0) }}
+                                        {{ ($coopEmployment->driver_regular_male ?? 0) + 
+                                           ($coopEmployment->driver_regular_female ?? 0) +
+                                           ($coopEmployment->operator_regular_male ?? 0) + 
+                                           ($coopEmployment->operator_regular_female ?? 0) +
+                                           ($coopEmployment->allied_regular_male ?? 0) + 
+                                           ($coopEmployment->allied_regular_female ?? 0) }}
                                     </p>
                                     <div class="flex justify-between text-sm mt-2">
                                         <span class="text-blue-800">Males: 
-                                            {{ ($employment->drivers_regular_male ?? 0) + 
-                                               ($employment->management_regular_male ?? 0) + 
-                                               ($employment->allied_regular_male ?? 0) }}
+                                            {{ ($coopEmployment->driver_regular_male ?? 0) + 
+                                               ($coopEmployment->operator_regular_male ?? 0) + 
+                                               ($coopEmployment->allied_regular_male ?? 0) }}
                                         </span>
                                         <span class="text-pink-600">Females: 
-                                            {{ ($employment->drivers_regular_female ?? 0) + 
-                                               ($employment->management_regular_female ?? 0) + 
-                                               ($employment->allied_regular_female ?? 0) }}
+                                            {{ ($coopEmployment->driver_regular_female ?? 0) + 
+                                               ($coopEmployment->operator_regular_female ?? 0) + 
+                                               ($coopEmployment->allied_regular_female ?? 0) }}
                                         </span>
                                     </div>
                                 </div>
@@ -191,35 +185,35 @@
                                 <div class="bg-white p-4 rounded-lg shadow-sm">
                                     <h4 class="text-md font-medium text-gray-600 mb-2">Total Employees</h4>
                                     <p class="text-2xl font-bold text-blue-600">
-                                        {{ ($employment->drivers_probationary_male ?? 0) + 
-                                           ($employment->drivers_probationary_female ?? 0) + 
-                                           ($employment->drivers_regular_male ?? 0) + 
-                                           ($employment->drivers_regular_female ?? 0) +
-                                           ($employment->management_probationary_male ?? 0) + 
-                                           ($employment->management_probationary_female ?? 0) + 
-                                           ($employment->management_regular_male ?? 0) + 
-                                           ($employment->management_regular_female ?? 0) +
-                                           ($employment->allied_probationary_male ?? 0) + 
-                                           ($employment->allied_probationary_female ?? 0) + 
-                                           ($employment->allied_regular_male ?? 0) + 
-                                           ($employment->allied_regular_female ?? 0) }}
+                                        {{ ($coopEmployment->driver_probationary_male ?? 0) + 
+                                           ($coopEmployment->driver_probationary_female ?? 0) + 
+                                           ($coopEmployment->driver_regular_male ?? 0) + 
+                                           ($coopEmployment->driver_regular_female ?? 0) +
+                                           ($coopEmployment->operator_probationary_male ?? 0) + 
+                                           ($coopEmployment->operator_probationary_female ?? 0) + 
+                                           ($coopEmployment->operator_regular_male ?? 0) + 
+                                           ($coopEmployment->operator_regular_female ?? 0) +
+                                           ($coopEmployment->allied_probationary_male ?? 0) + 
+                                           ($coopEmployment->allied_probationary_female ?? 0) + 
+                                           ($coopEmployment->allied_regular_male ?? 0) + 
+                                           ($coopEmployment->allied_regular_female ?? 0) }}
                                     </p>
                                     <div class="flex justify-between text-sm mt-2">
                                         <span class="text-blue-800">Males: 
-                                            {{ ($employment->drivers_probationary_male ?? 0) + 
-                                               ($employment->drivers_regular_male ?? 0) +
-                                               ($employment->management_probationary_male ?? 0) + 
-                                               ($employment->management_regular_male ?? 0) +
-                                               ($employment->allied_probationary_male ?? 0) + 
-                                               ($employment->allied_regular_male ?? 0) }}
+                                            {{ ($coopEmployment->driver_probationary_male ?? 0) + 
+                                               ($coopEmployment->driver_regular_male ?? 0) +
+                                               ($coopEmployment->operator_probationary_male ?? 0) + 
+                                               ($coopEmployment->operator_regular_male ?? 0) +
+                                               ($coopEmployment->allied_probationary_male ?? 0) + 
+                                               ($coopEmployment->allied_regular_male ?? 0) }}
                                         </span>
                                         <span class="text-pink-600">Females: 
-                                            {{ ($employment->drivers_probationary_female ?? 0) + 
-                                               ($employment->drivers_regular_female ?? 0) +
-                                               ($employment->management_probationary_female ?? 0) + 
-                                               ($employment->management_regular_female ?? 0) +
-                                               ($employment->allied_probationary_female ?? 0) + 
-                                               ($employment->allied_regular_female ?? 0) }}
+                                            {{ ($coopEmployment->driver_probationary_female ?? 0) + 
+                                               ($coopEmployment->driver_regular_female ?? 0) +
+                                               ($coopEmployment->operator_probationary_female ?? 0) + 
+                                               ($coopEmployment->operator_regular_female ?? 0) +
+                                               ($coopEmployment->allied_probationary_female ?? 0) + 
+                                               ($coopEmployment->allied_regular_female ?? 0) }}
                                         </span>
                                     </div>
                                 </div>

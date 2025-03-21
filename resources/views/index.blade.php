@@ -35,5 +35,5 @@
             });
         </script>
     @endif
-
+@include('components.page-switcher')
 @endsection

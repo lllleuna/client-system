@@ -16,8 +16,9 @@ class CoopGeneralInfo extends Model
 
     protected $guarded = [];
 
-    public function coopMembership(): HasMany
+    public function applications()
     {
-        return $this->hasMany(CoopMembership::class, 'coop_info_id');
+        return $this->hasMany(Application::class, 'user_id', 'externaluser_id');
     }
+
 }

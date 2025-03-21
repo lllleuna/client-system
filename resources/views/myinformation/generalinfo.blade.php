@@ -83,23 +83,35 @@
                                     <div class="space-y-4">
                                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                             <div class="bg-white p-4 rounded-lg shadow-sm">
-                                                <p class="text-sm text-gray-500 font-medium mb-1">ACCREDITATION NO.
-                                                    (RA9520)</p>
-                                                <p
-                                                    class="text-md font-semibold 
-                                                {{ $mainrecord->accreditation_no ? 'text-green-600' : 'text-red-600' }}">
-                                                    {{ $mainrecord->accreditation_no ?? 'Not Available' }}
+                                                <p class="text-sm text-gray-500 font-medium mb-1">ACCREDITATION NO. (RA9520)
                                                 </p>
+
+                                                @if ($mainrecord && $mainrecord->accreditation_no)
+                                                    <p class="text-md font-semibold text-green-600">
+                                                        {{ $mainrecord->accreditation_no }}
+                                                    </p>
+                                                @else
+                                                    <p class="text-md font-semibold text-red-600">
+                                                        Not Available
+                                                    </p>
+                                                @endif
                                             </div>
+
 
                                             <div class="bg-white p-4 rounded-lg shadow-sm">
                                                 <p class="text-sm text-gray-500 font-medium mb-1">DATE ACCREDITED</p>
-                                                <p
-                                                    class="text-md font-semibold 
-                                                {{ $mainrecord->accreditation_date ? 'text-green-600' : 'text-red-600' }}">
-                                                    {{ $mainrecord->accreditation_date ?? 'Not Available' }}
-                                                </p>
+
+                                                @if ($mainrecord && $mainrecord->accreditation_date)
+                                                    <p class="text-md font-semibold text-green-600">
+                                                        {{ \Carbon\Carbon::parse($mainrecord->accreditation_date)->format('M j, Y') }}
+                                                    </p>
+                                                @else
+                                                    <p class="text-md font-semibold text-red-600">
+                                                        Not Available
+                                                    </p>
+                                                @endif
                                             </div>
+
 
                                         </div>
 

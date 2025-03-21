@@ -83,64 +83,93 @@
         <!-- Status Cards Grid -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 mb-8">
             <!-- CGS Status Card with Interactive Progress Bar -->
-            <div class="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow p-6 cursor-pointer relative overflow-hidden group"
-                onclick="window.location.href='#'" {{-- Attention! Namme, Pa-edit ng route na paputang CGS Renewal yung onclick="window.location.href='#'" sa taas nito.  --}} id="cgs-status-card">
-                <!-- Hover effect overlay -->
-                <div class="absolute inset-0 bg-green-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                </div>
-
-                <div class="relative z-10"> <!-- Content above the overlay -->
-                    <div class="flex justify-between items-center">
-                        <h3 class="text-gray-500 text-sm font-medium">CGS Status</h3>
-                        <span class="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full font-medium">Active</span>
+            @if ($generalInfo && $generalInfo->validity_date)
+                <div class="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow p-6 cursor-pointer relative overflow-hidden group"
+                    onclick="window.location.href='#'" {{-- Attention! Namme, Pa-edit ng route na paputang CGS Renewal yung onclick="window.location.href='#'" sa taas nito.  --}} id="cgs-status-card">
+                    <!-- Hover effect overlay -->
+                    <div
+                        class="absolute inset-0 bg-green-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                     </div>
 
-                    <p class="text-2xl font-bold text-green-600 mt-2">Valid Until
-                        {{ $generalInfo->validity_date ? \Carbon\Carbon::parse($generalInfo->validity_date)->format('M j, Y') : 'N/A' }}
-                    </p>
-
-                    <!-- Progress Bar Section -->
-                    <div class="mt-4">
-                        <div class="flex justify-between items-center mb-1">
-                            <span class="text-xs text-gray-500">Application Window:</span>
-                            <span class="text-xs font-medium text-gray-700" id="cgs-countdown">{{ $daysDifference !== null ? round($daysDifference) : 'N/A' }}
-                                days remaining</span>
+                    <div class="relative z-10"> <!-- Content above the overlay -->
+                        <div class="flex justify-between items-center">
+                            <h3 class="text-gray-500 text-sm font-medium">CGS Status</h3>
+                            <span
+                                class="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full font-medium">Active</span>
                         </div>
-                        <div class="w-full bg-gray-200 rounded-full h-3">
-                            <div class="bg-green-600 h-3 rounded-full relative"
-                                style="width: {{ $progressPercentage ?? '65' }}%" id="cgs-progress-bar">
-                                <div
-                                    class="absolute right-0 top-0 h-3 w-3 bg-white border-2 border-green-600 rounded-full transform translate-x-1/2 shadow-sm">
+
+                        <p class="text-2xl font-bold text-green-600 mt-2">
+                            Valid Until:
+                            {{ optional($generalInfo)->validity_date ? \Carbon\Carbon::parse($generalInfo->validity_date)->format('M j, Y') : 'N/A' }}
+                        </p>
+
+
+                        <!-- Progress Bar Section -->
+                        <div class="mt-4">
+                            <div class="flex justify-between items-center mb-1">
+                                <span class="text-xs text-gray-500">Application Window:</span>
+                                <span class="text-xs font-medium text-gray-700"
+                                    id="cgs-countdown">{{ $daysDifference !== null ? round($daysDifference) : 'N/A' }}
+                                    days remaining</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-3">
+                                <div class="bg-green-600 h-3 rounded-full relative"
+                                    style="width: {{ $progressPercentage ?? '65' }}%" id="cgs-progress-bar">
+                                    <div
+                                        class="absolute right-0 top-0 h-3 w-3 bg-white border-2 border-green-600 rounded-full transform translate-x-1/2 shadow-sm">
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="flex justify-between text-xs text-gray-500 mt-1">
-                            <span>{{ $generalInfo->updated_at ? \Carbon\Carbon::parse($generalInfo->updated_at)->format('M j, Y') : 'N/A' }}</span>
-                            <span class="font-medium">{{ $generalInfo->validity_date ? \Carbon\Carbon::parse($generalInfo->validity_date)->format('M j, Y') : 'N/A' }}</span>
-                        </div>
-                        {{-- <div class="mt-3 text-xs flex items-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-500 mr-1" fill="none"
-                                viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
-                            <span class="text-gray-600">Recommended: Apply at least 2 weeks before deadline</span>
-                        </div> --}}
-                    </div>
+                            <div class="flex justify-between text-xs text-gray-500 mt-1">
+                                <span>{{ optional($generalInfo)->updated_at ? \Carbon\Carbon::parse($generalInfo->updated_at)->format('M j, Y') : 'N/A' }}</span>
 
-                    <!-- View Details Button -->
-                    <div class="mt-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                        <a href="{{ route('cgsrenewal') }}"
-                            class="w-full py-2 bg-green-600 hover:bg-green-700 text-white rounded-md text-sm font-medium transition-colors duration-200 flex items-center justify-center">
-                            <span>View Renewal Details</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24"
-                                stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                            </svg>
-                        </a>
+                                <span class="font-medium">
+                                    {{ optional($generalInfo)->validity_date ? \Carbon\Carbon::parse($generalInfo->validity_date)->format('M j, Y') : 'N/A' }}
+                                </span>
+
+                            </div>
+                            {{-- <div class="mt-3 text-xs flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-500 mr-1" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <span class="text-gray-600">Recommended: Apply at least 2 weeks before deadline</span>
+                    </div> --}}
+                        </div>
+
+                        <!-- View Details Button -->
+                        <div class="mt-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <a href="{{ route('cgsrenewal') }}"
+                                class="w-full py-2 bg-green-600 hover:bg-green-700 text-white rounded-md text-sm font-medium transition-colors duration-200 flex items-center justify-center">
+                                <span>View Renewal Details</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M9 5l7 7-7 7" />
+                                </svg>
+                            </a>
+                        </div>
                     </div>
                 </div>
-            </div>
+            @else
+                <div class="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow p-6 cursor-pointer relative overflow-hidden group"
+                    onclick="window.location.href='#'" id="cgs-status-card">
+
+
+                    <div class="flex flex-col items-center justify-center h-full text-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-red-500 mb-4" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M18.364 5.636l-1.414 1.414M6.343 5.636L4.929 7.05M12 4v2m0 12v2m8-8h-2M6 12H4m15.364 6.364l-1.414-1.414M6.343 18.364l-1.414-1.414M12 8v4l3 3" />
+                        </svg>
+                        <p class="text-lg font-semibold text-red-500">No Active CGS</p>
+                        <p class="text-gray-500 mt-1 text-sm">Please submit or renew your CGS.</p>
+                    </div>
+
+
+                </div>
+            @endif
 
             <!-- Total Units Card with Interactive Pie Chart -->
             <div class="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow p-6 cursor-pointer relative overflow-hidden group"
@@ -523,7 +552,7 @@
             }, intervalTime);
         }
 
-        
+
 
         // Show unit details modal/page
         function showUnitDetails() {

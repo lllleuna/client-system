@@ -20,7 +20,8 @@ class LoginTest extends DuskTestCase
             $browser->visit('/')
                     ->assertSee('OFFICE OF TRANSPORTATION COOPERATIVES')
                     ->assertSee('INNOVATION TOWARDS MODERNIZATION')
-                    ->assertPresent('button[onclick="openModal(\'modallog\')"]');
+                    ->assertPresent('button[onclick="openModal(\'modallog\')"]')
+                    ->screenshot('login-click-success');
         });
     }
 
@@ -56,7 +57,8 @@ class LoginTest extends DuskTestCase
                     ->type('password', 'Pasdasdawqesd%343') // Change to Legit Password
                     ->press('Sign in')
                     ->waitForLocation('/dash') 
-                    ->assertPathIs('/dash');
+                    ->assertPathIs('/dash')
+                    ->screenshot('login-success');;
                     // ->screenshot('login-success'); // Take a screenshot for verification
         });
     }
@@ -77,7 +79,8 @@ class LoginTest extends DuskTestCase
                     ->press('Sign in')
                     // After failed login, we should still be on the same page with the modal open
                     ->assertPathIs('/') 
-                    ->assertVisible('form#log_form');
+                    ->assertVisible('form#log_form')
+                    ->screenshot('login-invalid-credentials');
         });
     }
 
@@ -97,7 +100,7 @@ class LoginTest extends DuskTestCase
                 ->press('Sign in') // Submit the form
                 ->pause(500) // Allow time for the response
                 ->waitForText('Email not found.') // Wait for error message
-                ->assertSee('Email not found.'); // Assert the message appears
+                ->assertSee('Email not found.'); // Assert the message appears 
     });
 }
 

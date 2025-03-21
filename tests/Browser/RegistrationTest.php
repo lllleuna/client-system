@@ -44,7 +44,7 @@ class RegistrationTest extends DuskTestCase
         $browser->visit('/users/create')
                 // Attempt to enter letters (should not be allowed)
                 ->clear('cda_reg_no')
-                ->type('cda_reg_no', 'ABC')
+                ->type('cda_reg_no', 'ABC') 
                 ->pause(500)
                 // Assert that the field does not contain letters
                 ->assertInputValue('cda_reg_no', '') // Field should remain empty

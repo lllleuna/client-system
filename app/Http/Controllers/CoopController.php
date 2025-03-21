@@ -341,13 +341,13 @@ class CoopController extends Controller
             'engine_no' => [
                 'nullable',
                 'string',
-                'max:50',
+                'max:15',
                 Rule::unique('coopunits')->where(fn ($query) => $query->where('externaluser_id', Auth::id())),
             ],
             'chassis_no' => [
                 'nullable',
                 'string',
-                'max:50',
+                'max:20',
                 Rule::unique('coopunits')->where(fn ($query) => $query->where('externaluser_id', Auth::id())),
             ],
             'plate_no' => [
@@ -356,7 +356,7 @@ class CoopController extends Controller
                 'max:10',
                 Rule::unique('coopunits')->where(fn ($query) => $query->where('externaluser_id', Auth::id())),
             ],
-            'ltfrb_case_no' => 'nullable|string|max:50', // No uniqueness required
+            'ltfrb_case_no' => 'nullable|string|max:20', // No uniqueness required
             'date_granted' => 'nullable|date|before_or_equal:today',
             'date_of_expiry' => 'nullable|date',
             'origin' => 'nullable|string|max:100',

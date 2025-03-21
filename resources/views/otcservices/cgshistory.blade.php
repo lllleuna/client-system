@@ -23,10 +23,10 @@
                                     <h2 class="text-xl font-semibold text-gray-900">CGS for 2024</h2>
                                     <p class="text-sm text-gray-500">Issued by the Office of Transportation Cooperatives</p>
                                 </div>
-                            
+
                                 @if ($generalInfo && $generalInfo->cgs_filename)
                                     <div class="flex space-x-3">
-                                        <a href="http://otc_mis.com:8001/download-cgs/{{ $generalInfo->cgs_filename }}" download
+                                        <a href="{{ asset('shared/uploads/' . $generalInfo->cgs_filename) }}" download
                                             class="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none"
                                                 viewBox="0 0 24 24" stroke="currentColor">
@@ -35,10 +35,11 @@
                                             </svg>
                                             Download
                                         </a>
+
                                     </div>
                                 @endif
                             </div>
-                            
+
 
                             {{-- Certificate Details --}}
                             <div class="border-t pt-4">

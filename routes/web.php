@@ -11,6 +11,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\CoopController;
 // use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\CGSRenewalController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ServicesController;
 
 //Login Page
 Route::get('/', function () {
@@ -49,13 +51,9 @@ Route::post('users/create', [RegisteredUserController::class, 'store']);
 
 
 // Logged in portal... DASHBOARD
-Route::get('/dash', function () {
-    if (!auth()->user()) {
-        return redirect('/');
-    }
-
-    return view('/dash');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dash', [DashboardController::class, 'index'])
+    ->middleware(['auth', 'verified'])
+    ->name('dashboard');
 
 
 // Email Verification ---------------
@@ -281,9 +279,9 @@ Route::get('/otcservices/accreditationcert', function () {
     return view('otcservices.accreditationcert');
 })->name('accreditationcert');
 
-Route::get('/otcservices/cgshistory', function () {
-    return view('otcservices.cgshistory');
-})->name('cgshistory');
+Route::get('/otcservices/cgshistory', [ServicesController::class, 'cgs'])->name('cgshistory');
+Route::get('/download-cgs/{filename}', [ServicesController::class, 'downloadCGS'])->name('download.cgs');
+
 
 Route::get('/otcservices/traininghistory', function () {
     return view('otcservices.traininghistory');

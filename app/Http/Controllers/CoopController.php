@@ -19,6 +19,7 @@ use App\Models\CoopGrants;
 use App\Models\CoopLoan;
 use App\Models\CoopTraining;
 use App\Models\CoopAward;
+use App\Models\GeneralInfo;
 
 class CoopController extends Controller
 {
@@ -189,7 +190,9 @@ class CoopController extends Controller
     
         $externalUser = ExternalUser::where('id', $user->id)->first();
         $generalInfo = CoopGeneralInfo::where('externaluser_id', $user->id)->first();
-    
+
+        $mainrecord = GeneralInfo::where('cda_registration_no', $externalUser->cda_reg_no)->first();
+
         // Check if generalInfo exists
         if ($generalInfo) {
             // Fetch location names from PSGC API
@@ -210,7 +213,7 @@ class CoopController extends Controller
             $fullAddress = "Not Available";
         }
     
-        return view('myinformation.generalinfo', compact('externalUser', 'generalInfo', 'fullAddress'));
+        return view('myinformation.generalinfo', compact('externalUser', 'generalInfo', 'fullAddress', 'mainrecord'));
     }
     
     public function editGeneralInfo()

@@ -38,6 +38,7 @@
 
 {{-- temporary success message when contact verified --}}
 <x-success-notif />
+<x-error-notif />
 
 <div class="container mx-auto px-6">
     <!-- Enhanced Announcements Carousel -->

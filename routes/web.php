@@ -10,6 +10,7 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 use App\Http\Controllers\CoopController;
 // use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\CGSRenewalController;
 
 //Login Page
 Route::get('/', function () {
@@ -54,7 +55,7 @@ Route::get('/dash', function () {
     }
 
     return view('/dash');
-})->middleware(['auth', 'verified']);
+})->middleware(['auth', 'verified'])->name('dashboard');
 
 
 // Email Verification ---------------
@@ -262,9 +263,7 @@ Route::post('/logout', [SessionController::class, 'destroy']);
 
 
 //Services
-Route::get('/otcservices/cgsrenewal', function () {
-    return view('otcservices.cgsrenewal');
-})->name('cgsrenewal');
+Route::get('/otcservices/cgsrenewal', [CGSRenewalController::class, 'index'])->name('cgsrenewal');
 
 Route::get('/otcservices/training', function () {
     return view('otcservices.training');

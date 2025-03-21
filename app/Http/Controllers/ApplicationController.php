@@ -230,6 +230,7 @@ class ApplicationController extends Controller
 
             // Retrieve the total number of members for the user
             $totalMembers = CoopMembership::where('externaluser_id', $user->id)->count();
+            $totalMembers += CoopGovernance::where('externaluser_id', $user->id)->count();
 
             // Calculate members without training
             $membersWithoutTraining = $totalMembers - $membersWithTraining;

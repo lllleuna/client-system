@@ -11,7 +11,7 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        // Check if user is authenticated (optional because of middleware)
+        // Check if user is authenticated (middleware already handles this, optional)
         if (!auth()->user()) {
             return redirect('/');
         }
@@ -19,7 +19,7 @@ class DashboardController extends Controller
         // Fetch ExternalUser
         $externalUser = ExternalUser::findOrFail(auth()->id());
 
-        // Fetch GeneralInfo
+        // Fetch GeneralInfo (latest record)
         $generalInfo = GeneralInfo::where('cda_registration_no', $externalUser->cda_reg_no)
             ->latest()
             ->first();
@@ -27,13 +27,16 @@ class DashboardController extends Controller
         // Initialize date difference
         $daysDifference = null;
 
-        if ($generalInfo && $generalInfo->updated_at && $generalInfo->validity_date) {
-            $updatedAt = Carbon::parse($generalInfo->updated_at);
-            $validityDate = Carbon::parse($generalInfo->validity_date);
-            $daysDifference = $updatedAt->diffInDays($validityDate);
+        // Check if $generalInfo exists before accessing properties
+        if ($generalInfo) {
+            if ($generalInfo->updated_at && $generalInfo->validity_date) {
+                $updatedAt = Carbon::parse($generalInfo->updated_at);
+                $validityDate = Carbon::parse($generalInfo->validity_date);
+                $daysDifference = $updatedAt->diffInDays($validityDate);
+            }
         }
 
-        // Pass to view
+        // Even if null, pass safely
         return view('dash', compact('generalInfo', 'daysDifference'));
     }
 }

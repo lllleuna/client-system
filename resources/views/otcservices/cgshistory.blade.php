@@ -26,7 +26,7 @@
 
                                 @if ($generalInfo && $generalInfo->cgs_filename)
                                     <div class="flex space-x-3">
-                                        <a href="{{ asset('shared/uploads/' . $generalInfo->cgs_filename) }}" download
+                                        <a href="{{ asset('shared/certificates/' . $generalInfo->cgs_filename) }}" download
                                             class="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none"
                                                 viewBox="0 0 24 24" stroke="currentColor">

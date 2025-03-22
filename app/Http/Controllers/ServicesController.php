@@ -23,14 +23,14 @@ class ServicesController extends Controller
 
     public function downloadCGS($filename)
     {
-        $filePath = public_path('storage/certificates/' . $filename);
-
+        $filePath = base_path('shared/certificates/' . $filename);
+    
         if (file_exists($filePath)) {
             return response()->download($filePath);
         } else {
             abort(404, 'File not found.');
         }
     }
-
+    
     
 }

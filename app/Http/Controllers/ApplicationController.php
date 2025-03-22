@@ -78,9 +78,20 @@ class ApplicationController extends Controller
 
         if ($request->hasFile('file_upload')) {
             $file = $request->file('file_upload');
-            $filePath = $file->store('uploads', 'public');
-            $filePaths['file_upload'] = $filePath;
+        
+            $destinationPath = '/var/www/shared_uploads/uploads';
+        
+            if (!file_exists($destinationPath)) {
+                mkdir($destinationPath, 0755, true);
+            }
+        
+            $filename = time() . '_' . $file->getClientOriginalName();
+        
+            $file->move($destinationPath, $filename);
+        
+            $filePaths['file_upload'] = 'uploads/' . $filename;
         }
+        
 
         $allFormData = array_merge($request->session()->get('form_data', []), $validatedData, $filePaths);
 

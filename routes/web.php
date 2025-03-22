@@ -19,7 +19,7 @@ Route::get('/', function () {
     return view('index');
 })->name('login');
 
-//Login Page Contact 
+//Login Page Contact
 Route::get('/contact', function () {
     return view('contact');
 })->name('contact');
@@ -35,9 +35,9 @@ Route::get('/services', function () {
 })->name('services');
 
 //Forgot Password
-Route::get('/auth/forgotpassword', function () {
+Route::get('/forgot-password', function () {
     return view('auth.forgot_password');
-})->name('forgotpassword');
+})->name('password.request');
 
 //Profile Setting
 Route::get('/profilesetting', function () {
@@ -60,16 +60,16 @@ Route::get('/dash', [DashboardController::class, 'index'])
 Route::get('/email/verify', function () {
     return view('auth.verify-email');
 })->middleware('auth')->name('verification.notice');
- 
+
 Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
     $request->fulfill();
- 
+
     return redirect('/');
 })->middleware(['auth', 'signed'])->name('verification.verify');
- 
+
 Route::post('/email/verification-notification', function (Request $request) {
     $request->user()->sendEmailVerificationNotification();
- 
+
     return back()->with('message', 'Verification link sent!');
 })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 
@@ -88,7 +88,7 @@ Route::middleware(['auth'])->group(function () {
 });
 
 
-//MyInformation 
+//MyInformation
 Route::get('/myinformation/membersMasterlist', [CoopController::class, 'showMembers'])->name('membersMasterlist');
 Route::get('/myinformation/member', [CoopController::class, 'viewMember'] )->name('addMemberIndex');
 Route::post('/myinformation/member', [CoopController::class, 'addMember'])->name('addMember');
@@ -216,7 +216,7 @@ Route::get('/myinformation/editbusinesses', function () {
     return view('myinformation.editbusinesses');
 })->name('editbusinesses');
 
-// Trainings 
+// Trainings
 Route::get('/myinformation/trainings', [CoopController::class, 'showTrainings'])->name('trainings');
 Route::get('/myinformation/edittraining', [CoopController::class, 'viewTraining'] )->name('edittrainings'); // add button
 Route::post('/myinformation/edittraining', [CoopController::class, 'addTraining'] )->name('addtraining');
@@ -225,7 +225,7 @@ Route::put('/myinformation/edittraining/{id}', [CoopController::class, 'updateTr
 Route::delete('/myinformation/edittraining/{id}', [CoopController::class, 'destroyTraining'])->name('training.destroy');
 
 
-// Scholarships 
+// Scholarships
 Route::get('/myinformation/scholarships', function () {
     return view('myinformation.scholarships');
 })->name('scholarships');
@@ -235,17 +235,17 @@ Route::get('/myinformation/editscholarship', function () {
     return view('myinformation.editscholarship');
 })->name('editscholarship');
 
-// CETOS 
+// CETOS
 Route::get('/myinformation/cetos', function () {
     return view('myinformation.cetos');
 })->name('cetos');
 
-// Edit CETOS 
+// Edit CETOS
 Route::get('/myinformation/editcetos', function () {
     return view('myinformation.editcetos');
 })->name('editcetos');
 
-// Awards 
+// Awards
 Route::get('/myinformation/awards', [CoopController::class, 'showAwards'])->name('awards');
 Route::get('/myinformation/award', [CoopController::class, 'viewAward'] )->name('editawards'); // add button
 Route::post('/myinformation/award', [CoopController::class, 'addAward'] )->name('addaward');
@@ -254,7 +254,7 @@ Route::put('/myinformation/award/{id}', [CoopController::class, 'updateAward'])-
 Route::delete('/myinformation/award/{id}', [CoopController::class, 'destroyAward'])->name('award.destroy');
 
 
-// Authentication 
+// Authentication
 Route::post('/', [SessionController::class, 'store']);
 Route::post('/logout', [SessionController::class, 'destroy']);
 
@@ -317,7 +317,7 @@ Route::get('/accreditation', function () {
 // });
 
 
-// PCGC address API 
+// PCGC address API
 Route::get('/island-groups/', [AddressController::class, 'getArea']);
 Route::get('/island-groups/{islandGroupCode}/regions/', [AddressController::class, 'getRegions']);
 Route::get('/regions/{regionCode}/provinces/', [AddressController::class, 'getProvinces']);

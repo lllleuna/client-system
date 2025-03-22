@@ -1,37 +1,37 @@
 <form action="/" method="POST" id="log_form">
     @csrf
-    
+
     <div class="text-center mb-6">
         <x-form-title class="text-2xl font-bold text-gray-900">Welcome!</x-form-title>
         <p class="text-sm text-gray-600">Please sign in to your account</p>
     </div>
 
-    <x-form-input 
-        name="email_login" 
-        id="email" 
-        type="email" 
-        placeholder="Email" 
-        :value="old('email_login')" 
-        required 
+    <x-form-input
+        name="email_login"
+        id="email"
+        type="email"
+        placeholder="Email"
+        :value="old('email_login')"
+        required
         pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
         title="Please enter a valid email address"
     />
     <x-form-error name="email_login" bag="login" />
 
     <div class="relative">
-        <x-form-input 
-            name="password" 
-            id="password" 
-            type="password" 
-            placeholder="Password" 
+        <x-form-input
+            name="password"
+            id="password"
+            type="password"
+            placeholder="Password"
             required
             minlength="12"
             title="Password must be at least 12 characters long"
             class="pr-10"
         />
-        <button 
-            type="button" 
-            id="togglePassword" 
+        <button
+            type="button"
+            id="togglePassword"
             class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-600 cursor-pointer"
             aria-label="Toggle password visibility"
         >
@@ -49,7 +49,7 @@
     </div>
     <x-form-error name="password" bag="login" />
 
-    <div class="flex justify-between items-center mt-2 mb-4">
+    <div class="text-center mt-4">
         <div></div> <!-- Empty div to push forgot password to the right -->
         <a href="/forgot-password" class="text-sm text-blue-600 hover:text-blue-800 transition duration-200">
             Forgot password?
@@ -57,9 +57,9 @@
     </div>
 
     <div class="mt-6">
-        <x-form-submit-button 
+        <x-form-submit-button
             id="login-button"
-            class="w-full py-3 px-4 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition duration-200 flex items-center justify-center space-x-2" 
+            class="w-full py-3 px-4 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition duration-200 flex items-center justify-center space-x-2"
         >
             <span>Sign in</span>
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -107,7 +107,7 @@
             const passwordInput = document.getElementById('password');
             const showIcon = document.getElementById('showPasswordIcon');
             const hideIcon = document.getElementById('hidePasswordIcon');
-            
+
             toggleButton.addEventListener('click', function() {
                 // Toggle the password input type
                 if (passwordInput.type === 'password') {

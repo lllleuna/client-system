@@ -4,11 +4,11 @@
     <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-1.5 flex items-center">
         @php
             $currentUrl = request()->url();
-            $isAdmin = str_contains($currentUrl, 'otc_mis.com:8001');
-            $isPublic = str_contains($currentUrl, 'otc_mis.com:8002');
+            $isAdmin = str_contains($currentUrl, 'otcmis.ddns.net');
+            $isPublic = str_contains($currentUrl, 'clientport.ddns.net');
             
-            $adminUrl = "http://otc_mis.com:8001/";
-            $publicUrl = "http://otc_mis.com:8002/";
+            $adminUrl = "https://otcmis.ddns.net/";
+            $publicUrl = "https://clientport.ddns.net/";
             
             // Keep the path when switching
             $currentPath = parse_url($currentUrl, PHP_URL_PATH) ?? '';

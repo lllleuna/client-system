@@ -44,7 +44,7 @@ class CoopController extends Controller
     
     public function addMember(Request $request) {
         $validated = $request->validate([
-            'firstname'   => 'required|string|max:100',
+            'firstname'   => 'required|string|max:10',
             'middlename'  => 'nullable|string|max:100',
             'lastname'    => 'required|string|max:100',
             'sex'         => 'required|in:Male,Female',

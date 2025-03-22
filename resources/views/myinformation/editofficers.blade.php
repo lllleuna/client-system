@@ -220,18 +220,25 @@
                             <!-- Contact Number -->
                             <div>
                                 <label class="flex items-center text-sm font-medium text-gray-700 mb-2">
-                                    <svg class="w-4 h-4 mr-2 text-gray-400" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
+                                    <svg class="w-4 h-4 mr-2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                                     </svg>
                                     Contact Number <span class="text-red-500">*</span>
                                 </label>
-                                <input type="tel" name="mobile_no" value="{{ old('mobile_no', $officer->mobile_no ?? '') }}"
-                                    class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-100 focus:border-blue-400 transition-all duration-200 @error('contact_number') border-red-500 @enderror"
-                                    required pattern="^63[0-9]{10}$" placeholder="Enter 11-digit phone number"
-                                    oninvalid="this.setCustomValidity('Please enter a valid 11-digit phone number')"
-                                    oninput="this.setCustomValidity('')">
+                                <input 
+                                    type="tel"
+                                    name="mobile_no"
+                                    value="{{ old('mobile_no', $officer->mobile_no ?? '') }}"
+                                    class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-100 focus:border-blue-400 transition-all duration-200 @error('mobile_no') border-red-500 @enderror"
+                                    placeholder="639XXXXXXXXX"
+                                    pattern="639\d{9}"
+                                    maxlength="12"
+                                    required
+                                    oninvalid="this.setCustomValidity('Please enter a valid 12-digit phone number starting with 639')"
+                                    oninput="this.setCustomValidity('')"
+                                    onkeypress="if(event.key < '0' || event.key > '9') event.preventDefault();"
+                                />                            
                                 @error('mobile_no')
                                     <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
                                 @enderror

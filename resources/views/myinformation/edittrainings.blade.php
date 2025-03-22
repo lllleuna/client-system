@@ -77,9 +77,12 @@
                                 </svg>
                                 Number of Attendees <span class="text-red-500">*</span>
                             </label>
-                            <input type="number" id="no_of_attendees" name="no_of_attendees" value="{{ old('no_of_attendees', $training->no_of_attendees ?? 0) }}" 
-                                   class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-100 focus:border-blue-400 transition-all duration-200"
-                                   min="0" required>
+                            <input type="number" id="no_of_attendees" name="no_of_attendees" value="{{ old('no_of_attendees', $training->no_of_attendees ?? '') }}" 
+                                class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-100 focus:border-blue-400 transition-all duration-200 @error('no_of_attendees') border-red-500 @enderror"
+                                min="1" required>
+                            @error('no_of_attendees')
+                                <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
+                            @enderror
                         </div>
 
                         <div>

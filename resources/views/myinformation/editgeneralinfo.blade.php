@@ -96,9 +96,19 @@
                                             Official Contact Number <span class="text-red-500">*</span>
                                         </label>
                                         <input type="text" name="contact_no"
+                                            type="tel"
+                                            name="contact_no"
                                             value="{{ old('contact_no', $externalUser->contact_no ?? '') }}"
-                                            class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-100 focus:border-blue-400 transition-all duration-200 @error('contact_no') border-red-500 @enderror"
-                                            placeholder="639XXXXXXXXX" required pattern="639\d{9}" maxlength="12">
+                                            class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-100 focus:border-blue-400 transition-all duration-200 @error('mobile_no') border-red-500 @enderror"
+                                            placeholder="639XXXXXXXXX"
+                                            pattern="639\d{9}"
+                                            maxlength="12"
+                                            required
+                                            oninvalid="this.setCustomValidity('Please enter a valid 12-digit phone number starting with 639')"
+                                            oninput="this.setCustomValidity('')"
+                                            onkeypress="if(event.key < '0' || event.key > '9') event.preventDefault();"
+                                        />
+        
                                         @error('contact_no')
                                             <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
                                         @enderror
@@ -126,6 +136,7 @@
                                         </label>
                                         <input type="text" name="cda_reg_no"
                                             value="{{ old('cda_reg_no', $externalUser->cda_reg_no ?? '') }}"
+                                            maxlength="10"
                                             class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-100 focus:border-blue-400 transition-all duration-200 @error('cda_registration_no') border-red-500 @enderror"
                                             placeholder="Enter CDA registration number" required>
                                         @error('cda_reg_no')
@@ -156,23 +167,25 @@
                                             @enderror
                                         </div>
 
-                                    <div>
-                                        <label class="flex items-center text-sm font-medium text-gray-700 mb-2">
-                                            <svg class="w-4 h-4 mr-2 text-gray-400" fill="none" stroke="currentColor"
-                                                viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-                                            </svg>
-                                            Common Bond of Membership <span class="text-red-500">*</span>
-                                        </label>
-                                        <input type="text" name="common_bond_membership"
-                                            value="{{ old('common_bond_membership', $generalInfo->common_bond_membership ?? '') }}"
-                                            class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-100 focus:border-blue-400 transition-all duration-200 @error('cda_registration_no') border-red-500 @enderror"
-                                            placeholder="Enter CDA registration number" required>
-                                        @error('common_bond_membership')
-                                            <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
-                                        @enderror
-                                    </div>
+                                        <div>
+                                            <label class="flex items-center text-sm font-medium text-gray-700 mb-2">
+                                                <svg class="w-4 h-4 mr-2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                        d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                                                </svg>
+                                                Common Bond of Membership <span class="text-red-500">*</span>
+                                            </label>
+                                            <select name="common_bond_membership" class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-100 focus:border-blue-400 transition-all duration-200 @error('common_bond_membership') border-red-500 @enderror" required>
+                                                <option value="" disabled selected>Select Bond of Membership</option>
+                                                <option value="Occupational" {{ old('common_bond_membership', $generalInfo->common_bond_membership ?? '') == 'Occupational' ? 'selected' : '' }}>Occupational</option>
+                                                <option value="Associational" {{ old('common_bond_membership', $generalInfo->common_bond_membership ?? '') == 'Associational' ? 'selected' : '' }}>Associational</option>
+                                                <option value="Residential" {{ old('common_bond_membership', $generalInfo->common_bond_membership ?? '') == 'Residential' ? 'selected' : '' }}>Residential</option>
+                                                <option value="Institutional" {{ old('common_bond_membership', $generalInfo->common_bond_membership ?? '') == 'Institutional' ? 'selected' : '' }}>Institutional</option>
+                                            </select>
+                                            @error('common_bond_membership')
+                                                <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
+                                            @enderror
+                                        </div>                                        
 
                                     <div>
                                         <label class="flex items-center text-sm font-medium text-gray-700 mb-2">
@@ -185,6 +198,7 @@
                                         </label>
                                         <input type="text" name="membership_fee"
                                             value="{{ old('membership_fee', $generalInfo->membership_fee ?? '') }}"
+                                            maxlength="5"
                                             class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-100 focus:border-blue-400 transition-all duration-200 @error('membership_fee') border-red-500 @enderror"
                                             placeholder="Enter membership fee" required>
                                         @error('membership_fee')
@@ -212,8 +226,13 @@
                                             </label>
                                             <input type="text" name="employer_sss_reg_no"
                                                 value="{{ old('employer_sss_reg_no', $generalInfo->employer_sss_reg_no ?? '') }}"
-                                                class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-100 focus:border-blue-400 transition-all duration-200 @error('sss_reg_no') border-red-500 @enderror"
-                                                placeholder="Enter SSS employer registration number" required>
+                                                class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-100 focus:border-blue-400 transition-all duration-200 @error('employer_sss_reg_no') border-red-500 @enderror"
+                                                placeholder="12-3456789-0" 
+                                                pattern="^[0-9]{2}-[0-9]{7}-[0-9]$"
+                                                title="Format: 12-3456789-0"
+                                                maxlength="12"
+                                                required>
+                                            <p class="mt-1 text-xs text-gray-500">Format: 12-3456789-0 (include hyphens)</p>
                                             @error('employer_sss_reg_no')
                                                 <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
                                             @enderror
@@ -230,16 +249,19 @@
                                             </label>
                                             <input type="text" name="employer_pagibig_reg_no"
                                                 value="{{ old('employer_pagibig_reg_no', $generalInfo->employer_pagibig_reg_no ?? '') }}"
-                                                class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-100 focus:border-blue-400 transition-all duration-200 @error('pagibig_reg_no') border-red-500 @enderror"
-                                                placeholder="Enter PAGIBIG employer registration number" required>
+                                                class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-100 focus:border-blue-400 transition-all duration-200 @error('employer_pagibig_reg_no') border-red-500 @enderror"
+                                                placeholder="1234-5678-9012" 
+                                                pattern="^[0-9]{4}-[0-9]{4}-[0-9]{4}$"
+                                                title="Format: 1234-5678-9012"
+                                                maxlength="14"
+                                                required>
+                                            <p class="mt-1 text-xs text-gray-500">Format: 1234-5678-9012 (include hyphens)</p>
                                             @error('employer_pagibig_reg_no')
                                                 <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
                                             @enderror
                                         </div>
 
                                     </div>
-
-
 
                                     {{-- PHILHEALTH Information --}}
                                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -254,8 +276,13 @@
                                             </label>
                                             <input type="text" name="employer_philhealth_reg_no"
                                                 value="{{ old('employer_philhealth_reg_no', $generalInfo->employer_philhealth_reg_no ?? '') }}"
-                                                class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-100 focus:border-blue-400 transition-all duration-200 @error('philhealth_reg_no') border-red-500 @enderror"
-                                                placeholder="Enter PHILHEALTH employer registration number" required>
+                                                class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-100 focus:border-blue-400 transition-all duration-200 @error('employer_philhealth_reg_no') border-red-500 @enderror"
+                                                placeholder="12-345678901-2" 
+                                                pattern="^[0-9]{2}-[0-9]{9}-[0-9]$"
+                                                title="Format: 12-345678901-2"
+                                                maxlength="14"
+                                                required>
+                                            <p class="mt-1 text-xs text-gray-500">Format: 12-345678901-2 (include hyphens)</p>
                                             @error('employer_philhealth_reg_no')
                                                 <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
                                             @enderror
@@ -273,7 +300,12 @@
                                             <input type="text" name="bir_tin"
                                                 value="{{ old('bir_tin', $generalInfo->bir_tin ?? '') }}"
                                                 class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-100 focus:border-blue-400 transition-all duration-200 @error('bir_tin') border-red-500 @enderror"
-                                                placeholder="Enter BIR TIN number" required>
+                                                placeholder="123-456-789-012" 
+                                                pattern="^[0-9]{3}-[0-9]{3}-[0-9]{3}-[0-9]{3}$"
+                                                title="Format: 123-456-789-012"
+                                                maxlength="15"
+                                                required>
+                                            <p class="mt-1 text-xs text-gray-500">Format: 123-456-789-012 (include hyphens)</p>
                                             @error('bir_tin')
                                                 <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
                                             @enderror
@@ -290,7 +322,12 @@
                                             <input type="text" name="bir_tax_exemption_no"
                                                 value="{{ old('bir_tax_exemption_no', $generalInfo->bir_tax_exemption_no ?? '') }}"
                                                 class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-100 focus:border-blue-400 transition-all duration-200 @error('bir_tax_exemption_no') border-red-500 @enderror"
-                                                placeholder="Enter BIR tax exemption number" required>
+                                                placeholder="EXMP-12345-6789" 
+                                                pattern="^[A-Z]{4}-[0-9]{5}-[0-9]{4}$"
+                                                title="Format: EXMP-12345-6789"
+                                                maxlength="15"
+                                                required>
+                                            <p class="mt-1 text-xs text-gray-500">Format: EXMP-12345-6789 (include hyphens)</p>
                                             @error('bir_tax_exemption_no')
                                                 <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
                                             @enderror
@@ -301,30 +338,26 @@
                                             $maxDate = now()->addYears(5)->toDateString(); // 5 years in the future
                                         @endphp
                                     
-                                    <div>
-                                        <label class="flex items-center text-sm font-medium text-gray-700 mb-2">
-                                            <svg class="w-4 h-4 mr-2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                                            </svg>
-                                            BIR Validity <span class="text-red-500">*</span>
-                                        </label>
-                                        <input type="date" name="bir_validity"
-                                            value="{{ old('bir_validity', $generalInfo->bir_validity ?? '') }}"
-                                            class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-100 focus:border-blue-400 transition-all duration-200 @error('bir_validity') border-red-500 @enderror"
-                                            required min="{{ $minDate }}" max="{{ $maxDate }}">
-                                        @error('bir_validity')
-                                            <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
-                                        @enderror
+                                        <div>
+                                            <label class="flex items-center text-sm font-medium text-gray-700 mb-2">
+                                                <svg class="w-4 h-4 mr-2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                        d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                                </svg>
+                                                BIR Validity <span class="text-red-500">*</span>
+                                            </label>
+                                            <input type="date" name="bir_validity"
+                                                value="{{ old('bir_validity', $generalInfo->bir_validity ?? '') }}"
+                                                class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-100 focus:border-blue-400 transition-all duration-200 @error('bir_validity') border-red-500 @enderror"
+                                                required min="{{ $minDate }}" max="{{ $maxDate }}">
+                                            @error('bir_validity')
+                                                <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
+                                            @enderror
+                                        </div>
                                     </div>
-                                    
-
-
-
-                                    </div>
-
                                 </div>
                             </div>
+                            {{-- WHAT? --}}
 
                             {{-- Form Actions --}}
                             <div class="flex justify-end space-x-4 mt-8">

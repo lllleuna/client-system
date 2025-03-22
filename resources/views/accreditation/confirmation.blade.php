@@ -9,21 +9,25 @@
         <p>City/Municipality: {{ $formData['city_municipality'] }}</p>
         <p>Province: {{ $formData['province'] }}</p>
         <p>Area: {{ $formData['area'] }}</p>
-    
+
         {{-- ... display other text data --}}
-        @if(isset($formData['file_upload']))
-            <p>Signed Letter Request: <a href="{{ Storage::url($formData['file_upload']) }}" class="text-blue-600" target="_blank">View File</a></p>
+        @if (isset($formData['file_upload']))
+            <p>Signed Letter Request: <a href="{{ asset('shared/' . $formData['file_upload']) }}" class="text-blue-600"
+                    target="_blank">View File</a>
+            </p>
         @endif
-    
-        
+
+
         {{-- <p>Text Field 2: {{ $formData['message'] }}</p> --}}
         <div class="mt-10 flex justify-between ">
-            <a href="/accreditation/form2" class="bg-gray-200 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-300 focus:outline-none">
+            <a href="/accreditation/form2"
+                class="bg-gray-200 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-300 focus:outline-none">
                 Previous
             </a>
             <form action="{{ route('submitForm') }}" method="POST">
                 @csrf
-                <button type="submit" class="bg-blue-900 text-white px-4 py-2 rounded-lg hover:bg-blue-800 focus:outline-none">Submit</button>
+                <button type="submit"
+                    class="bg-blue-900 text-white px-4 py-2 rounded-lg hover:bg-blue-800 focus:outline-none">Submit</button>
             </form>
         </div>
     </div>

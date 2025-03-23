@@ -50,7 +50,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
                     </div>
-                    <p class="text-sm text-gray-600">You can track your application status from your dashboard</p>
+                    <p class="text-sm text-gray-600">You can track your application status using the reference number</p>
                 </div>
             </div>
         </div>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Http;
+use Biscolab\ReCaptcha\Rules\Recaptcha;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\Application;
@@ -139,6 +140,13 @@ class ApplicationController extends Controller
 
     public function submitForm(Request $request)
     {
+        $request->validate([
+            'g-recaptcha-response' => 'required|recaptcha',
+        ], [
+            'g-recaptcha-response.required' => 'Please confirm you are not a robot.',
+            'g-recaptcha-response.recaptcha' => 'Captcha verification failed, please try again.',
+        ]);       
+        
         $allFormData = $request->session()->get('form_data', []);
 
         $user = Auth::user();

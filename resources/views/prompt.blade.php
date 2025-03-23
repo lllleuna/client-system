@@ -37,6 +37,10 @@
         to evaluate your application and determine approval.
     </p>
 
+    <p class="text-gray-700 mb-6 text-sm text-start leading-relaxed">
+        Incomplete information may lead to processing delays or <span class="text-red-700 font-semibold">REJECTION</span> of your application.
+    </p>    
+
 
     <div class="flex flex-col space-y-4 mt-10">
         <a href="/accreditation" class="block text-center bg-blue-900 hover:bg-blue-800 text-white font-medium py-2 px-4 rounded transition">

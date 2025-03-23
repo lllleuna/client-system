@@ -13,6 +13,8 @@ use App\Http\Controllers\CoopController;
 use App\Http\Controllers\CGSRenewalController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ServicesController;
+use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\Auth\ResetPasswordController;
 
 //Login Page
 Route::get('/', function () {
@@ -34,10 +36,6 @@ Route::get('/services', function () {
     return view('services');
 })->name('services');
 
-//Forgot Password
-Route::get('/forgot-password', function () {
-    return view('auth.forgot_password');
-})->name('password.request');
 
 //Profile Setting
 Route::get('/profilesetting', function () {
@@ -288,8 +286,6 @@ Route::get('/otcservices/traininghistory', function () {
 })->name('traininghistory');
 
 
-
-
 // Accreditation Process
 Route::get('/accreditation/form1', [ApplicationController::class, 'showForm1'])->name('form1');
 Route::post('/accreditation/form1', [ApplicationController::class, 'processForm1'])->name('processForm1');
@@ -324,3 +320,13 @@ Route::get('/regions/{regionCode}/provinces/', [AddressController::class, 'getPr
 Route::get('/regions/{regionCode}/cities-municipalities/', [AddressController::class, 'getCitiesMunicipals']);
 Route::get('/cities-municipalities/{cityOrMunicipalityCode}/barangays/', [AddressController::class, 'getBarangays']);
 
+Route::get('/province-name/{code}', [AddressController::class, 'getProvinceName']);
+Route::get('/city-name/{code}', [AddressController::class, 'getCityMunicipalityName']);
+Route::get('/barangay-name/{code}', [AddressController::class, 'getBarangayName']);
+
+
+Route::get('/forgot-password', [ForgotPasswordController::class, 'showForgotPasswordForm'])->name('password.request');
+Route::post('/forgot-password', [ForgotPasswordController::class, 'sendResetLink'])->name('password.email');
+
+Route::get('/reset-password/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
+Route::post('/reset-password', [ResetPasswordController::class, 'resetPassword'])->name('password.update');

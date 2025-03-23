@@ -51,7 +51,7 @@
 
     <div class="text-center mt-4">
         <div></div> <!-- Empty div to push forgot password to the right -->
-        <a href="/forgot-password" class="text-sm text-blue-600 hover:text-blue-800 transition duration-200">
+        <a href="{{ route('password.request') }}" class="text-sm text-blue-600 hover:text-blue-800 transition duration-200">
             Forgot password?
         </a>
     </div>

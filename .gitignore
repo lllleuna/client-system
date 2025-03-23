@@ -21,3 +21,6 @@ yarn-error.log
 /.nova
 /.vscode
 /.zed
+server.js
+vite.config.js
+resources/js/address-dropdown.js

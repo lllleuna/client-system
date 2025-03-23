@@ -40,7 +40,7 @@
             @if(isset($formData['file_upload']))
             <div>
                 <p class="font-medium text-gray-800">Signed Letter Request:</p>
-                <a href="{{ Storage::url($formData['file_upload']) }}" target="_blank" class="text-blue-600 hover:underline">View File</a>
+                <a href="{{ asset('shared/uploads/' . basename($formData['file_upload'])) }}" target="_blank" class="text-blue-600 hover:underline">View File</a>
             </div>
             @endif
         </div>

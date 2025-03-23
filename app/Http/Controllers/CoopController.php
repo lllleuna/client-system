@@ -20,6 +20,7 @@ use App\Models\CoopLoan;
 use App\Models\CoopTraining;
 use App\Models\CoopAward;
 use App\Models\GeneralInfo;
+use App\Models\CoopBusiness;
 
 class CoopController extends Controller
 {
@@ -332,7 +333,8 @@ class CoopController extends Controller
         return view('myinformation.editcooperativeowned', ['coopunit' => null, 'mode' => 'create']);
     }
 
-    public function addCoopOwnedUnit(Request $request) {
+    public function addCoopOwnedUnit(Request $request) 
+    {
         $validated = $request->validate([
             'type' => 'nullable|string|max:50',
             'mv_file_no' => [
@@ -736,7 +738,8 @@ class CoopController extends Controller
         return view('myinformation.editgrants', ['grant' => null, 'mode' => 'create']);
     }
 
-    public function addGrant(Request $request) {
+    public function addGrant(Request $request) 
+    {
         $validated = $request->validate([
             'date_acquired' => 'required|date|before_or_equal:today',
             'amount'          => 'required|numeric',
@@ -1017,6 +1020,87 @@ class CoopController extends Controller
     {
         $award = CoopAward::findOrFail($id); 
         $award->delete(); 
+
+
+        return response()->json([
+            'message' => 'Deleted successfully.'
+        ]);
+    }
+
+    // --------------------------------------------
+    //  -------------- BUSINESS -----------------
+    // --------------------------------------------
+
+    public function showBusinesses() 
+    {
+        $user = Auth::user();
+
+        // Fetch paginated trainings
+        $businesses = CoopBusiness::where('externaluser_id', $user->id)
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
+
+        return view('myinformation.businesses', compact('user', 'businesses'));
+    }
+
+    // When button Add Grant is clicked
+    public function viewBusiness()
+    {
+        return view('myinformation.editbusinesses', ['business' => null, 'mode' => 'create']);
+    }
+
+    public function addBusiness(Request $request) 
+    {
+        $validated = $request->validate([
+            'type'                 => 'nullable|string|max:200',
+            'nature_of_business'   => 'nullable|string|max:200',
+            'starting_capital'     => 'nullable|numeric|min:0',
+            'capital_to_date'      => 'nullable|integer|min:0',
+            'years_of_existence'   => 'nullable|numeric|min:0',
+            'status'               => 'nullable|string|max:200',
+            'remarks'              => 'nullable|string|max:200',
+        ]);               
+    
+        $user = Auth::user();
+        $validated['externaluser_id'] = $user->id;
+
+    
+        CoopBusiness::create($validated);
+    
+        return redirect()->route('businesses')->with('success', 'Added successfully!');
+    }
+    
+
+    public function editBusiness($id)
+    {
+        $business = CoopBusiness::findOrFail($id);
+        return view('myinformation.editbusinesses', compact('business'))->with('mode', 'edit');;
+    }
+
+    public function updateBusiness(Request $request, $id)
+    {
+        $business = CoopBusiness::findOrFail($id);
+
+        $validated = $request->validate([
+            'type'                 => 'nullable|string|max:200',
+            'nature_of_business'   => 'nullable|string|max:200',
+            'starting_capital'     => 'nullable|numeric|min:0',
+            'capital_to_date'      => 'nullable|numeric|min:0',
+            'years_of_existence'   => 'nullable|integer|min:0',
+            'status'               => 'nullable|string|max:200',
+            'remarks'              => 'nullable|string|max:200',
+        ]); 
+        
+
+        $business->update($validated);
+
+        return redirect()->route('businesses')->with('success', 'Updated successfully.');
+    }
+
+    public function destroyBusiness($id)
+    {
+        $business = CoopBusiness::findOrFail($id); 
+        $business->delete(); 
 
 
         return response()->json([

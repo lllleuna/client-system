@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Http;
+use Biscolab\ReCaptcha\Rules\Recaptcha;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\Application;
@@ -25,6 +26,7 @@ use App\Models\AppBusiness;
 use App\Models\CoopBusiness;
 use App\Models\AppCetos;
 use App\Models\CoopTraining;
+use App\Models\AppTrainingsList;
 use App\Models\CoopMembership;
 use App\Models\AppAward;
 use App\Models\CoopAward;
@@ -150,6 +152,13 @@ class ApplicationController extends Controller
 
     public function submitForm(Request $request)
     {
+        $request->validate([
+            'g-recaptcha-response' => 'required|recaptcha',
+        ], [
+            'g-recaptcha-response.required' => 'Please confirm you are not a robot.',
+            'g-recaptcha-response.recaptcha' => 'Captcha verification failed, please try again.',
+        ]);       
+        
         $allFormData = $request->session()->get('form_data', []);
 
         $user = Auth::user();
@@ -259,6 +268,32 @@ class ApplicationController extends Controller
             ]);
         }
 
+        $coopTrainings = CoopTraining::where('externaluser_id', $user->id)->get();
+
+        foreach ($coopTrainings as $train) {
+            AppTrainingsList::create([
+                'application_id' => $application->id,
+                'entry_year' => $train->created_at->year,
+                'title_of_training' => $train->title_of_training,
+                'no_of_attendees' => $train->no_of_attendees,
+                'total_fund' => $train->total_fund,
+            ]);
+        }
+
+        $businesses = CoopBusiness::where('externaluser_id', $user->id)->get();
+
+        foreach ($businesses as $business) {
+            AppBusiness::create([
+                'application_id' => $application->id,
+                'entry_year' => $business->created_at->year,
+                'type' => $business->type,
+                'nature_of_business' => $business->nature_of_business,
+                'starting_capital' => $business->starting_capital,
+                'capital_to_date' => $business->capital_to_date,
+                'years_of_existence' => $business->years_of_existence,
+            ]);
+        }
+
         $coopLoans = CoopLoan::where('externaluser_id', $user->id)->get();
 
         foreach ($coopLoans as $loan) {
@@ -331,98 +366,6 @@ class ApplicationController extends Controller
                 'source'          => $grant->source,
                 'status_remarks'  => $grant->status_remarks,
             ]);
-        }
-
-        $userId = Auth::id();
-
-        // Fetch the membership fee from CoopGeneralInfo
-        $membershipFee = CoopGeneralInfo::where('externaluser_id', $userId)->value('membership_fee') ?? 0;
-
-        // Aggregate data by year
-        $financialData = DB::table('members_masterlist')
-            ->select(
-                DB::raw('YEAR(created_at) as year'),
-                DB::raw('SUM(share_capital) as total_share_capital'),
-                DB::raw('COUNT(id) as total_members')
-            )
-            ->where('externaluser_id', $userId)
-            ->groupBy(DB::raw('YEAR(created_at)'))
-            ->get();
-
-        foreach ($financialData as $data) {
-            $year = $data->year;
-
-            // Calculate total training funds for the year
-            $totalTrainingFunds = CoopTraining::where('externaluser_id', $userId)
-                ->whereYear('start_date', $year)
-                ->sum('total_fund');
-
-            // Calculate total loan amounts for the year
-            $totalLoans = CoopLoan::where('externaluser_id', $userId)
-                ->whereYear('acquired_at', $year)
-                ->sum('amount');
-
-            // Calculate total assets
-            $totalAssets = $data->total_share_capital + $totalTrainingFunds;
-
-            // Determine cooperative type based on total assets
-            if ($totalAssets < 1000000) {
-                $coopType = 'Micro';
-            } elseif ($totalAssets < 5000000) {
-                $coopType = 'Small';
-            } elseif ($totalAssets < 15000000) {
-                $coopType = 'Medium';
-            } else {
-                $coopType = 'Large';
-            }
-
-            // Calculate liabilities (assuming total loans represent liabilities)
-            $liabilities = $totalLoans;
-
-            // Calculate members' equity
-            $membersEquity = $data->total_share_capital;
-
-            // Calculate total gross revenues (assuming training funds as revenue)
-            $totalGrossRevenues = $totalTrainingFunds;
-
-            // Calculate total expenses (assuming loans as expenses)
-            $totalExpenses = $totalLoans;
-
-            // Calculate net surplus
-            $netSurplus = $totalGrossRevenues - $totalExpenses;
-
-            // Insert data into AppFinance
-            AppFinance::updateOrCreate(
-                [
-                    'application_id'  => $application->id, 
-                    'entry_year' => $year
-                ],
-                [
-                    'current_assets' => $totalAssets,
-                    'noncurrent_assets' => 0, // Adjust as necessary
-                    'total_assets' => $totalAssets,
-                    'coop_type' => $coopType,
-                    'liabilities' => $liabilities,
-                    'members_equity' => $membersEquity,
-                    'total_gross_revenues' => $totalGrossRevenues,
-                    'total_expenses' => $totalExpenses,
-                    'net_surplus' => $netSurplus,
-                    'initial_auth_capital_share' => 0, // Adjust as necessary
-                    'present_auth_capital_share' => 0, // Adjust as necessary
-                    'subscribed_capital_share' => 0, // Adjust as necessary
-                    'paid_up_capital' => $membersEquity,
-                    'capital_build_up_scheme' => 0, // Adjust as necessary
-                    'general_reserve_fund' => 0, // Adjust as necessary
-                    'education_training_fund' => 0, // Adjust as necessary
-                    'community_dev_fund' => 0, // Adjust as necessary
-                    'optional_fund' => 0, // Adjust as necessary
-                    'share_capital_interest' => 0, // Adjust as necessary
-                    'patronage_refund' => 0, // Adjust as necessary
-                    'others' => 0, // Adjust as necessary
-                    'total' => $netSurplus,
-                    'deficit_from_financial_aspect' => $netSurplus < 0 ? abs($netSurplus) : 0,
-                ]
-            );
         }
 
 

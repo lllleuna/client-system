@@ -28,21 +28,23 @@ abstract class DuskTestCase extends BaseTestCase
     protected function driver(): RemoteWebDriver
     {
         $options = (new ChromeOptions)->addArguments(collect([
-            $this->shouldStartMaximized() ? '--start-maximized' : '--window-size=1920,1080',
+            '--no-sandbox',                    // Bypass OS security model
+            '--disable-dev-shm-usage',         // Avoid shared memory issues
+            '--disable-gpu',                   // Disable GPU acceleration for headless
+            '--headless',                      // Run headless for automation
             '--disable-search-engine-choice-screen',
             '--disable-smooth-scrolling',
+            $this->shouldStartMaximized() ? '--start-maximized' : '--window-size=1920,1080',
         ])->unless($this->hasHeadlessDisabled(), function (Collection $items) {
             return $items->merge([
-                '--disable-gpu',
-                '--headless=new',
+                '--headless=new',               // New headless mode for updated Chrome
             ]);
         })->all());
 
         return RemoteWebDriver::create(
-            $_ENV['DUSK_DRIVER_URL'] ?? env('DUSK_DRIVER_URL') ?? 'http://localhost:9515',
-            DesiredCapabilities::chrome()->setCapability(
-                ChromeOptions::CAPABILITY, $options
-            )
+            env('DUSK_DRIVER_URL', 'http://localhost:9515'),
+            DesiredCapabilities::chrome()->setCapability(ChromeOptions::CAPABILITY, $options)
         );
     }
+
 }

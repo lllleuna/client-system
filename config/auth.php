@@ -64,6 +64,10 @@ return [
             'driver' => 'eloquent',
             'model' => env('AUTH_MODEL', App\Models\ExternalUser::class),
         ],
+        'externalusers' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\ExternalUser::class,
+        ],
 
         // 'users' => [
         //     'driver' => 'database',
@@ -94,6 +98,12 @@ return [
         'users' => [
             'provider' => 'users',
             'table' => env('AUTH_PASSWORD_RESET_TOKEN_TABLE', 'password_reset_tokens'),
+            'expire' => 60,
+            'throttle' => 60,
+        ],
+        'externalusers' => [
+            'provider' => 'externalusers',
+            'table' => 'password_resets',
             'expire' => 60,
             'throttle' => 60,
         ],

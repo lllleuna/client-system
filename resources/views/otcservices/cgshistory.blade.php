@@ -38,7 +38,7 @@
                                 @endif
 
                             </div>
-
+                            
 
                             {{-- Certificate Details --}}
                             <div class="border-t pt-4">

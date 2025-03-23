@@ -90,6 +90,104 @@
             let today = new Date().toISOString().split("T")[0]; 
             dateInput.setAttribute("max", today); 
         });
+
+        document.addEventListener("DOMContentLoaded", function() {
+        // Get form elements
+        const form = document.getElementById('form');
+        const tcNameInput = document.getElementById('tc_name');
+        const cdaRegNoInput = document.getElementById('cda_reg_no');
+        const submitButton = form.querySelector('button[type="submit"]');
+        const requiredInputs = form.querySelectorAll('[required]');
+        
+        // Function to validate CDA Registration Number format (T-XXXXXXXX)
+        function validateCdaRegNo(value) {
+            const regex = /^T-\d{8}$/;
+            return regex.test(value);
+        }
+
+        // Add input event listener for TC Name
+        tcNameInput.addEventListener('input', function() {
+            if (this.value && this.value !== this.defaultValue) {
+                // Create or update message element
+                let messageEl = this.parentNode.querySelector('.validation-message');
+                if (!messageEl) {
+                    messageEl = document.createElement('p');
+                    messageEl.className = 'validation-message text-amber-600 text-sm mt-1';
+                    this.parentNode.insertBefore(messageEl, this.nextSibling);
+                }
+                messageEl.textContent = "Please ensure the cooperative name is entered in proper format (e.g., ABC Transport Cooperative).";
+            } else {
+                // Remove message if value is empty or unchanged
+                const messageEl = this.parentNode.querySelector('.validation-message');
+                if (messageEl) messageEl.remove();
+            }
+        });
+
+        // Add input event listener for CDA Registration Number
+        cdaRegNoInput.addEventListener('input', function() {
+            // Create or update message element
+            let messageEl = this.parentNode.querySelector('.validation-message');
+            if (!messageEl) {
+                messageEl = document.createElement('p');
+                messageEl.className = 'validation-message text-sm mt-1';
+                this.parentNode.insertBefore(messageEl, this.nextSibling);
+            }
+            
+            if (!validateCdaRegNo(this.value)) {
+                this.classList.add('border-red-500');
+                messageEl.className = 'validation-message text-red-500 text-sm mt-1';
+                messageEl.textContent = "Please enter a valid CDA Registration Number in the format T-XXXXXXXX (e.g., T-12345678).";
+            } else {
+                this.classList.remove('border-red-500');
+                messageEl.className = 'validation-message text-green-500 text-sm mt-1';
+                messageEl.textContent = "Valid CDA Registration Number format.";
+            }
+        });
+
+        // Function to check if all required fields are filled
+        function checkRequiredFields() {
+            let allFilled = true;
+            let cdaRegNoValid = true;
+            
+            requiredInputs.forEach(input => {
+                if (!input.value.trim()) {
+                    allFilled = false;
+                }
+                
+                // Check if CDA Reg No has correct format
+                if (input.id === 'cda_reg_no' && !validateCdaRegNo(input.value)) {
+                    cdaRegNoValid = false;
+                }
+            });
+            
+            // Enable/disable submit button based on validation
+            submitButton.disabled = !(allFilled && cdaRegNoValid);
+            submitButton.classList.toggle('opacity-50', !(allFilled && cdaRegNoValid));
+            submitButton.classList.toggle('cursor-not-allowed', !(allFilled && cdaRegNoValid));
+        }
+
+        // Add form validation before submit
+        form.addEventListener('submit', function(e) {
+            if (!validateCdaRegNo(cdaRegNoInput.value)) {
+                e.preventDefault();
+                alert("Please correct the CDA Registration Number format (T-XXXXXXXX).");
+                cdaRegNoInput.focus();
+            }
+        });
+
+        // Check fields on any input change
+        requiredInputs.forEach(input => {
+            input.addEventListener('input', checkRequiredFields);
+        });
+        
+        // Initial check
+        checkRequiredFields();
+        
+        // Date validation (already exists but included for completeness)
+        let dateInput = document.getElementById("cda_reg_date");
+        let today = new Date().toISOString().split("T")[0]; 
+        dateInput.setAttribute("max", today);
+    });
     </script>
     
 

@@ -63,7 +63,7 @@
 
         <!-- Footer Buttons -->
         <div class="mt-10 flex justify-between ">
-            <a class="bg-gray-200 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-300 focus:outline-none">
+            <a href="{{ route('dashboard') }}" class="bg-gray-200 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-300 focus:outline-none">
                 Previous
             </a>
             <a href="/accreditation/form1"

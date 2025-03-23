@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\Application;
@@ -67,7 +68,7 @@ class ApplicationController extends Controller
     public function processForm2(Request $request)
     {
         $validatedData = $request->validate([
-            'file_upload' => 'required|file|mimes:pdf,jpg,png|max:2048',
+            'file_upload' => 'required|file|mimes:pdf,jpg,png|max:8048',
             'message' => 'nullable|string|max:300', 
             'consent' => 'required|in:on', 
             'oath' => 'required|in:on', 
@@ -94,10 +95,46 @@ class ApplicationController extends Controller
     }
 
 
+
     public function showConfirmation(Request $request)
     {
         $formData = $request->session()->get('form_data', []);
-        return view('accreditation.confirmation', ['formData' => $formData]);
+    
+        // Default names in case API fails
+        $provinceName = 'Unknown Province';
+        $cityName = 'Unknown City/Municipality';
+        $barangayName = 'Unknown Barangay';
+    
+        // Fetch Province Name
+        if (!empty($formData['province'])) {
+            $provinceResponse = Http::get("https://psgc.gitlab.io/api/provinces/{$formData['province']}/");
+            if ($provinceResponse->successful()) {
+                $provinceName = $provinceResponse->json()['name'];
+            }
+        }
+    
+        // Fetch City/Municipality Name
+        if (!empty($formData['city_municipality'])) {
+            $cityResponse = Http::get("https://psgc.gitlab.io/api/cities-municipalities/{$formData['city_municipality']}/");
+            if ($cityResponse->successful()) {
+                $cityName = $cityResponse->json()['name'];
+            }
+        }
+    
+        // Fetch Barangay Name
+        if (!empty($formData['barangay'])) {
+            $barangayResponse = Http::get("https://psgc.gitlab.io/api/barangays/{$formData['barangay']}/");
+            if ($barangayResponse->successful()) {
+                $barangayName = $barangayResponse->json()['name'];
+            }
+        }
+    
+        return view('accreditation.confirmation', [
+            'formData' => $formData,
+            'provinceName' => $provinceName,
+            'cityName' => $cityName,
+            'barangayName' => $barangayName,
+        ]);
     }
 
     public function submitForm(Request $request)
@@ -132,11 +169,11 @@ class ApplicationController extends Controller
                 'cda_registration_date' => $coopInfo->cda_registration_date, 
                 'common_bond_membership' => $coopInfo->common_bond_membership ?? null,
                 'membership_fee' => $coopInfo->membership_fee ?? 0,
-                'area' => $coopInfo->area,
-                'region' => $coopInfo->region,
-                'city' => $coopInfo->city,
-                'province' => $coopInfo->province,
-                'barangay' => $coopInfo->barangay,
+                'area' => $application->area,
+                'region' => $application->region,
+                'city' => $application->city,
+                'province' => $application->province,
+                'barangay' => $application->barangay,
                 'business_address' => $coopInfo->business_address,
                 'email' => $externaluser->email ?? null, 
                 'contact_no' => $coopInfo->contact_no ?? null,

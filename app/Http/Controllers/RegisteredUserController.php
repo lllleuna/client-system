@@ -9,42 +9,55 @@ use Illuminate\Auth\Events\Registered;
 use App\Models\GeneralInfo;
 use Illuminate\Http\Request;
 use App\Notifications\SendOtpNotification;
+use App\Models\CoopGeneralInfo;
+
 
 class RegisteredUserController extends Controller
 {
     public function store() 
     {
         try {
-            $attributes = request()->validate([
-                'cda_reg_no' => ['required', 'unique:'.ExternalUser::class],
-                'tc_name' => ['required'],
-                'chair_fname' => ['required'],
-                'chair_mname' => ['nullable'],
-                'chair_lname' => ['required'],
+            $validatedData = request()->validate([
+                'cda_reg_no'   => ['required', 'unique:externalusers,cda_reg_no'],
+                'tc_name'      => ['required'],
+                'chair_fname'  => ['required'],
+                'chair_mname'  => ['nullable'],
+                'chair_lname'  => ['required'],
                 'chair_suffix' => ['nullable'],
-                'contact_no' => ['required', 'unique:'.ExternalUser::class],
-                'id_type' => ['required'],
-                'id_number' => ['required', 'string', 'max:25'],
-                'email' => ['required', 'email', 'unique:'.ExternalUser::class],
-                'password' => ['required', 'confirmed',
-                                Password::min(12) 
-                                ->letters() 
-                                ->mixedCase() 
-                                ->numbers() 
-                                ->symbols(),
-                            ],
+                'contact_no'   => ['required', 'unique:externalusers,contact_no'],
+                'id_type'      => ['required'],
+                'id_number'    => ['required', 'string', 'max:25'],
+                'email'        => ['required', 'email', 'unique:externalusers,email'],
+                'password'     => ['required', 'confirmed',
+                    Password::min(12)
+                        ->letters()
+                        ->mixedCase()
+                        ->numbers()
+                        ->symbols(),
+                ],
             ]);
-
+        
+            // Determine accreditation status
             $existsInGeneralInfo = GeneralInfo::where('cda_registration_no', request()->cda_reg_no)->exists();
-            $attributes['accreditation_status'] = $existsInGeneralInfo ? 'Active' : 'New';
-
-            $user = ExternalUser::create($attributes);
+            $validatedData['accreditation_status'] = $existsInGeneralInfo ? 'Active' : 'New';
+        
+            // Create ExternalUser
+            $user = ExternalUser::create($validatedData);
+        
+            // Log in user
             Auth::login($user);
-
+        
+            // Store email to CoopGeneralInfo
+            CoopGeneralInfo::updateOrCreate(
+                ['externaluser_id' => $user->id],
+                ['email' => $validatedData['email']]
+            );
+        
+            // Trigger event
             event(new Registered($user));
-
+        
             return redirect('/')->with('success', 'Account Created Successfully!');
-
+            
         } catch (ValidationException $e) {
             throw ValidationException::withMessages($e->errors())
                 ->errorBag('signup');
@@ -138,20 +151,21 @@ class RegisteredUserController extends Controller
     public function verifyEmail($token)
     {
         $user = ExternalUser::where('email_verification_token', $token)->first();
-
+    
         if (!$user) {
-            return redirect()->route('generalinfo')->with('error', 'Invalid or expired verification token.');
+            return redirect()->route('login')->with('error', 'Invalid or expired verification token.');
         }
-
-        // Update email and reset token
+    
         $user->update([
             'email' => $user->pending_email,
             'pending_email' => null,
             'email_verified_at' => now(),
             'email_verification_token' => null,
         ]);
-
-        return redirect()->route('generalinfo')->with('success', 'Email verified successfully!');
+    
+        Auth::login($user); // Auto login
+    
+        return redirect()->route('generalinfo')->with('success', 'Email verified and logged in successfully!');
     }
 
 

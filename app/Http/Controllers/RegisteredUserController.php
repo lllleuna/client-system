@@ -48,10 +48,10 @@ class RegisteredUserController extends Controller
             Auth::login($user);
         
             // Store email to CoopGeneralInfo
-            CoopGeneralInfo::updateOrCreate(
-                ['externaluser_id' => $user->id],
-                ['email' => $validatedData['email']]
-            );
+            CoopGeneralInfo::create([
+                'externaluser_id' => $user->id,
+                'email' => $validatedData['email'],
+            ]);            
         
             // Trigger event
             event(new Registered($user));

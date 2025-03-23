@@ -102,10 +102,10 @@
                            class="block px-4 py-2 text-sm rounded-lg transition-colors {{ request()->routeIs('employment') ? 'bg-blue-50 text-blue-600 font-medium' : 'text-gray-600 hover:bg-gray-50' }}">
                             Employment
                         </a>
-                        <a href="{{ route('units') }}"
+                        {{-- <a href="{{ route('units') }}"
                            class="block px-4 py-2 text-sm rounded-lg transition-colors {{ request()->routeIs('units') ? 'bg-blue-50 text-blue-600 font-medium' : 'text-gray-600 hover:bg-gray-50' }}">
                             Units
-                        </a>
+                        </a> --}}
                         <a href="{{ route('cgs') }}" 
                            class="block px-4 py-2 text-sm rounded-lg transition-colors {{ request()->routeIs('cgs') ? 'bg-blue-50 text-blue-600 font-medium' : 'text-gray-600 hover:bg-gray-50' }}">
                             CGS
@@ -160,10 +160,10 @@
                            class="block px-4 py-2 text-sm rounded-lg transition-colors {{ request()->routeIs('loans') ? 'bg-blue-50 text-blue-600 font-medium' : 'text-gray-600 hover:bg-gray-50' }}">
                             Loans
                         </a>
-                        {{-- <a href="{{ route('businesses') }}" 
+                        <a href="{{ route('businesses') }}" 
                            class="block px-4 py-2 text-sm rounded-lg transition-colors {{ request()->routeIs('businesses') ? 'bg-blue-50 text-blue-600 font-medium' : 'text-gray-600 hover:bg-gray-50' }}">
                             Businesses
-                        </a> --}}
+                        </a>
                     </div>
                 </div>
 

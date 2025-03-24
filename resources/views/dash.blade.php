@@ -83,7 +83,7 @@
         <!-- Status Cards Grid -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 mb-8">
             <!-- CGS Status Card with Interactive Progress Bar -->
-            @if ($generalInfo && $generalInfo->validity_date)
+            @if ($generalInfo && $generalInfo->validity_date && $generalInfo->validity_date > now()) 
                 <div class="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow p-6 cursor-pointer relative overflow-hidden group"
                     onclick="window.location.href='#'" {{-- Attention! Namme, Pa-edit ng route na paputang CGS Renewal yung onclick="window.location.href='#'" sa taas nito.  --}} id="cgs-status-card">
                     <!-- Hover effect overlay -->

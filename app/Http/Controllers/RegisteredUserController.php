@@ -10,6 +10,7 @@ use App\Models\GeneralInfo;
 use Illuminate\Http\Request;
 use App\Notifications\SendOtpNotification;
 use App\Models\CoopGeneralInfo;
+use Illuminate\Support\Str;
 
 
 class RegisteredUserController extends Controller

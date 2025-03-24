@@ -15,6 +15,10 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ServicesController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\ResetPasswordController;
+use App\Http\Controllers\RenewalController;
+
+Route::post('/renewal/submit', [RenewalController::class, 'submit'])->name('renewal.submit');
+
 
 //Login Page
 Route::get('/', function () {

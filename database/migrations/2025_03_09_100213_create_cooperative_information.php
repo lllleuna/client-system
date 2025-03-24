@@ -35,7 +35,7 @@ return new class extends Migration
             $table->string('province')->nullable();
             $table->string('barangay')->nullable();
             $table->string('business_address')->nullable();
-            $table->string('email')->unique()->nullable();
+            $table->string('email')->nullable();
             $table->string('contact_no')->nullable();
             $table->string('employer_sss_reg_no')->nullable();
             $table->string('employer_pagibig_reg_no')->nullable();

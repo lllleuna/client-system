@@ -35,9 +35,9 @@
             </a>
 
             @if (auth()->user()->contact_no_verified_at)
-                <span class="text-green-600 font-semibold">✔ Verified</span>
+                <span class="text-green-600 font-semibold">Verified</span>
             @else
-                <span class="text-red-600 font-semibold">✖ Not Verified</span>
+                <span class="text-red-600 font-semibold">Not Verified</span>
             @endif
         </div>
 

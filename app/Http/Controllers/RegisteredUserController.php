@@ -77,7 +77,7 @@ class RegisteredUserController extends Controller
             if (!$user) {
                 return response()->json(['error' => 'User not authenticated'], 401);
             }
-            $contactNo = $request->input('contact_no');
+            $contactNo = 63 . $request->input('contact_no');
             
             $otp = rand(100000, 999999);
             session(['otp' => $otp, 'verified_contact_no' => $contactNo]);

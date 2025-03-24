@@ -29,10 +29,9 @@
             <p class="text-gray-600 mt-1">Welcome, {{ $user->name ?? 'Cooperative Chairperson' }}</p> {{-- Backend: Replace with actual user name --}}
         </div>
         <div class="flex-row">
-            <p class="text-sm text-gray-500">Last Login: {{ $user->last_login ?? 'First time login' }} </p>
-            {{-- And/Or MM/DD/YYYY HH:MM:SS --}}
+            <h3>Contact No</h3>
             <a href="/auth/mfa">
-                <h3>Verify SMS</h3>
+                <h3>{{ auth()->user()->contact_no }}</h3>
             </a>
             {{-- <a href=""><h3>Authenticator Code</h3></a> --}}
         </div>

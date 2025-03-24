@@ -101,10 +101,10 @@
                                             value="{{ old('contact_no', $externalUser->contact_no ?? '') }}"
                                             class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-100 focus:border-blue-400 transition-all duration-200 @error('mobile_no') border-red-500 @enderror"
                                             placeholder="639XXXXXXXXX"
-                                            pattern="639\d{9}"
-                                            maxlength="12"
+                                            pattern="9\d{9}"
+                                            maxlength="10"
                                             required
-                                            oninvalid="this.setCustomValidity('Please enter a valid 12-digit phone number starting with 639')"
+                                            oninvalid="this.setCustomValidity('Please enter a valid 10-digit phone number starting with 9')"
                                             oninput="this.setCustomValidity('')"
                                             onkeypress="if(event.key < '0' || event.key > '9') event.preventDefault();"
                                         />

@@ -73,7 +73,7 @@
                                         <div class="bg-white p-4 rounded-lg shadow-sm">
                                             <p class="text-sm text-gray-500 font-medium mb-1">OFFICIAL CONTACT NO.</p>
                                             <p class="text-md font-semibold text-gray-800">
-                                                {{ $generalInfo->contact_no ?? 'Not Available' }}</p>
+                                                {{ $externalUser->contact_no ?? 'Not Available' }}</p>
                                         </div>
 
 

@@ -246,7 +246,7 @@ class CoopController extends Controller
             ],
             'contact_no' => [
                 'required',
-                'regex:/^(639)\d{9}$/',
+                'regex:/^(9)\d{9}$/',
                 'max:12',
                 Rule::unique('externalusers', 'contact_no')->ignore($user->id),
             ],
@@ -265,30 +265,39 @@ class CoopController extends Controller
         $externalUser = ExternalUser::where('id', $user->id)->first();
     
         if ($externalUser) {
+            // Check if email has changed
             if ($externalUser->email !== $validatedData['email']) {
-                // Generate a verification token
+                // Generate verification token
                 $verificationToken = Str::random(32);
-    
+        
                 // Save pending email and token
                 $externalUser->update([
                     'pending_email' => $validatedData['email'],
                     'email_verification_token' => $verificationToken,
                 ]);
-    
+        
                 // Send verification email
                 Mail::to($validatedData['email'])->send(new EmailVerificationMail($externalUser));
-    
+        
                 return redirect()->route('generalinfo')->with('success', 'Verification email sent. Please verify your email before updating.');
             }
-    
-            // If email is not changed, update normally
-            $externalUser->update([
+        
+            // Check if contact number has changed
+            $updateData = [
                 'tc_name' => $validatedData['tc_name'],
                 'cda_reg_no' => $validatedData['cda_reg_no'] ?? null,
                 'email' => $validatedData['email'],
                 'contact_no' => $validatedData['contact_no'],
-            ]);
-        }
+            ];
+        
+            if ($externalUser->contact_no !== $validatedData['contact_no']) {
+                // Contact number changed, reset verification
+                $updateData['contact_no_verified_at'] = null;
+            }
+        
+            // Update external user info
+            $externalUser->update($updateData);
+        }        
 
         $generalInfo = CoopGeneralInfo::updateOrCreate(
             ['externaluser_id' => $user->id], 

@@ -86,7 +86,7 @@
                                                 <p class="text-sm text-gray-500 font-medium mb-1">ACCREDITATION NO. (RA9520)
                                                 </p>
 
-                                                @if ($mainrecord->accreditation_no)
+                                                @if ($mainrecord && $mainrecord->accreditation_no)
                                                     <p class="text-md font-semibold text-green-600">
                                                         {{ $mainrecord->accreditation_no }}
                                                     </p>

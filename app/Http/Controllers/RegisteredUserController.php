@@ -99,11 +99,16 @@ class RegisteredUserController extends Controller
         $enteredOtp = $request->otp;
         $storedOtp = session('otp');
         $verifiedContactNo = session('verified_contact_no');
-
+    
         if ($enteredOtp == $storedOtp) {
             session()->forget(['otp', 'verified_contact_no']); 
             
             $user = Auth::user();
+            
+            // Remove '63' prefix if present
+            if (Str::startsWith($verifiedContactNo, '63')) {
+                $verifiedContactNo = substr($verifiedContactNo, 2); // Remove first 2 characters
+            }
             
             \DB::table('externalusers')
                 ->where('id', $user->id)
@@ -111,12 +116,12 @@ class RegisteredUserController extends Controller
                     'contact_no' => $verifiedContactNo,
                     'contact_no_verified_at' => now()
                 ]);
-
+    
             return redirect('/dash')->with('success', 'Mobile Number Verified!');
         } else {
             return redirect('/auth/mfa')->with('error', 'Invalid OTP!');
         }
-    }
+    }    
 
 
     public function resendOtp(Request $request)

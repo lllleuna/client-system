@@ -28,13 +28,19 @@
             <h1 class="text-3xl font-bold text-gray-900">Dashboard</h1>
             <p class="text-gray-600 mt-1">Welcome, {{ $user->name ?? 'Cooperative Chairperson' }}</p> {{-- Backend: Replace with actual user name --}}
         </div>
-        <div class="flex-row">
-            <h3>Contact No</h3>
-            <a href="/auth/mfa">
-                <h3>{{ auth()->user()->contact_no }}</h3>
+        <div class="flex flex-col">
+            <h3 class="font-semibold">Business Contact No.</h3>
+            <a href="/auth/mfa" class="hover:text-blue-700">
+                <h3>0{{ auth()->user()->contact_no }}</h3>
             </a>
-            {{-- <a href=""><h3>Authenticator Code</h3></a> --}}
+
+            @if (auth()->user()->contact_no_verified_at)
+                <span class="text-green-600 font-semibold">✔ Verified</span>
+            @else
+                <span class="text-red-600 font-semibold">✖ Not Verified</span>
+            @endif
         </div>
+
     </div>
 
     {{-- temporary success message when contact verified --}}
@@ -216,8 +222,8 @@
                         <button
                             class="w-full py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-md text-sm font-medium transition-colors duration-200 flex items-center justify-center">
                             <span>View Unit Details</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24"
-                                stroke="currentColor">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                             </svg>
                         </button>

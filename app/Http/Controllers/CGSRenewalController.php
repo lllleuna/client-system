@@ -26,7 +26,7 @@ class CGSRenewalController extends Controller
         $twoMonthsAfterNow = $now->copy()->addMonths(2);
 
         // Condition: today OR within 2 months after today
-        if ($validityDate->between($now, $twoMonthsAfterNow) || $validityDate->isSameDay($now)) {
+        if ($validityDate->lessThanOrEqualTo($twoMonthsAfterNow)) {
             return view('otcservices.cgsrenewal');
         }
 

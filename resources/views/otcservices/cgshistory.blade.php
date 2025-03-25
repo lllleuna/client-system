@@ -45,12 +45,14 @@
                                         <div>
                                             <dt class="text-sm font-medium text-gray-500">Issue Date</dt>
                                             <dd class="mt-1 text-sm text-gray-900">
-                                                {{ $generalInfo->created_at->format('F d, Y') }}</dd>
+                                                {{ \Carbon\Carbon::parse($generalInfo->created_at)->format('F d, Y') }}
+                                            </dd>
                                         </div>
                                         <div>
                                             <dt class="text-sm font-medium text-gray-500">Valid Until</dt>
                                             <dd class="mt-1 text-sm text-gray-900">
-                                                {{ $generalInfo->validity_date->format('F d, Y') }}</dd>
+                                                {{ \Carbon\Carbon::parse($generalInfo->validity_date)->format('F d, Y') }}
+                                            </dd>
                                         </div>
                                     </dl>
                                 </div>

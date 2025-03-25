@@ -276,13 +276,12 @@ Route::get('/otcservices/concern', function () {
     return view('otcservices.concern');
 })->name('concern');
 
-Route::get('/otcservices/accreditationcert', function () {
-    return view('otcservices.accreditationcert');
-})->name('accreditationcert');
 
 Route::get('/otcservices/cgshistory', [ServicesController::class, 'cgs'])->name('cgshistory');
 Route::get('/download-cgs/{filename}', [ServicesController::class, 'downloadCGS'])->name('download.cgs');
 
+Route::get('/otcservices/accredit', [ServicesController::class, 'accredit'])->name('accreditationcert');
+Route::get('/download-accredit/{filename}', [ServicesController::class, 'downloadAccredit'])->name('download.accredit');
 
 Route::get('/otcservices/traininghistory', function () {
     return view('otcservices.traininghistory');

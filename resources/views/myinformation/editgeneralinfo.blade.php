@@ -100,7 +100,7 @@
                                             name="contact_no"
                                             value="{{ old('contact_no', $externalUser->contact_no ?? '') }}"
                                             class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-100 focus:border-blue-400 transition-all duration-200 @error('mobile_no') border-red-500 @enderror"
-                                            placeholder="639XXXXXXXXX"
+                                            placeholder="9XXXXXXXXX"
                                             pattern="9\d{9}"
                                             maxlength="10"
                                             required

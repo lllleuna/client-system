@@ -252,7 +252,7 @@ FOR FILE UPLOADS --}}
 
         // Validate all required fields and enable/disable submit button
         function validateForm() {
-            const isFileUploaded = fileUpload.files && fileUpload.files.length > 0;
+            const isFileUploaded = fileUpload.files;
             const isConsentChecked = consentCheckbox.checked;
             const isOathChecked = oathCheckbox.checked;
 

@@ -50,7 +50,7 @@
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                                     </svg>
-                                    Middle Name 
+                                    Middle Name
                                 </label>
                                 <input type="text" name="middlename"
                                     value="{{ old('middlename', $membership->middlename ?? '') }}"
@@ -163,17 +163,10 @@
                                     </svg>
                                     Share Capital <span class="text-red-500">*</span>
                                 </label>
-                                <input 
-                                    type="text"
-                                    name="share_capital"
+                                <input type="number" name="share_capital"
                                     value="{{ old('share_capital', $membership->share_capital ?? '') }}"
                                     class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-100 focus:border-blue-400 transition-all duration-200 @error('share_capital') border-red-500 @enderror"
-                                    placeholder="0.00"
-                                    required
-                                    oninput="this.value = this.value.replace(/[^0-9.]/g, '')"
-                                    oninvalid="this.setCustomValidity('Please fill out this field')"
-                                    oninput="this.setCustomValidity('')"
-                                />
+                                    placeholder="0.00" required />
 
                                 @error('share_capital')
                                     <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
@@ -234,31 +227,26 @@
                             <!-- Contact Number -->
                             <div>
                                 <label class="flex items-center text-sm font-medium text-gray-700 mb-2">
-                                    <svg class="w-4 h-4 mr-2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg class="w-4 h-4 mr-2 text-gray-400" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                                     </svg>
                                     Contact Number <span class="text-red-500">*</span>
                                 </label>
-                                <input 
-                                type="tel"
-                                name="mobile_no"
-                                value="{{ old('mobile_no', $membership->mobile_no ?? '') }}"
-                                class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-100 focus:border-blue-400 transition-all duration-200 @error('mobile_no') border-red-500 @enderror"
-                                placeholder="639XXXXXXXXX"
-                                pattern="639\d{9}"
-                                maxlength="12"
-                                required
-                                oninvalid="this.setCustomValidity('Please enter a valid 12-digit phone number starting with 639')"
-                                oninput="this.setCustomValidity('')"
-                                onkeypress="if(event.key < '0' || event.key > '9') event.preventDefault();"
-                            />
+                                <input type="tel" name="mobile_no"
+                                    value="{{ old('mobile_no', $membership->mobile_no ?? '') }}"
+                                    class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-100 focus:border-blue-400 transition-all duration-200 @error('mobile_no') border-red-500 @enderror"
+                                    placeholder="639XXXXXXXXX" pattern="639\d{9}" maxlength="12" required
+                                    oninvalid="this.setCustomValidity('Please enter a valid 12-digit phone number starting with 639')"
+                                    oninput="this.setCustomValidity('')"
+                                    onkeypress="if(event.key < '0' || event.key > '9') event.preventDefault();" />
 
                                 @error('mobile_no')
                                     <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
                                 @enderror
                             </div>
-                            
+
 
                             <!-- Address -->
                             <div>
@@ -336,7 +324,7 @@
                                     <span class="ml-2 text-gray-700">Probationary</span>
                                 </label>
                             </div>
-                   
+
                         </div>
 
                         <!-- Submit Button -->

@@ -43,28 +43,13 @@
                             {{-- Certificate Details --}}
                             <div class="border-t pt-4">
                                 <dl class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                                    {{-- BACKEND TODO: Replace placeholder values with actual certificate data --}}
-                                    <div>
-                                        <dt class="text-sm font-medium text-gray-500">Certificate Number</dt>
-                                        <dd class="mt-1 text-sm text-gray-900">CGS-2024-001</dd>
-                                    </div>
                                     <div>
                                         <dt class="text-sm font-medium text-gray-500">Issue Date</dt>
-                                        <dd class="mt-1 text-sm text-gray-900">January 15, 2024</dd>
+                                        <dd class="mt-1 text-sm text-gray-900">{{ $generalInfo->created_at }}</dd>
                                     </div>
                                     <div>
                                         <dt class="text-sm font-medium text-gray-500">Valid Until</dt>
-                                        <dd class="mt-1 text-sm text-gray-900">December 31, 2024</dd>
-                                    </div>
-                                    <div>
-                                        <dt class="text-sm font-medium text-gray-500">Status</dt>
-                                        <dd class="mt-1">
-                                            {{-- BACKEND TODO: Add logic to change color based on status --}}
-                                            <span
-                                                class="px-2 py-1 text-xs font-medium text-green-700 bg-green-100 rounded-full">
-                                                Active
-                                            </span>
-                                        </dd>
+                                        <dd class="mt-1 text-sm text-gray-900">{{ $generalInfo->validity_date }}</dd>
                                     </div>
                                 </dl>
                             </div>

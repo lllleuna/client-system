@@ -37,34 +37,56 @@ class RegisteredUserController extends Controller
                         ->symbols(),
                 ],
             ]);
-        
-            // Determine accreditation status
-            $existsInGeneralInfo = GeneralInfo::where('cda_registration_no', request()->cda_reg_no)->exists();
-            $validatedData['accreditation_status'] = $existsInGeneralInfo ? 'Active' : 'New';
-        
+    
+            // Check for an existing unverified user with the same cda_reg_no and email
+            $existingUser = ExternalUser::where('cda_reg_no', request()->cda_reg_no)
+                ->where('email', request()->email)
+                ->first();
+    
+            if ($existingUser) {
+                if (!$existingUser->email_verified_at) {
+                    // User exists but is not verified -> delete them and allow new registration
+                    $existingUser->delete();
+                } else {
+                    // User exists and is verified -> prevent registration
+                    return redirect()->back()->withErrors([
+                        'email' => 'An account with this email and CDA Registration No. already exists and is verified.'
+                    ]);
+                }
+            }
+    
+            // Check if cda_reg_no and email exist in the same row in GeneralInfo
+            $existsWithEmail = GeneralInfo::where('cda_registration_no', request()->cda_reg_no)
+                ->where('email', request()->email)
+                ->exists();
+    
+            // Set accreditation status
+            $validatedData['accreditation_status'] = $existsWithEmail ? 'Active' : 'New';
+    
             // Create ExternalUser
             $user = ExternalUser::create($validatedData);
-        
+    
             // Log in user
             Auth::login($user);
-        
+    
             // Store email to CoopGeneralInfo
             CoopGeneralInfo::create([
                 'externaluser_id' => $user->id,
                 'email' => $validatedData['email'],
             ]);            
-        
-            // Trigger event
+    
+            // Trigger event for email verification
             event(new Registered($user));
-        
-            return redirect('/')->with('success', 'Account Created Successfully!');
+    
+            return redirect('/')->with('success', 'Account Created Successfully! Please verify your email to proceed.');
             
         } catch (ValidationException $e) {
             throw ValidationException::withMessages($e->errors())
                 ->errorBag('signup');
         }
     }
-
+    
+    
     public function show() 
     {
         return view('/users/create');

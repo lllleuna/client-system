@@ -56,8 +56,16 @@ class RenewalController extends Controller
         // Handle file upload
         if ($request->hasFile('letter_request')) {
             $file = $request->file('letter_request');
-            $filePath = $file->store('uploads', 'public');
-        }
+        
+            // Generate unique filename
+            $filename = time() . '_' . $file->getClientOriginalName();
+        
+            // Move file to shared storage location
+            $file->move(public_path('shared/uploads'), $filename);
+        
+            // Store relative path
+            $filePath = 'shared/uploads/' . $filename;
+        }        
 
 
         // Generate unique reference number

@@ -12,14 +12,15 @@ class ServicesController extends Controller
         // Fetch ExternalUser
         $externalUser = ExternalUser::findOrFail(auth()->id());
     
-        // Fetch GeneralInfo
-        $generalInfo = GeneralInfo::where('cda_registration_no', $externalUser->cda_reg_no)
-            ->latest()
-            ->first();
+        // Fetch all related GeneralInfo records
+        $generalInfos = GeneralInfo::where('cda_registration_no', $externalUser->cda_reg_no)
+            ->latest() // Order by latest records first
+            ->get();   // Fetch all related records
     
-        // Pass generalInfo to view
-        return view('otcservices.cgshistory', compact('generalInfo'));
+        // Pass to the view
+        return view('otcservices.cgshistory', compact('generalInfos'));
     }
+    
 
     public function downloadCGS($filename)
     {

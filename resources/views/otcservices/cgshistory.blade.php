@@ -90,6 +90,11 @@
                             </div>
                         </div>
                     @endforeach
+
+                    <!-- Pagination -->
+                    <div class="mt-6">
+                        {{ $generalInfos->links() }}
+                    </div>
                 @endif
             </div>
 

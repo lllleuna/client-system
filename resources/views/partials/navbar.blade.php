@@ -57,9 +57,9 @@
                     <!-- Right Section: Actions -->
                     <div class="flex items-center space-x-6">
                         {{-- Send Message --}}
-                        <x-send-message/>
+                        {{-- <x-send-message/> --}}
                         {{-- Bell Notification --}}
-                        <x-bell-notification/>
+                        {{-- <x-bell-notification/> --}}
                         {{-- Profile Coop --}}
                         <x-profile-coop />
                     </div>

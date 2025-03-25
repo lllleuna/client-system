@@ -106,10 +106,10 @@
                            class="block px-4 py-2 text-sm rounded-lg transition-colors {{ request()->routeIs('units') ? 'bg-blue-50 text-blue-600 font-medium' : 'text-gray-600 hover:bg-gray-50' }}">
                             Units
                         </a> --}}
-                        <a href="{{ route('cgs') }}" 
+                        {{-- <a href="{{ route('cgs') }}" 
                            class="block px-4 py-2 text-sm rounded-lg transition-colors {{ request()->routeIs('cgs') ? 'bg-blue-50 text-blue-600 font-medium' : 'text-gray-600 hover:bg-gray-50' }}">
                             CGS
-                        </a>
+                        </a> --}}
                     </div>
                 </div>
 

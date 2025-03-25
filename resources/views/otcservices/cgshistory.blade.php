@@ -55,7 +55,7 @@
 
                                                 @if (\Carbon\Carbon::parse($generalInfo->validity_date)->isPast())
                                                     <span
-                                                        class="ml-2 px-2 py-1 text-xs font-semibold text-white bg-red-500 rounded">Inactive</span>
+                                                        class="ml-2 px-2 py-1 text-xs font-semibold text-white bg-red-500 rounded">Expired</span>
                                                 @else
                                                     <span
                                                         class="ml-2 px-2 py-1 text-xs font-semibold text-white bg-green-500 rounded">Active</span>

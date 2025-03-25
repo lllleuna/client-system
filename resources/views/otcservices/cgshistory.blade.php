@@ -39,6 +39,19 @@
                                             Download
                                         </a>
                                     @endif
+
+                                    @if ($generalInfo->certificate_file)
+                                        <a href="{{ asset('shared/certificates/' . $generalInfo->certificate_file) }}"
+                                            target="_blank"
+                                            class="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none"
+                                                viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                                            </svg>
+                                            Download
+                                        </a>
+                                    @endif
                                 </div>
 
                                 {{-- Certificate Details --}}

@@ -19,8 +19,10 @@
                             <div class="p-6">
                                 <div class="flex items-center justify-between mb-6">
                                     <div>
-                                        <h2 class="text-xl font-semibold text-gray-900">CGS for
-                                            {{ $generalInfo->entry_year ?? 'N/A' }}</h2>
+                                        <h2 class="text-xl font-semibold text-gray-900">
+                                            CGS for {{ \Carbon\Carbon::parse($generalInfo->created_at)->format('Y') }}
+                                        </h2>
+
                                         <p class="text-sm text-gray-500">Issued by the Office of Transportation Cooperatives
                                         </p>
                                     </div>

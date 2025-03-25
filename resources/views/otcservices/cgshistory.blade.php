@@ -50,12 +50,21 @@
                                         </div>
                                         <div>
                                             <dt class="text-sm font-medium text-gray-500">Valid Until</dt>
-                                            <dd class="mt-1 text-sm text-gray-900">
+                                            <dd class="mt-1 text-sm text-gray-900 flex items-center">
                                                 {{ \Carbon\Carbon::parse($generalInfo->validity_date)->format('F d, Y') }}
+
+                                                @if (\Carbon\Carbon::parse($generalInfo->validity_date)->isPast())
+                                                    <span
+                                                        class="ml-2 px-2 py-1 text-xs font-semibold text-white bg-red-500 rounded">Inactive</span>
+                                                @else
+                                                    <span
+                                                        class="ml-2 px-2 py-1 text-xs font-semibold text-white bg-green-500 rounded">Active</span>
+                                                @endif
                                             </dd>
                                         </div>
                                     </dl>
                                 </div>
+
                             </div>
                         </div>
                     </div>

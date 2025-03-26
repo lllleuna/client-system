@@ -246,14 +246,15 @@ Route::get('/myinformation/editcetos', function () {
     return view('myinformation.editcetos');
 })->name('editcetos');
 
+Route::middleware(['auth'])->group(function () {
 // Awards
-Route::get('/myinformation/awards', [CoopController::class, 'showAwards'])->name('awards');
-Route::get('/myinformation/award', [CoopController::class, 'viewAward'] )->name('editawards'); // add button
-Route::post('/myinformation/award', [CoopController::class, 'addAward'] )->name('addaward');
-Route::get('/myinformation/award/{id}/view', [CoopController::class, 'editAward'])->name('editaward'); // edit button
-Route::put('/myinformation/award/{id}', [CoopController::class, 'updateAward'])->name('award.update');
-Route::delete('/myinformation/award/{id}', [CoopController::class, 'destroyAward'])->name('award.destroy');
-
+    Route::get('/myinformation/awards', [CoopController::class, 'showAwards'])->name('awards');
+    Route::get('/myinformation/award', [CoopController::class, 'viewAward'] )->name('editawards'); // add button
+    Route::post('/myinformation/award', [CoopController::class, 'addAward'] )->name('addaward');
+    Route::get('/myinformation/award/{id}/view', [CoopController::class, 'editAward'])->name('editaward'); // edit button
+    Route::put('/myinformation/award/{id}', [CoopController::class, 'updateAward'])->name('award.update');
+    Route::delete('/myinformation/award/{id}', [CoopController::class, 'destroyAward'])->name('award.destroy');
+});
 
 // Authentication
 Route::post('/', [SessionController::class, 'store']);

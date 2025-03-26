@@ -46,37 +46,15 @@
             @endif
         </div>
 
-        <div
-            class="mt-10 flex flex-col md:flex-row justify-between items-center space-y-6 md:space-y-0 md:space-x-4 w-full">
-
-            <!-- Submit Form -->
-            <form action="{{ route('submitForm') }}" method="POST" class="flex flex-col items-center w-full">
+        <div class="mt-10 flex justify-between">
+            <a href="/accreditation/form2" class="bg-gray-100 text-gray-700 px-6 py-2 rounded-lg hover:bg-gray-200 transition">
+                &#8592; Edit Information
+            </a>
+            <form action="{{ route('submitForm') }}" method="POST">
                 @csrf
-
-                <!-- Captcha Section -->
-                <div class="mt-0 mb-4 flex justify-start w-full flex-col">
-                    {!! htmlFormSnippet() !!}
-
-                    <!-- Captcha Error -->
-                    @if ($errors->has('g-recaptcha-response'))
-                        <span class="text-red-500 text-sm mt-2">{{ $errors->first('g-recaptcha-response') }}</span>
-                    @endif
-                </div>
-
-                <div class="flex w-full justify-between">
-                    <!-- Edit Button -->
-                    <a href="{{ route('form2') }}"
-                        class="bg-gray-100 text-gray-700 px-6 py-2 rounded-lg hover:bg-gray-200 transition shadow-md">
-                        &#8592; Edit Information
-                    </a>
-
-                    <!-- Submit Button -->
-                    <button type="submit"
-                        class="bg-blue-900 text-white px-6 py-2 rounded-lg hover:bg-blue-800 transition shadow-md">
-                        Confirm & Submit
-                    </button>
-                </div>
-
+                <button type="submit" class="bg-blue-900 text-white px-6 py-2 rounded-lg hover:bg-blue-800 transition">
+                    Confirm & Submit
+                </button>
             </form>
 
             <!-- reCAPTCHA Script -->

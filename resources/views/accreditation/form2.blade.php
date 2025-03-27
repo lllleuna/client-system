@@ -256,7 +256,7 @@ FOR FILE UPLOADS --}}
             const isConsentChecked = consentCheckbox.checked;
             const isOathChecked = oathCheckbox.checked;
 
-            if (isFileUploaded && isConsentChecked && isOathChecked) {
+            if (isConsentChecked && isOathChecked) {
                 submitButton.disabled = false;
                 submitButton.classList.remove('opacity-50', 'cursor-not-allowed');
                 submitButton.classList.add('cursor-pointer');

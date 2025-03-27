@@ -271,12 +271,6 @@ FOR FILE UPLOADS --}}
         document.querySelector('form').addEventListener('submit', function(e) {
             let isValid = true;
 
-            // Validate file upload
-            if (!fileUpload.files || fileUpload.files.length === 0) {
-                fileError.classList.remove('hidden');
-                isValid = false;
-            }
-
             // Validate consent
             if (!consentCheckbox.checked) {
                 consentError.classList.remove('hidden');

@@ -158,7 +158,7 @@ FOR FILE UPLOADS --}}
                     Previous
                 </a>
                 <button type="submit" id="submit_button"
-                    class="bg-blue-900 text-white px-4 py-2 rounded-lg hover:bg-blue-800 focus:outline-none opacity-50 cursor-not-allowed"
+                    class="bg-blue-900 text-white px-4 py-2 rounded-lg hover:bg-blue-800 focus:outline-none opacity-50"
                     disabled>Next</button>
             </div>
         </div>

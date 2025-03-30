@@ -47,7 +47,7 @@ class ApplicationController extends Controller
             'tc_name' => 'required|string|unique:general_info,name',
             'cda_reg_no' => 'required|string|unique:general_info,cda_registration_no',
             'cda_reg_date' => 'required|date|before:tomorrow',
-            'area' => 'required',
+            'area' => 'nullable',
             'region' => 'required',
             'province' => 'nullable',
             'city_municipality' => 'required',

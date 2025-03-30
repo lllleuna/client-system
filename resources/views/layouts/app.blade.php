@@ -23,7 +23,7 @@
                         <img src="{{ asset('images/otc-logo.png') }}"
                             class="h-12 w-auto transition-transform duration-300 hover:scale-105" alt="OTC Logo" />
                     </a>
-                    <span class="text-lg font-semibold hidden md:block">Office of Transportation Cooperatives - Client
+                    <span class="text-lg text-white font-semibold hidden md:block">Office of Transportation Cooperatives - Client
                         Portal</span>
                     <span class="text-lg font-semibold md:hidden">OTC Portal</span>
                 </div>

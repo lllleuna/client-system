@@ -322,6 +322,8 @@ Route::get('/island-groups/{islandGroupCode}/regions/', [AddressController::clas
 Route::get('/regions/{regionCode}/provinces/', [AddressController::class, 'getProvinces']);
 Route::get('/regions/{regionCode}/cities-municipalities/', [AddressController::class, 'getCitiesMunicipals']);
 Route::get('/cities-municipalities/{cityOrMunicipalityCode}/barangays/', [AddressController::class, 'getBarangays']);
+Route::get('/regions', [AddressController::class, 'getAllRegions']);
+
 
 Route::get('/province-name/{code}', [AddressController::class, 'getProvinceName']);
 Route::get('/city-name/{code}', [AddressController::class, 'getCityMunicipalityName']);

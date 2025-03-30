@@ -19,23 +19,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Fetch regions and populate dropdown
     fetch('/regions')
-        .then(response => response.json())
-        .then(data => {
-            regionSelect.innerHTML = `<option value="" disabled selected>Select Region</option>`;
-            data.forEach(region => {
-                const option = document.createElement('option');
-                option.value = region.code;
-                option.textContent = region.name;
-                if (region.code === previousRegion) option.selected = true;
-                regionSelect.appendChild(option);
-            });
+    .then(response => response.json())
+    .then(data => {
+        regionSelect.innerHTML = `<option value="" disabled selected>Select Region</option>`;
+        data.forEach(region => {
+            const option = document.createElement('option');
+            option.value = region.code;
+            option.textContent = region.name;
+            if (region.code === previousRegion) option.selected = true;
+            regionSelect.appendChild(option);
+        });
+        regionSelect.disabled = false; // Ensure it's enabled after fetching
 
-            if (previousRegion) {
-                regionSelect.value = previousRegion;
-                regionSelect.dispatchEvent(new Event('change'));
-            }
-        })
-        .catch(error => console.error('Error fetching regions:', error));
+        if (previousRegion) {
+            regionSelect.value = previousRegion;
+            regionSelect.dispatchEvent(new Event('change'));
+        }
+    })
+    .catch(error => console.error('Error fetching regions:', error));
+
 
     // Handle region selection
     regionSelect.addEventListener('change', () => {

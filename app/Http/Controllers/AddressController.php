@@ -54,5 +54,12 @@ class AddressController extends Controller
         return response()->json($response->json());
     }
 
+    public function getAllRegions()
+    {
+        $response = Http::get("https://psgc.gitlab.io/api/regions/");
+        return response()->json($response->json());
+    }
+
+
 }
 

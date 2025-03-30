@@ -37,9 +37,12 @@
                     </x-form-title>
                 </div>
 
-                <div class="mt-5 alert alert-warning p-3 rounded-lg shadow-md bg-yellow-100 border-l-4 border-yellow-500 text-yellow-800">
-                    <strong>Reminder:</strong> A valid <strong>CDA Registration Number</strong> is required to create an account and conduct transactions with the Office of Transportation Cooperative. Please ensure that your cooperative is registered with the <strong>Cooperative Development Authority (CDA)</strong>.
-                </div>                
+                <div
+                    class="mt-5 alert alert-warning p-3 rounded-lg shadow-md bg-yellow-100 border-l-4 border-yellow-500 text-yellow-800">
+                    <strong>Reminder:</strong> A valid <strong>CDA Registration Number</strong> is required to create an
+                    account and conduct transactions with the Office of Transportation Cooperative. Please ensure that your
+                    cooperative is registered with the <strong>Cooperative Development Authority (CDA)</strong>.
+                </div>
 
                 <div class="p-6 space-y-8">
                     <!-- Business Information Section -->
@@ -541,16 +544,37 @@
 
             if (allFilled) {
                 submitButton.disabled = false;
+
+                // Remove disabled classes
                 submitButton.classList.remove("bg-gray-400", "cursor-not-allowed", "text-gray-700");
-                submitButton.classList.add("bg-gradient-to-r", "from-blue-600", "to-indigo-700", "text-white",
-                    "hover:from-blue-700", "hover:to-indigo-800", "shadow-lg", "hover:shadow-xl");
+
+                // Add active state classes
+                submitButton.classList.add(
+                    "bg-gradient-to-r", "from-blue-600", "to-indigo-700", "text-white",
+                    "hover:from-blue-700", "hover:to-indigo-800", "shadow-lg", "hover:shadow-xl"
+                );
+
+                // Ensure button text is visible
+                submitButton.style.background = "linear-gradient(to right, #2563eb, #4f46e5)";
+                submitButton.style.color = "#ffffff"; // Force white text
             } else {
                 submitButton.disabled = true;
-                submitButton.classList.remove("bg-gradient-to-r", "from-blue-600", "to-indigo-700", "text-white",
-                    "hover:from-blue-700", "hover:to-indigo-800", "shadow-lg", "hover:shadow-xl");
+
+                // Remove active classes
+                submitButton.classList.remove(
+                    "bg-gradient-to-r", "from-blue-600", "to-indigo-700", "text-white",
+                    "hover:from-blue-700", "hover:to-indigo-800", "shadow-lg", "hover:shadow-xl"
+                );
+
+                // Add disabled state classes
                 submitButton.classList.add("bg-gray-400", "cursor-not-allowed", "text-gray-700");
+
+                // Ensure disabled styles override
+                submitButton.style.background = "#9CA3AF"; // Gray color for disabled
+                submitButton.style.color = "#374151"; // Dark gray text
             }
         }
+
 
         // Attach event listeners to all required fields
         document.querySelectorAll("#create_form [required]").forEach(field => {

@@ -233,6 +233,7 @@ class ApplicationController extends Controller
                 'philhealth_enrolled' => $coopInfo->total_philhealth_enrolled, 
                 'bir_tin' => $coopInfo->bir_tin ?? null,
                 'bir_tax_exemption_no' => $coopInfo->bir_tax_exemption_no ?? null,
+                'validity' => $coopInfo->bir_validity ?? null,
             ]);
         }
 

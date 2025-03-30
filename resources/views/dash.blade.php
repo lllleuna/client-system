@@ -86,7 +86,7 @@
         </div>
 
         <!-- Status Cards Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 mb-8">
+        <div class="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-6 mb-8">
             <!-- CGS Status Card with Interactive Progress Bar -->
             @if ($generalInfo && $generalInfo->validity_date && $generalInfo->validity_date > now()) 
                 <div class="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow p-6 cursor-pointer relative overflow-hidden group"
@@ -176,60 +176,7 @@
                 </div>
             @endif
 
-            <!-- Total Units Card with Interactive Pie Chart -->
-            <div class="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow p-6 cursor-pointer relative overflow-hidden group"
-                onclick="showUnitDetails()" id="units-card">
-                <!-- Hover effect overlay -->
-                <div
-                    class="absolute inset-0 bg-purple-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                </div>
-
-                <div class="relative z-10"> <!-- Content above the overlay -->
-                    <div class="flex justify-between items-center">
-                        <h3 class="text-gray-500 text-sm font-medium">Total Units</h3>
-                        <span class="px-2 py-1 bg-purple-100 text-purple-800 text-xs rounded-full font-medium"
-                            id="units-change">+3 this month</span>
-                    </div>
-
-                    <p class="text-2xl font-bold text-purple-600 mt-2">{{ $memberCount ?? '150' }}</p>
-
-                    <!-- Pie Chart Section -->
-                    <div class="mt-4 flex flex-col items-center">
-                        <!-- Canvas for Chart.js -->
-                        <div class="w-40 h-40 relative">
-                            <canvas id="unitsChart" width="160" height="160"></canvas>
-                        </div>
-
-                        <!-- Interactive Legend -->
-                        <div class="flex justify-center gap-6 mt-4">
-                            <div class="flex items-center cursor-pointer hover:opacity-80 transition-opacity"
-                                onclick="toggleChartSegment(0)">
-                                <div class="w-3 h-3 rounded-full bg-purple-500 mr-2"></div>
-                                <span class="text-sm text-gray-700">Cooperative <span
-                                        class="font-medium">({{ $cooperativeCount ?? '98' }})</span></span>
-                            </div>
-                            <div class="flex items-center cursor-pointer hover:opacity-80 transition-opacity"
-                                onclick="toggleChartSegment(1)">
-                                <div class="w-3 h-3 rounded-full bg-purple-200 mr-2"></div>
-                                <span class="text-sm text-gray-700">Individual <span
-                                        class="font-medium">({{ $individualCount ?? '52' }})</span></span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- View Details Button -->
-                    <div class="mt-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                        <button
-                            class="w-full py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-md text-sm font-medium transition-colors duration-200 flex items-center justify-center">
-                            <span>View Unit Details</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none"
-                                viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                            </svg>
-                        </button>
-                    </div>
-                </div>
-            </div>
+            
         </div>
 
         <!-- Main Content Grid -->

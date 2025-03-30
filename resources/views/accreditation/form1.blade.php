@@ -33,7 +33,7 @@
             <div class="flex w-full space-x-2">
                 <div class="w-1/3">
                     <x-form-label for="region">Region</x-form-label>
-                    <x-form-select name="region" id="regions" disabled required>
+                    <x-form-select name="region" id="regions" required>
                         <option class="hidden" value="" disabled selected>Select</option>
                     </x-form-select>
                     <x-form-error name="region" />

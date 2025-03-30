@@ -34,7 +34,7 @@
                 <div class="hidden md:flex items-center space-x-6">
                     <!-- Center Section: Navigation Links -->
                     <div class="flex space-x-6">
-                        <a href="{{ url('/dash') }}" class="hover:text-gray-300 transition">Dashboard</a>
+                        <a href="{{ url('/dash') }}" class="hover:text-gray-300 transition">Home</a>
                         <a href="{{ route('infoupdate') }}" class="hover:text-gray-300 transition">My Information</a>
                         <!-- Services Dropdown -->
                         <div class="relative" x-data="{ open: false }">

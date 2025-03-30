@@ -25,8 +25,8 @@
     <!-- Header Section with Welcome Message -->
     <div class="flex justify-between items-center my-6 px-6">
         <div>
-            <h1 class="text-3xl font-bold text-gray-900">Dashboard</h1>
-            <p class="text-gray-600 mt-1">Welcome, {{ $externalUser->tc_name ?? 'Cooperative Chairperson' }}</p> {{-- Backend: Replace with actual user name --}}
+            <h1 class="text-3xl font-bold text-gray-900">Welcome,</h1>
+            <h3 class="text-gray-600"> {{ $externalUser->tc_name ?? 'Cooperative Chairperson' }}</h3> {{-- Backend: Replace with actual user name --}}
         </div>
         <div class="flex flex-col">
             <h3 class="font-semibold">Business Contact No.</h3>
@@ -169,7 +169,7 @@
                                 d="M18.364 5.636l-1.414 1.414M6.343 5.636L4.929 7.05M12 4v2m0 12v2m8-8h-2M6 12H4m15.364 6.364l-1.414-1.414M6.343 18.364l-1.414-1.414M12 8v4l3 3" />
                         </svg>
                         <p class="text-lg font-semibold text-red-500">No Active CGS</p>
-                        <p class="text-gray-500 mt-1 text-sm">Please submit or renew your CGS.</p>
+                        <p class="text-gray-500 mt-1 text-sm">Get Accredited or renew your CGS.</p>
                     </div>
 
 
@@ -191,7 +191,7 @@
                                 ['route' => 'cgsrenewal', 'text' => 'CGS Renewal', 'color' => 'green'],
                                 ['route' => 'training', 'text' => 'Request Training', 'color' => 'blue'],
                                 ['route' => 'membersMasterlist', 'text' => 'Update Info', 'color' => 'yellow'],
-                                ['route' => 'concern', 'text' => 'Related Concern', 'color' => 'purple'],
+                                // ['route' => 'concern', 'text' => 'Related Concern', 'color' => 'purple'],
                             ];
 
                             $disableFirstThree = !Auth::check() || Auth::user()->accreditation_status !== 'Active';

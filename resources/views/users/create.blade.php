@@ -22,7 +22,7 @@
                 </p>
             </div>
 
-            <form action="/users/create" method="POST" id="create_form"
+            <form action="/users/create" method="POST" id="create_form" autocomplete="off"
                 class="bg-white shadow-2xl rounded-xl overflow-hidden border border-gray-100">
                 @csrf
 

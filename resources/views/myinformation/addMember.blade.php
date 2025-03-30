@@ -190,13 +190,13 @@
                                     oninput="this.setCustomValidity('')">
                                     <option value="">Select Membership Type</option>
                                     <option value="Operator"
-                                        {{ old('membership_type', $membership->role ?? '') == 'Operator' ? 'selected' : '' }}>
+                                        {{ old('role', $membership->role ?? '') == 'Operator' ? 'selected' : '' }}>
                                         Operator</option>
                                     <option value="Driver"
-                                        {{ old('membership_type', $membership->role ?? '') == 'Driver' ? 'selected' : '' }}>
+                                        {{ old('role', $membership->role ?? '') == 'Driver' ? 'selected' : '' }}>
                                         Driver</option>
                                     <option value="Allied"
-                                        {{ old('membership_type', $membership->role ?? '') == 'Allied Worker' ? 'selected' : '' }}>
+                                        {{ old('role', $membership->role ?? '') == 'Allied Worker' ? 'selected' : '' }}>
                                         Allied Worker</option>
                                 </select>
                                 @error('role')

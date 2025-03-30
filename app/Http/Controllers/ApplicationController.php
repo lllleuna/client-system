@@ -197,8 +197,8 @@ class ApplicationController extends Controller
         $coopInfo = CoopGeneralInfo::where('externaluser_id', $user->id)->first();
         $externaluser = ExternalUser::where('id', $user->id)->first();
 
-        if ($externalUser && $application) {
-            $email = $externalUser->email;
+        if ($externaluser && $application) {
+            $email = $externaluser->email;
             $tcName = $application->tc_name;
     
             // Send the email

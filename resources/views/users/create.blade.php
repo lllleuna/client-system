@@ -26,7 +26,7 @@
                 class="bg-white shadow-2xl rounded-xl overflow-hidden border border-gray-100">
                 @csrf
 
-                <div class="bg-gradient-to-r from-blue-800 to-indigo-700 px-6 py-4">
+                <div class="bg-blue-900 px-6 py-4">
                     <x-form-title class="text-2xl font-bold text-white flex items-center">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24"
                             stroke="currentColor">
@@ -36,6 +36,10 @@
                         Account Creation
                     </x-form-title>
                 </div>
+
+                <div class="alert alert-info p-3 rounded-lg shadow-md bg-blue-100 border-l-4 border-blue-500 text-blue-800">
+                    <strong>Reminder:</strong> A valid <strong>CDA Registration Number</strong> is required to create an account and conduct transactions with the Office of Transportation Cooperative. Please ensure that your cooperative is registered with the <strong>Cooperative Development Authority (CDA)</strong>.
+                </div>                
 
                 <div class="p-6 space-y-8">
                     <!-- Business Information Section -->

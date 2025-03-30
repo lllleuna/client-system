@@ -26,7 +26,7 @@
     <div class="flex justify-between items-center my-6 px-6">
         <div>
             <h1 class="text-3xl font-bold text-gray-900">Dashboard</h1>
-            <p class="text-gray-600 mt-1">Welcome, {{ $user->name ?? 'Cooperative Chairperson' }}</p> {{-- Backend: Replace with actual user name --}}
+            <p class="text-gray-600 mt-1">Welcome, {{ $externalUser->tc_name ?? 'Cooperative Chairperson' }}</p> {{-- Backend: Replace with actual user name --}}
         </div>
         <div class="flex flex-col">
             <h3 class="font-semibold">Business Contact No.</h3>

@@ -37,6 +37,6 @@ class DashboardController extends Controller
         }
 
         // Even if null, pass safely
-        return view('dash', compact('generalInfo', 'daysDifference'));
+        return view('dash', compact('generalInfo', 'daysDifference', 'externalUser'));
     }
 }

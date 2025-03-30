@@ -219,7 +219,7 @@ class ApplicationController extends Controller
                 'membership_fee' => $coopInfo->membership_fee ?? 0,
                 'area' => $application->area,
                 'region' => $application->region,
-                'city' => $application->city,
+                'city' => $application->city_municipality,
                 'province' => $application->province,
                 'barangay' => $application->barangay,
                 'business_address' => $coopInfo->business_address,

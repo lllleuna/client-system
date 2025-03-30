@@ -67,10 +67,11 @@
                                     <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                         <span class="text-gray-500 sm:text-sm">T-</span>
                                     </div>
-                                    <x-form-input name="cda_reg_no" id="cda_reg_no" placeholder="20230891" :value="old('cda_reg_no')"
+                                    <x-form-input name="cda_reg_no" id="cda_reg_no" placeholder="20230891" :value="old('cda_reg_no') ? ltrim(old('cda_reg_no'), 'T-') : ''"
                                         pattern="^\d{8}$" title="Enter an 8-digit number (e.g., 12345678)"
                                         class="pl-10 w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500 shadow-sm"
                                         required maxlength="8" />
+
                                 </div>
                                 <p class="text-xs text-gray-500 mt-1">Format: XXXXXXXX (e.g., 20230891)</p>
                                 <x-form-error name="cda_reg_no" bag="signup" class="text-red-500 text-xs mt-1" />
@@ -587,15 +588,18 @@
             const inputField = document.getElementById("cda_reg_no");
 
             inputField.addEventListener("input", function() {
-                // Remove non-numeric characters
+                // Remove non-numeric characters and limit to 8 digits
                 this.value = this.value.replace(/\D/g, "").slice(0, 8);
             });
 
             inputField.form.addEventListener("submit", function() {
-                // Ensure the input is sent with "T-" prefix
-                inputField.value = "T-" + inputField.value;
+                // Add "T-" only if it doesn't already exist
+                if (!inputField.value.startsWith("T-")) {
+                    inputField.value = "T-" + inputField.value;
+                }
             });
         });
+
 
         // Contact Number Input
         document.addEventListener("DOMContentLoaded", function() {

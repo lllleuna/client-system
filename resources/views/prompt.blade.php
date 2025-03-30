@@ -32,9 +32,9 @@
         <span class="font-semibold text-blue-900">ACCREDITED</span> by the <span class="font-semibold text-blue-900 uppercase">Office of Transportation Cooperatives</span>.
     </p>
     
-    <p class="text-gray-700 mb-6 text-sm text-start leading-relaxed">
-        Before clicking the link below make sure you update your cooperative information in this website, if not please click this link first
-        <a href="{{ route('membersMasterlist') }}" class="text-blue-500 underline">Cooperative Information</a>
+    <p class="text-gray-700 mb-4 text-sm text-start leading-relaxed">
+        Before clicking the button below make sure you update your cooperative information in this website, if not please click this link first
+        <a href="{{ route('membersMasterlist') }}" class="text-blue-500 underline">Cooperative Information</a>.
     </p>
 
     <p class="text-gray-700 mb-6 text-sm text-start leading-relaxed">

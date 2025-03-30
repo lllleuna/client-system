@@ -37,9 +37,9 @@
                     </x-form-title>
                 </div>
 
-                <div class="alert alert-warning ml-5 p-3 rounded-lg shadow-md bg-yellow-100 border-l-4 border-yellow-500 text-yellow-800">
-                    <strong>Warning:</strong> A valid <strong>CDA Registration Number</strong> is required to create an account and transact with the Office of Transportation Cooperative. Ensure that your cooperative is registered with the <strong>Cooperative Development Authority (CDA)</strong>.
-                </div>                               
+                <div class="mt-5 alert alert-warning p-3 rounded-lg shadow-md bg-yellow-100 border-l-4 border-yellow-500 text-yellow-800">
+                    <strong>Reminder:</strong> A valid <strong>CDA Registration Number</strong> is required to create an account and conduct transactions with the Office of Transportation Cooperative. Please ensure that your cooperative is registered with the <strong>Cooperative Development Authority (CDA)</strong>.
+                </div>                
 
                 <div class="p-6 space-y-8">
                     <!-- Business Information Section -->

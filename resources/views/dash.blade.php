@@ -25,8 +25,8 @@
     <!-- Header Section with Welcome Message -->
     <div class="flex justify-between items-center my-6 px-6">
         <div>
-            <h1 class="text-3xl font-bold text-gray-900">Welcome,</h1>
-            <h3 class="text-gray-600"> {{ $externalUser->tc_name ?? 'Cooperative Chairperson' }}</h3> {{-- Backend: Replace with actual user name --}}
+            <h1 class="text-3xl font-bold text-gray-900">Welcome!</h1>
+            <h3 class="text-gray-600 text-xl"> {{ $externalUser->tc_name ?? 'Cooperative Chairperson' }}</h3> {{-- Backend: Replace with actual user name --}}
         </div>
         <div class="flex flex-col">
             <h3 class="font-semibold">Business Contact No.</h3>
@@ -162,7 +162,7 @@
                     onclick="window.location.href='#'" id="cgs-status-card">
 
 
-                    <div class="flex flex-col items-center justify-center h-full text-center">
+                    <div class="flex flex-col items-center justify-center h-full text-center py-5">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-red-500 mb-4" fill="none"
                             viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

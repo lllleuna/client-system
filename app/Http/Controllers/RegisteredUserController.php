@@ -26,8 +26,8 @@ class RegisteredUserController extends Controller
                 'chair_lname'  => ['required'],
                 'chair_suffix' => ['nullable'],
                 'contact_no'   => ['required', 'unique:externalusers,contact_no'],
-                'id_type'      => ['required'],
-                'id_number'    => ['required', 'string', 'max:25'],
+                // 'id_type'      => ['required'],
+                // 'id_number'    => ['required', 'string', 'max:25'],
                 'email'        => ['required', 'email', 'unique:externalusers,email'],
                 'password'     => ['required', 'confirmed',
                     Password::min(12)

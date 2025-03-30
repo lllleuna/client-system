@@ -136,7 +136,7 @@
 
 
                                 <!-- Summary Cards -->
-                                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mt-6">
+                                {{-- <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mt-6">
                                     <div class="bg-white p-4 rounded-lg shadow-sm">
                                         <h4 class="text-md font-medium text-gray-600 mb-2">Total Businesses</h4>
                                         <p class="text-2xl font-bold text-blue-600">4</p>
@@ -160,7 +160,7 @@
                                         <p class="text-2xl font-bold text-green-600">2</p>
                                         <p class="text-sm text-gray-500 mt-1">50% of total businesses</p>
                                     </div>
-                                </div>
+                                </div> --}}
                             </div>
                         </div>
                     </div>

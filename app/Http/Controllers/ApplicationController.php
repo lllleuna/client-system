@@ -32,6 +32,8 @@ use App\Models\AppAward;
 use App\Models\CoopAward;
 use App\Models\AppGrant;
 use App\Models\CoopGrants;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\AccreditationSubmitted;
 
 class ApplicationController extends Controller
 {
@@ -194,6 +196,14 @@ class ApplicationController extends Controller
 
         $coopInfo = CoopGeneralInfo::where('externaluser_id', $user->id)->first();
         $externaluser = ExternalUser::where('id', $user->id)->first();
+
+        if ($externalUser && $application) {
+            $email = $externalUser->email;
+            $tcName = $application->tc_name;
+    
+            // Send the email
+            Mail::to($email)->send(new AccreditationSubmitted($tcName, $referenceNumber));
+        }
 
         if ($coopInfo) {
             // Transfer data to AppGeneralInfo

@@ -33,8 +33,8 @@
     </p>
     
     <p class="text-gray-700 mb-6 text-sm text-start leading-relaxed">
-        If your Cooperative is not yet accredited, click the link below to begin the process. Ensure all Cooperative information is complete and accurate, as this will be used 
-        to evaluate your application and determine approval.
+        Before clicking the link below make sure you update your cooperative information in this website, if not please click this link first
+        <a href="{{ route('membersMasterlist') }}" class="text-blue-500 underline">Cooperative Information</a>
     </p>
 
     <p class="text-gray-700 mb-6 text-sm text-start leading-relaxed">

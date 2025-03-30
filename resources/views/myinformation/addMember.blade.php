@@ -196,7 +196,7 @@
                                         {{ old('role', $membership->role ?? '') == 'Driver' ? 'selected' : '' }}>
                                         Driver</option>
                                     <option value="Allied"
-                                        {{ old('role', $membership->role ?? '') == 'Allied Worker' ? 'selected' : '' }}>
+                                        {{ old('role', $membership->role ?? '') == 'Allied' ? 'selected' : '' }}>
                                         Allied Worker</option>
                                 </select>
                                 @error('role')

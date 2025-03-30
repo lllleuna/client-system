@@ -3,10 +3,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const cmSelect = document.getElementById('cities-municipalities');
     const barangaySelect = document.getElementById('barangays');
 
-    // Retrieve previous values from data attributes (if applicable)
+    // Retrieve previous values from data attributes
     const previousRegion = regionSelect.dataset.selected;
     const previousCM = cmSelect.dataset.selected;
     const previousBarangay = barangaySelect.dataset.selected;
+
+    // Enable region dropdown by default (fix for disabled issue)
+    regionSelect.disabled = false;
 
     // Function to clear and reset a dropdown
     const resetDropdown = (dropdown, placeholder) => {
@@ -14,10 +17,11 @@ document.addEventListener('DOMContentLoaded', () => {
         dropdown.disabled = true;
     };
 
-    // Load regions on page load (if applicable)
+    // Fetch regions and populate dropdown
     fetch('/regions')
         .then(response => response.json())
         .then(data => {
+            regionSelect.innerHTML = `<option value="" disabled selected>Select Region</option>`;
             data.forEach(region => {
                 const option = document.createElement('option');
                 option.value = region.code;
@@ -25,13 +29,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (region.code === previousRegion) option.selected = true;
                 regionSelect.appendChild(option);
             });
-            regionSelect.disabled = false;
 
             if (previousRegion) {
                 regionSelect.value = previousRegion;
                 regionSelect.dispatchEvent(new Event('change'));
             }
-        });
+        })
+        .catch(error => console.error('Error fetching regions:', error));
 
     // Handle region selection
     regionSelect.addEventListener('change', () => {
@@ -44,6 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
             fetch(`/regions/${regionCode}/cities-municipalities`)
                 .then(response => response.json())
                 .then(data => {
+                    cmSelect.innerHTML = `<option value="" disabled selected>Select City/Municipality</option>`;
                     data.forEach(citymunicipality => {
                         const option = document.createElement('option');
                         option.value = citymunicipality.code;
@@ -57,7 +62,8 @@ document.addEventListener('DOMContentLoaded', () => {
                         cmSelect.value = previousCM;
                         cmSelect.dispatchEvent(new Event('change'));
                     }
-                });
+                })
+                .catch(error => console.error('Error fetching cities/municipalities:', error));
         }
     });
 
@@ -71,6 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
             fetch(`/cities-municipalities/${cmCode}/barangays/`)
                 .then(response => response.json())
                 .then(data => {
+                    barangaySelect.innerHTML = `<option value="" disabled selected>Select Barangay</option>`;
                     data.forEach(barangay => {
                         const option = document.createElement('option');
                         option.value = barangay.code;
@@ -83,7 +90,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (previousBarangay) {
                         barangaySelect.value = previousBarangay;
                     }
-                });
+                })
+                .catch(error => console.error('Error fetching barangays:', error));
         }
     });
 });

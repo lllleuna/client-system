@@ -22,7 +22,7 @@ class RegisteredUserController extends Controller
                 'cda_reg_no'   => ['required', 'unique:externalusers,cda_reg_no'],
                 'tc_name'      => ['required'],
                 'chair_fname'  => ['required'],
-                'chair_mname'  => ['nullable'],
+                'chair_mname'  => ['nullable', 'max:3'],
                 'chair_lname'  => ['required'],
                 'chair_suffix' => ['nullable'],
                 'contact_no'   => ['required', 'unique:externalusers,contact_no'],

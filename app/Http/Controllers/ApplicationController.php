@@ -37,8 +37,18 @@ class ApplicationController extends Controller
 {
     public function showForm1(Request $request)
     {
+        $userId = Auth::id(); // Get authenticated user ID
+
+        // Find the coopinfo where externaluser_id matches the authenticated user's ID
+        $coopinfo = CoopInfo::where('externaluser_id', $userId)->first();
+
+        // Retrieve form data from session if available
         $formData = $request->session()->get('form_data', []);
-        return view('accreditation.form1', ['formData' => $formData]);
+
+        return view('accreditation.form1', [
+            'formData' => $formData,
+            'coopinfo' => $coopinfo, // Pass coopinfo to the Blade view
+        ]);
     }
 
     public function processForm1(Request $request)

@@ -24,7 +24,7 @@
                 <div class="w-1/2">
                     <x-form-label for="cda_reg_date">CDA Registration Date</x-form-label>
                     <x-form-input name="cda_reg_date" id="cda_reg_date" type="date"
-                        value="{{ $formData['cda_reg_date'] ?? '' }}" required />
+                    value="{{ old('cda_reg_date', $formData['cda_reg_date'] ?? $coopinfo->cda_registration_date) }}" required />
                     <x-form-error name="cda_reg_date" />
                 </div>
             </div>

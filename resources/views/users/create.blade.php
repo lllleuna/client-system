@@ -134,13 +134,15 @@
                             </div>
 
                             <div>
-                                <label for="chair_mname" class="block text-sm font-medium text-gray-600 mb-1">Middle Initial
-                                    <span class="text-gray-400">(optional)</span></label>
+                                <label for="chair_mname" class="block text-sm font-medium text-gray-600 mb-1">
+                                    Middle Initial <span class="text-gray-400">(optional)</span>
+                                </label>
                                 <x-form-input name="chair_mname" id="chair_mname" placeholder="Middle initial"
-                                    :value="old('chair_mname')"
+                                    :value="old('chair_mname')" maxlength="3"
                                     class="w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500 shadow-sm" />
                                 <x-form-error name="chair_mname" bag="signup" class="text-red-500 text-xs mt-1" />
                             </div>
+
                         </div>
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">

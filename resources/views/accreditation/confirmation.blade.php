@@ -28,14 +28,14 @@
                 <p class="font-medium text-gray-800">City/Municipality:</p>
                 <p>{{ $cityName }}</p>
             </div>
-            <div>
+            {{-- <div>
                 <p class="font-medium text-gray-800">Province:</p>
                 <p>{{ $provinceName }}</p>
-            </div>
-            <div>
+            </div> --}}
+            {{-- <div>
                 <p class="font-medium text-gray-800">Area:</p>
                 <p>{{ $formData['area'] }}</p>
-            </div>
+            </div> --}}
 
             @if(isset($formData['file_upload']))
             <div>

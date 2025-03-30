@@ -60,12 +60,12 @@
                                     <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                         <span class="text-gray-500 sm:text-sm">T-</span>
                                     </div>
-                                    <x-form-input name="cda_reg_no" id="cda_reg_no" placeholder="XXXXXXXX" :value="old('cda_reg_no')"
+                                    <x-form-input name="cda_reg_no" id="cda_reg_no" placeholder="20230891" :value="old('cda_reg_no')"
                                         pattern="^\d{8}$" title="Enter an 8-digit number (e.g., 12345678)"
                                         class="pl-10 w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500 shadow-sm"
                                         required maxlength="8" />
                                 </div>
-                                <p class="text-xs text-gray-500 mt-1">Format: XXXXXXXX (e.g., 12345678)</p>
+                                <p class="text-xs text-gray-500 mt-1">Format: XXXXXXXX (e.g., 20230891)</p>
                                 <x-form-error name="cda_reg_no" bag="signup" class="text-red-500 text-xs mt-1" />
                             </div>
 
@@ -83,11 +83,11 @@
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
                                 <label for="contact_no" class="block text-sm font-medium text-gray-600 mb-1">
-                                    Contact Number
+                                    Office Contact Number
                                 </label>
                                 <div class="relative" title="Format: 10 digits Only (e.g., 9123456789)">
                                     <div class="absolute inset-y-0 left-0 pl-2 flex items-center pointer-events-none">
-                                        <span class="text-gray-500 sm:text-sm">+63</span>
+                                        <span class="text-gray-500 ml-2 sm:text-sm">+63</span>
                                     </div>
                                     <x-form-input name="contact_no" id="contact_no" placeholder="(e.g, 9123456789)"
                                         :value="old('contact_no')" pattern="^\d{10}$" title="Enter 10 digits only (e.g., 9123456789)"

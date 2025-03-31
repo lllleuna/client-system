@@ -276,7 +276,7 @@ class RenewalController extends Controller
 // ---------------- Save data of Coop from the client system to Application Record
 
         Mail::to($coopInfo->email)->send(new ApplicationSubmitted($application));
-        return redirect()->route('dashboard')->with('success', 'Application submitted successfully! Reference No: ' . $referenceNumber);
+        return redirect()->route('dashboard')->with('success', 'Application submitted successfully! Please check your email. ');
 
     }
 

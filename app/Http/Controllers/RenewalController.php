@@ -53,20 +53,11 @@ class RenewalController extends Controller
             // Generate unique filename
             $filename = time() . '_' . $file->getClientOriginalName();
             
-            // Define full storage path
-            $sharedPath = '/var/www/shared/uploads/';
-        
-            // Ensure the directory exists
-            if (!file_exists($sharedPath)) {
-                mkdir($sharedPath, 0777, true);
-            }
-        
-            // Move the file to the shared storage location
-            $file->move($sharedPath, $filename);
-        
-            // Store relative path to use later
+            // Move file to shared storage location
             $filePath = 'shared/uploads/' . $filename;
-        }        
+            
+            $file->move(public_path('shared/uploads'), $filename);
+        }
               
 
         // Generate unique reference number

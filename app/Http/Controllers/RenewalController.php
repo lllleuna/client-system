@@ -34,6 +34,8 @@ use App\Models\AppAward;
 use App\Models\CoopAward;
 use App\Models\AppGrant;
 use App\Models\CoopGrants;
+use App\Mail\ApplicationSubmitted;
+use Illuminate\Support\Facades\Mail;
 
 class RenewalController extends Controller 
 {
@@ -53,8 +55,8 @@ class RenewalController extends Controller
             // Generate unique filename
             $filename = time() . '_' . $file->getClientOriginalName();
             
-            // Store file in Laravel's storage folder
-            $filePath = $file->storeAs('shared/uploads', $filename, 'public');
+            // Define the storage path (Ensure 'shared' disk is configured)
+            $filePath = $file->storeAs('uploads', $filename, 'shared');
         }
         
               
@@ -273,7 +275,7 @@ class RenewalController extends Controller
         }
 // ---------------- Save data of Coop from the client system to Application Record
 
-
+        Mail::to($coopInfo->email)->send(new ApplicationSubmitted($application));
         return redirect()->route('dashboard')->with('success', 'Application submitted successfully! Reference No: ' . $referenceNumber);
 
     }

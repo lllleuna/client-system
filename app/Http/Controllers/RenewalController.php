@@ -53,11 +53,10 @@ class RenewalController extends Controller
             // Generate unique filename
             $filename = time() . '_' . $file->getClientOriginalName();
             
-            // Move file to shared storage location
-            $filePath = 'shared/uploads/' . $filename;
-            
-            $file->move(public_path('shared/uploads'), $filename);
+            // Store file in Laravel's storage folder
+            $filePath = $file->storeAs('shared/uploads', $filename, 'public');
         }
+        
               
 
         // Generate unique reference number

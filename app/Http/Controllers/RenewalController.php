@@ -74,7 +74,7 @@ class RenewalController extends Controller
         $application->province = 'province';
         $application->city_municipality = 'city';
         $application->barangay = 'barangay';
-        $application->address = $coopInfo->business_address ?? null;
+        $application->address = $coopInfo->business_address ?? 'N/A';
         $application->status = 'new';
         $application->application_type = 'CGS Renewal';
         $application->file_upload = $filePath;

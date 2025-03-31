@@ -25,6 +25,7 @@ class RenewalRequest extends FormRequest
             'consent' => 'accepted',
             'oath' => 'accepted',
             'letter_request' => 'required|file|mimes:pdf,jpg,jpeg,png|max:8048',
+            'g-recaptcha-response' => 'required|recaptcha',
         ];
     }
     
@@ -33,6 +34,8 @@ class RenewalRequest extends FormRequest
         return [
             'consent.accepted' => 'Please provide your consent to continue.',
             'oath.accepted' => 'Please certify that all information is true and correct.',
+            'g-recaptcha-response.required' => 'Please confirm you are not a robot.',
+            'g-recaptcha-response.recaptcha' => 'Captcha verification failed, please try again.',
         ];
     }
     

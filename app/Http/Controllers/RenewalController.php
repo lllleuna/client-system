@@ -42,31 +42,32 @@ class RenewalController extends Controller
     {
         $user = Auth::user();
 
-        $request->validate([
-            'g-recaptcha-response' => 'required|recaptcha',
-        ], [
-            'g-recaptcha-response.required' => 'Please confirm you are not a robot.',
-            'g-recaptcha-response.recaptcha' => 'Captcha verification failed, please try again.',
-        ]); 
-
         // Fetching from related models
         $externalUser = ExternalUser::where('id', $user->id)->first();
         $coopInfo = CoopGeneralInfo::where('externaluser_id', $externalUser->id)->first();
 
         // Handle file upload
-        if ($request->hasFile('letter_request')) {
+        if ($request->hasFile('letter_request') && $request->file('letter_request')->isValid()) {
             $file = $request->file('letter_request');
-        
+            
             // Generate unique filename
             $filename = time() . '_' . $file->getClientOriginalName();
+            
+            // Define full storage path
+            $sharedPath = '/var/www/shared/uploads/';
         
-            // Move file to shared storage location
-            $file->move(public_path('shared/uploads'), $filename);
+            // Ensure the directory exists
+            if (!file_exists($sharedPath)) {
+                mkdir($sharedPath, 0777, true);
+            }
         
-            // Store relative path
+            // Move the file to the shared storage location
+            $file->move($sharedPath, $filename);
+        
+            // Store relative path to use later
             $filePath = 'shared/uploads/' . $filename;
         }        
-
+              
 
         // Generate unique reference number
         do {

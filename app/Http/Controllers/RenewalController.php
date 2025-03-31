@@ -68,7 +68,7 @@ class RenewalController extends Controller
         $application = new Application();
         $application->tc_name = $externalUser->tc_name;
         $application->cda_reg_no = $externalUser->cda_reg_no;
-        $application->cda_reg_date = $coopInfo->cda_registration_date ?? null;
+        $application->cda_reg_date = $coopInfo->cda_registration_date ?? 'N/A';
         $application->area = 'area';
         $application->region = 'region';
         $application->province = 'province';

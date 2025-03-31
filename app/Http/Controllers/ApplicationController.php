@@ -126,15 +126,15 @@ class ApplicationController extends Controller
         $formData = $request->session()->get('form_data', []);
     
         // Default names in case API fails
-        $provinceName = 'Unknown Province';
+        $regionName = 'Unknown Region';
         $cityName = 'Unknown City/Municipality';
         $barangayName = 'Unknown Barangay';
     
-        // Fetch Province Name
-        if (!empty($formData['province'])) {
-            $provinceResponse = Http::get("https://psgc.gitlab.io/api/provinces/{$formData['province']}/");
-            if ($provinceResponse->successful()) {
-                $provinceName = $provinceResponse->json()['name'];
+        // Fetch Region Name
+        if (!empty($formData['region'])) {
+            $regionResponse = Http::get("https://psgc.gitlab.io/api/regions/{$formData['region']}/");
+            if ($regionResponse->successful()) {
+                $regionName = $regionResponse->json()['name'];
             }
         }
     
@@ -156,11 +156,12 @@ class ApplicationController extends Controller
     
         return view('accreditation.confirmation', [
             'formData' => $formData,
-            'provinceName' => $provinceName,
+            'regionName' => $regionName,
             'cityName' => $cityName,
             'barangayName' => $barangayName,
         ]);
     }
+    
 
     public function submitForm(Request $request)
     {

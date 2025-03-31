@@ -28,11 +28,6 @@
                     <span class="text-lg font-semibold md:hidden">OTC Portal</span>
                 </div>
 
-                <a href="{{ route('login') }}" class="flex items-center space-x-3">
-                    <img src="{{ asset('images/otc-logo.png') }}"
-                        class="h-12 w-auto transition-transform duration-300 hover:scale-105" alt="OTC Logo" />
-                </a>
-
                 <!-- Navigation Links -->
                 <div class="flex space-x-6">
                     <a href="{{ route('login') }}"

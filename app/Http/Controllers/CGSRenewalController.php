@@ -29,7 +29,7 @@ class CGSRenewalController extends Controller
 
         $existingApplication = Application::where('user_id', $externalUser->id)
             ->where('application_type', 'CGS Renewal')
-            ->where('status', '!=', 'rejected')
+            ->whereNotIn('status', ['rejected', 'approved'])
             ->first();
 
         if ($existingApplication) {

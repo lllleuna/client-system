@@ -28,7 +28,7 @@
             <ol class="list-decimal pl-5 text-gray-600 space-y-2">
                 <li>
                     Prepare all required documents: <br>
-                    <span class="text-green-700 font-semibold">Note:</span> Please compile all documents into one PDF file
+                    <span class="text-green-700 font-semibold">Note: Please compile all documents into one PDF file </span>
                     <ul class="list-disc pl-5 mt-1">
                         <li>Request Letter signed by the TC Chairperson</li>
                         <li>Photocopy of the Certificate of Registration issued by the Cooperative Development Authority
@@ -43,7 +43,7 @@
                     exceed 10MB.</li>
                 <li>Click "Next" and double-check all information.</li>
                 <li>Submit the form. You will be able to download the reference number.</li>
-                <li>An email containing the details and further instructions will also be sent to your email address: {{ Auth::user()->email }}.</li>
+                <li>An email containing the details and further instructions will also be sent to your email address: <span class="text-blue-700 underline">{{ Auth::user()->email }}</span>.</li>
             </ol>
         </div>
 

@@ -82,7 +82,7 @@ class ApplicationController extends Controller
     public function processForm2(Request $request)
     {
         $validatedData = $request->validate([
-            'file_upload' => 'required|file|mimes:pdf,jpg,png|max:8048',
+            'file_upload' => 'required|file|mimes:pdf|max:10240',
             'message' => 'nullable|string|max:300', 
             'consent' => 'required|in:on', 
             'oath' => 'required|in:on', 

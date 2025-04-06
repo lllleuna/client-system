@@ -24,7 +24,7 @@ class RenewalRequest extends FormRequest
         return [
             'consent' => 'accepted',
             'oath' => 'accepted',
-            'letter_request' => 'required|file|mimes:pdf,jpg,jpeg,png|max:8048',
+            'letter_request' => 'required|file|mimes:pdf|max:10240',
             'g-recaptcha-response' => 'required|recaptcha',
         ];
     }

@@ -26,20 +26,24 @@
         <div class="mt-5">
             <h3 class="text-lg font-semibold text-gray-800 mb-2">Steps</h3>
             <ol class="list-decimal pl-5 text-gray-600 space-y-2">
-                <li>Ready all required documents.
+                <li>
+                    Prepare all required documents:
                     <ul class="list-disc pl-5 mt-1">
-                        <li>Request Letter Signed by the TC Chairperson</li>
-                        <li>Photocopy of Certificate of Registration issued by the Cooperative Development Authority
+                        <li>Request Letter signed by the TC Chairperson</li>
+                        <li>Photocopy of the Certificate of Registration issued by the Cooperative Development Authority
                             (CDA)</li>
-                        <li>At least 15 units of OR/CR together with the copy of Decision/Order of CPC</li>
+                        <li>At least 15 units of OR/CR, along with the copy of the Decision/Order of the CPC</li>
                         <li>Bank Certificate of Deposit representing the paid-up capital of the cooperative</li>
+                        <li><span class="text-green-700">Note:</span> Please compile all documents into one PDF file</li>
                     </ul>
                 </li>
-                <li>Click next and fill out the form.</li>
-                <li>Upload the documents.</li>
-                <li>Double-check all information.</li>
-                <li>Submit, and you'll be given a reference number.</li>
-                <li>Wait for an update through your email and the website TCOPS.</li>
+
+                <li>Click "Next" and complete the form.</li>
+                <li>Click "Next" again to upload the documents. The file format must be PDF, and the size should not
+                    exceed 10MB.</li>
+                <li>Click "Next" and double-check all information.</li>
+                <li>Submit the form. You will be able to download the reference number.</li>
+                <li>An email containing the details and further instructions will also be sent to your email address: {{ Auth::user()->email }}.</li>
             </ol>
         </div>
 
@@ -63,7 +67,8 @@
 
         <!-- Footer Buttons -->
         <div class="mt-10 flex justify-between ">
-            <a href="{{ route('dashboard') }}" class="bg-gray-200 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-300 focus:outline-none">
+            <a href="{{ route('dashboard') }}"
+                class="bg-gray-200 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-300 focus:outline-none">
                 Previous
             </a>
             <a href="/accreditation/form1"

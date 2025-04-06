@@ -27,14 +27,14 @@
             <h3 class="text-lg font-semibold text-gray-800 mb-2">Steps</h3>
             <ol class="list-decimal pl-5 text-gray-600 space-y-2">
                 <li>
-                    Prepare all required documents:
+                    Prepare all required documents: <br>
+                    <span class="text-green-700 font-semibold">Note:</span> Please compile all documents into one PDF file
                     <ul class="list-disc pl-5 mt-1">
                         <li>Request Letter signed by the TC Chairperson</li>
                         <li>Photocopy of the Certificate of Registration issued by the Cooperative Development Authority
                             (CDA)</li>
                         <li>At least 15 units of OR/CR, along with the copy of the Decision/Order of the CPC</li>
                         <li>Bank Certificate of Deposit representing the paid-up capital of the cooperative</li>
-                        <li><span class="text-green-700">Note:</span> Please compile all documents into one PDF file</li>
                     </ul>
                 </li>
 

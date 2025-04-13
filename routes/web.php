@@ -16,6 +16,7 @@ use App\Http\Controllers\ServicesController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\RenewalController;
+use App\Http\Controllers\ProfileController;
 
 Route::post('/renewal/submit', [RenewalController::class, 'submit'])->name('renewal.submit');
 
@@ -42,9 +43,7 @@ Route::get('/services', function () {
 
 
 //Profile Setting
-Route::get('/profilesetting', function () {
-    return view('profilesetting');
-})->name('profilesetting');
+Route::get('/profilesetting', [ProfileController::class, 'index'])->name('profilesetting');
 
 
 Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');

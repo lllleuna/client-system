@@ -144,7 +144,7 @@ class RegisteredUserController extends Controller
             $userId = session('pending_contact_verification_id');
             $user = ExternalUser::find($userId);
     
-            return redirect('/dash')->with('success', 'Mobile Number Verified!');
+            return redirect()->route('generalinfo')->with('success', 'General Information updated successfully.');
         } else {
             return redirect('/auth/mfa')->with('error', 'Invalid OTP!');
         }

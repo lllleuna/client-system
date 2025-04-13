@@ -47,9 +47,10 @@
                                         Document Requirements:
                                     </p>
                                     <ul class="mt-2 text-sm text-yellow-700 list-disc pl-5">
+                                        <li>All documents are compiled in one (1) PDF file.</li>
                                         <li>All documents must be clear and legible</li>
                                         <li>Accept PDF format only</li>
-                                        <li>Maximum file size: 5MB per document</li>
+                                        <li>Maximum file size: 10MB</li>
                                         <li>Ensure all signatures are complete</li>
                                     </ul>
                                 </div>

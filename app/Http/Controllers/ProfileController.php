@@ -78,6 +78,34 @@ class ProfileController extends Controller
     
         return redirect()->back()->with('success', 'Two-Factor Authentication has been ' . ($user->two_factor_enabled ? 'enabled' : 'disabled') . '.');
     }
+
+    public function showVerifyContactOtp()
+    {
+        return view('verify-contact-otp');
+    }
+
+    public function verifyContactOtp(Request $request)
+    {
+        $request->validate([
+            'otp' => 'required|digits:6',
+        ]);
+
+        $userId = session('pending_contact_verification_id');
+        $user = ExternalUser::find($userId);
+
+        if (!$user || session('pending_contact_otp') !== $request->otp) {
+            return back()->withErrors(['otp' => 'Invalid or expired OTP.']);
+        }
+
+        // OTP is correct
+        $user->contact_no_verified_at = now();
+        $user->save();
+
+        Session::forget('pending_contact_otp');
+        Session::forget('pending_contact_verification_id');
+
+        return redirect()->route('generalinfo')->with('success', 'Contact number verified and updated.');
+    }
     
 }
 

@@ -43,7 +43,11 @@ Route::get('/services', function () {
 
 
 //Profile Setting
-Route::get('/profilesetting', [ProfileController::class, 'index'])->name('profilesetting');
+Route::middleware(['auth:external'])->group(function () {
+    Route::get('/profile', [ProfileController::class, 'index'])->name('profilesetting');
+    Route::post('/profile/update-picture', [ProfileController::class, 'updateProfilePicture'])->name('profile.updatePicture');
+});
+
 
 
 Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');

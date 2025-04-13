@@ -90,36 +90,133 @@
         </div>
 
         <div class="bg-white rounded-xl shadow-md overflow-hidden mb-8">
-            <div class="bg-gray-50 px-4 py-5 border-b border-gray-200">
-                <h3 class="text-lg font-medium text-gray-900">Setup 2-Factor Authentication</h3>
+            <div class="bg-gradient-to-r from-blue-50 to-indigo-50 px-6 py-5 border-b border-gray-200">
+                <h3 class="text-lg font-medium text-gray-900 flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-blue-600" viewBox="0 0 20 20"
+                        fill="currentColor">
+                        <path fill-rule="evenodd"
+                            d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                            clip-rule="evenodd" />
+                    </svg>
+                    Setup 2-Factor Authentication
+                </h3>
             </div>
 
-            <div class="flex flex-col">
-                <h3 class="font-semibold">Business Contact No.</h3>
-                <h3>0{{ auth()->user()->contact_no }}</h3>
+            <div class="px-6 py-5">
+                <div class="flex flex-col space-y-6">
+                    <!-- Phone Verification Status -->
+                    <div class="bg-gray-50 rounded-lg p-4 flex justify-between items-center">
+                        <div class="flex flex-col">
+                            <h4 class="text-sm font-medium text-gray-500">Business Contact Number</h4>
+                            <div class="flex items-center mt-1">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1 text-gray-600"
+                                    viewBox="0 0 20 20" fill="currentColor">
+                                    <path
+                                        d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
+                                </svg>
+                                <span class="text-gray-900 font-medium">0{{ auth()->user()->contact_no }}</span>
+                            </div>
+                        </div>
 
-                @if (auth()->user()->contact_no_verified_at)
-                    <span class="text-green-600 font-semibold">Verified</span>
-                @else
-                    <span class="text-red-600 font-semibold">Not Verified</span>
-                @endif
+                        @if (auth()->user()->contact_no_verified_at)
+                            <span
+                                class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">
+                                <svg class="mr-1.5 h-3 w-3 text-green-600" fill="currentColor" viewBox="0 0 20 20"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd"
+                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                        clip-rule="evenodd"></path>
+                                </svg>
+                                Verified
+                            </span>
+                        @else
+                            <span
+                                class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-red-100 text-red-800">
+                                <svg class="mr-1.5 h-3 w-3 text-red-600" fill="currentColor" viewBox="0 0 20 20"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd"
+                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                                        clip-rule="evenodd"></path>
+                                </svg>
+                                Not Verified
+                            </span>
+                        @endif
+                    </div>
+
+                    <!-- 2FA Status -->
+                    <div class="flex flex-col items-center space-y-5 py-4">
+                        <div class="flex items-center justify-center w-16 h-16 rounded-full bg-gray-100">
+                            @if ($user->two_factor_enabled)
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-green-600" viewBox="0 0 20 20"
+                                    fill="currentColor">
+                                    <path fill-rule="evenodd"
+                                        d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                            @else
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-gray-400" viewBox="0 0 20 20"
+                                    fill="currentColor">
+                                    <path fill-rule="evenodd"
+                                        d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                            @endif
+                        </div>
+
+                        <div class="text-center">
+                            <p class="text-sm text-gray-600 mb-1">Two-Factor Authentication is currently:</p>
+                            @if ($user->two_factor_enabled)
+                                <p class="text-green-600 font-semibold text-lg">Enabled</p>
+                            @else
+                                <p class="text-red-600 font-semibold text-lg">Disabled</p>
+                            @endif
+                        </div>
+
+                        <button onclick="document.getElementById('twofaModal').showModal()"
+                            class="mt-4 inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 transition-colors duration-200
+                                {{ $user->two_factor_enabled
+                                    ? 'bg-red-600 hover:bg-red-700 focus:ring-red-500'
+                                    : 'bg-blue-600 hover:bg-blue-700 focus:ring-blue-500' }}">
+                            @if ($user->two_factor_enabled)
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" viewBox="0 0 20 20"
+                                    fill="currentColor">
+                                    <path fill-rule="evenodd"
+                                        d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                                Disable 2FA
+                            @else
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" viewBox="0 0 20 20"
+                                    fill="currentColor">
+                                    <path fill-rule="evenodd"
+                                        d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                                Enable 2FA
+                            @endif
+                        </button>
+                    </div>
+                </div>
             </div>
 
-            <div class="px-4 py-8 flex flex-col items-center space-y-4">
-                <p class="text-gray-700 text-sm">
-                    Two-Factor Authentication is:
-                    @if ($user->two_factor_enabled)
-                        <span class="text-green-600 font-semibold">Enabled</span>
-                    @else
-                        <span class="text-red-600 font-semibold">Disabled</span>
-                    @endif
-                </p>
-
-                <button onclick="document.getElementById('twofaModal').showModal()"
-                    class="px-4 py-2 rounded-lg text-white 
-                            {{ $user->two_factor_enabled ? 'bg-red-500 hover:bg-red-600' : 'bg-blue-500 hover:bg-blue-600' }}">
-                    {{ $user->two_factor_enabled ? 'Disable 2FA' : 'Enable 2FA' }}
-                </button>
+            <div class="bg-gray-50 px-6 py-4 border-t border-gray-200">
+                <div class="flex items-start">
+                    <div class="flex-shrink-0">
+                        <svg class="h-5 w-5 text-blue-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                            fill="currentColor">
+                            <path fill-rule="evenodd"
+                                d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                                clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                    <div class="ml-3">
+                        <p class="text-xs text-gray-500">
+                            Two-factor authentication adds an extra layer of security to your account. Once enabled, you'll
+                            need to provide a verification code sent to your phone in addition to your password when signing
+                            in.
+                        </p>
+                    </div>
+                </div>
             </div>
         </div>
 

@@ -130,10 +130,6 @@
 
             {{-- Submit Button --}}
             <div class="flex items-center justify-end space-x-4">
-                <button type="button"
-                    class="py-2 px-4 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50">
-                    Save Draft
-                </button>
                 <button type="submit"
                     class="py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                     Submit Application

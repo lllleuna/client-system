@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\ExternalUser;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
+use App\Notifications\SendOtpNotification;
+use Illuminate\Support\Str;
 
 class ProfileController extends Controller
 {
@@ -105,6 +108,24 @@ class ProfileController extends Controller
         Session::forget('pending_contact_verification_id');
 
         return redirect()->route('generalinfo')->with('success', 'Contact number verified and updated.');
+    }
+
+    public function resendContactOtp()
+    {
+        $user = Auth::user();
+    
+        $newOtp = rand(100000, 999999);
+        Session::put('contact_otp_code', $newOtp);
+    
+        $contactNo = Session::get('pending_contact_no');
+    
+        if (!$contactNo) {
+            return redirect()->route('generalinfo')->withErrors('No pending contact number to verify.');
+        }
+    
+        $user->notify(new SendOtpNotification($newOtp, $contactNo));
+    
+        return redirect()->back()->with('success', 'A new OTP has been sent to your contact number.');
     }
     
 }

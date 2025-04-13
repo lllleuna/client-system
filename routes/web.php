@@ -95,6 +95,7 @@ Route::middleware(['auth'])->group(function () {
 
 Route::get('/verify-contact-otp', [ProfileController::class, 'showVerifyContactOtp'])->name('verify.contact.otp');
 Route::post('/verify-contact-otp', [ProfileController::class, 'verifyContactOtp'])->name('verify.contact.otp.submit');
+Route::post('/verify-contact/resend', [ProfileController::class, 'resendContactOtp'])->name('resend.contact.otp');
 
 
 //MyInformation

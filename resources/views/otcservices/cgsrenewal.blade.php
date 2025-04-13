@@ -74,16 +74,16 @@
                                             d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
                                             stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                                     </svg>
-                                    <div class="flex text-sm text-gray-600">
+                                    <div class="flex text-sm text-gray-600 justify-center items-center">
                                         <label for="letter_request"
                                             class="relative cursor-pointer rounded-md font-medium text-blue-600 hover:text-blue-500">
                                             <span>Upload a file</span>
                                             <input id="letter_request" name="letter_request" type="file" class="sr-only"
-                                                required accept=".pdf">
+                                                required accept=".pdf" onchange="showFileName(event)">
                                         </label>
-                                        <p class="pl-1">or drag and drop</p>
                                     </div>
                                     <p class="text-xs text-gray-500">PDF up to 5MB</p>
+                                    <p id="selected-file-name" class="text-sm text-gray-700 font-semibold mt-2 hidden"></p>
                                 </div>
                             </div>
                             @error('letter_request')
@@ -144,45 +144,19 @@
         {!! htmlScriptTagJsApi() !!}
 
     </div>
+
+    <script>
+        function showFileName(event) {
+            const fileName = event.target.files[0]?.name || '';
+            const display = document.getElementById('selected-file-name');
+            if (fileName) {
+                display.textContent = "Selected file: " + fileName;
+                display.classList.remove('hidden');
+            } else {
+                display.textContent = '';
+                display.classList.add('hidden');
+            }
+        }
+    </script>
 @endsection
 
-{{-- JavaScript for file upload preview --}}
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-                // Function to setup file input handling
-                function setupFileInput(inputId) {
-                    const fileInput = document.getElementById(inputId);
-                    const dropZone = fileInput.closest('div.border-dashed');
-
-                    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-                        dropZone.addEventListener(eventName, preventDefaults, false);
-                    });
-
-                    function preventDefaults(e) {
-                        e.preventDefault();
-                        e.stopPropagation();
-                    }
-
-                    ['dragenter', 'dragover'].forEach(eventName => {
-                        dropZone.addEventListener(eventName, () => {
-                            dropZone.classList.add('border-blue-300', 'bg-blue-50');
-                        }, false);
-                    });
-
-                    ['dragleave', 'drop'].forEach(eventName => {
-                        dropZone.addEventListener(eventName, () => {
-                            dropZone.classList.remove('border-blue-300', 'bg-blue-50');
-                        }, false);
-                    });
-
-                    dropZone.addEventListener('drop', handleDrop, false);
-
-                    function handleDrop(e) {
-                        const dt = e.dataTransfer;
-                        const files = dt.files;
-                        fileInput.files = files;
-
-                        if (files && files[0]) {
-                            // Add visual feedback
-                            const fileName = files[0].name;
-                            const file

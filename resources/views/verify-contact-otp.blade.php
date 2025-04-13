@@ -24,5 +24,15 @@
                     class="w-full text-center bg-gray-300 text-gray-800 py-2 rounded-md hover:bg-gray-400">Cancel</a>
             </div>
         </form>
+
+        <div class="mt-6 text-center">
+            <form action="{{ route('resend.contact.otp') }}" method="POST">
+                @csrf
+                <button type="submit" class="text-blue-600 hover:underline">
+                    Didn’t receive the code? <strong>Resend OTP</strong>
+                </button>
+            </form>
+        </div>
+        
     </div>
 @endsection

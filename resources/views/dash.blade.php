@@ -28,18 +28,6 @@
             <h1 class="text-3xl font-bold text-gray-900">Welcome!</h1>
             <h3 class="text-gray-600 text-xl"> {{ $externalUser->tc_name ?? 'Cooperative Chairperson' }}</h3> {{-- Backend: Replace with actual user name --}}
         </div>
-        <div class="flex flex-col">
-            <h3 class="font-semibold">Business Contact No.</h3>
-            <a href="/auth/mfa" class="hover:text-blue-700">
-                <h3>0{{ auth()->user()->contact_no }}</h3>
-            </a>
-
-            @if (auth()->user()->contact_no_verified_at)
-                <span class="text-green-600 font-semibold">Verified</span>
-            @else
-                <span class="text-red-600 font-semibold">Not Verified</span>
-            @endif
-        </div>
 
     </div>
 

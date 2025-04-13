@@ -94,6 +94,17 @@
                 <h3 class="text-lg font-medium text-gray-900">Setup 2-Factor Authentication</h3>
             </div>
 
+            <div class="flex flex-col">
+                <h3 class="font-semibold">Business Contact No.</h3>
+                <h3>0{{ auth()->user()->contact_no }}</h3>
+
+                @if (auth()->user()->contact_no_verified_at)
+                    <span class="text-green-600 font-semibold">Verified</span>
+                @else
+                    <span class="text-red-600 font-semibold">Not Verified</span>
+                @endif
+            </div>
+
             <div class="px-4 py-8 flex flex-col items-center space-y-4">
                 <p class="text-gray-700 text-sm">
                     Two-Factor Authentication is:

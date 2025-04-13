@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use App\Notifications\SendOtpNotification;
 use App\Models\CoopGeneralInfo;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Session;
 
 
 class RegisteredUserController extends Controller
@@ -139,6 +140,9 @@ class RegisteredUserController extends Controller
                     'contact_no' => $verifiedContactNo,
                     'contact_no_verified_at' => now()
                 ]);
+
+            $userId = session('pending_contact_verification_id');
+            $user = ExternalUser::find($userId);
     
             return redirect('/dash')->with('success', 'Mobile Number Verified!');
         } else {

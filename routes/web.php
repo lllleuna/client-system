@@ -93,6 +93,10 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/auth/resend-otp', [RegisteredUserController::class, 'resendOtp'])->name('resend.otp');
 });
 
+Route::get('/verify-2fa', [SessionController::class, 'showVerify2fa'])->name('verify.2fa');
+Route::post('/verify-2fa', [SessionController::class, 'verify2fa']);
+Route::post('/resend-2fa', [SessionController::class, 'resend2fa'])->name('resend.2fa');
+
 Route::get('/verify-contact-otp', [ProfileController::class, 'showVerifyContactOtp'])->name('verify.contact.otp');
 Route::post('/verify-contact-otp', [ProfileController::class, 'verifyContactOtp'])->name('verify.contact.otp.submit');
 Route::post('/verify-contact/resend', [ProfileController::class, 'resendContactOtp'])->name('resend.contact.otp');

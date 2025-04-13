@@ -87,7 +87,7 @@ Route::get('/verify-email/{token}', [RegisteredUserController::class, 'verifyEma
 // Setting Up MFA ----------
 Route::get('/auth/mfa', function() {
     return view('/auth/mfa');
-});
+})->name('verify.contact');
 Route::middleware(['auth'])->group(function () {
     Route::post('/send-otp', [RegisteredUserController::class, 'sendOtp'])->name('send.otp');
     Route::post('/verify-otp', [RegisteredUserController::class, 'verifyOtp'])->name('verify.otp');

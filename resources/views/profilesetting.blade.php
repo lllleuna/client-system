@@ -104,17 +104,33 @@
                     @endif
                 </p>
 
-                <form action="{{ route('profile.toggle2fa') }}" method="POST">
-                    @csrf
-                    <button type="submit"
-                        class="px-4 py-2 rounded-lg text-white
+                <button onclick="document.getElementById('twofaModal').showModal()"
+                    class="px-4 py-2 rounded-lg text-white 
                             {{ $user->two_factor_enabled ? 'bg-red-500 hover:bg-red-600' : 'bg-blue-500 hover:bg-blue-600' }}">
-                        {{ $user->two_factor_enabled ? 'Disable 2FA' : 'Enable 2FA' }}
-                    </button>
-                </form>
+                    {{ $user->two_factor_enabled ? 'Disable 2FA' : 'Enable 2FA' }}
+                </button>
             </div>
         </div>
 
+        <dialog id="twofaModal" class="rounded-lg shadow-lg p-4 w-96">
+            <form method="POST" action="{{ route('profile.toggle2fa') }}">
+                @csrf
+                <h3 class="text-lg font-semibold mb-4">Confirm Password</h3>
+                <p class="text-sm text-gray-600 mb-2">Please enter your password to continue.</p>
+
+                <input type="password" name="password" required
+                    class="w-full px-3 py-2 border rounded mb-4 focus:outline-none focus:ring focus:border-blue-300">
+                @if ($errors->has('password'))
+                    <p class="text-sm text-red-600 mt-2">{{ $errors->first('password') }}</p>
+                @endif
+
+                <div class="flex justify-end space-x-2">
+                    <button type="button" onclick="document.getElementById('twofaModal').close()"
+                        class="px-3 py-1 rounded bg-gray-300 text-sm">Cancel</button>
+                    <button type="submit" class="px-3 py-1 rounded bg-blue-600 text-white text-sm">Confirm</button>
+                </div>
+            </form>
+        </dialog>
 
     </div>
 
@@ -151,8 +167,8 @@
                                         <label for="file-upload"
                                             class="relative cursor-pointer bg-white rounded-md font-medium text-blue-600 hover:text-blue-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-blue-500">
                                             <span>Upload a file</span>
-                                            <input id="file-upload" name="profile_picture" type="file" class="sr-only"
-                                                accept="image/png, image/jpeg" required>
+                                            <input id="file-upload" name="profile_picture" type="file"
+                                                class="sr-only" accept="image/png, image/jpeg" required>
                                         </label>
                                         <p class="pl-1">or drag and drop</p>
                                     </div>

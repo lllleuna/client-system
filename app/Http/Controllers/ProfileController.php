@@ -56,8 +56,23 @@ class ProfileController extends Controller
 
     public function toggleTwoFactor(Request $request)
     {
+        $request->validate([
+            'password' => 'required|string',
+        ]);
+    
         $user = Auth::user();
     
+        // Validate password
+        if (!Hash::check($request->password, $user->password)) {
+            return back()->withErrors(['password' => 'The password you entered is incorrect.']);
+        }
+    
+        // Redirect if contact number is not verified
+        if (is_null($user->contact_no_verified_at)) {
+            return redirect()->route('verify.contact')->with('warning', 'Please verify your contact number first.');
+        }
+    
+        // Toggle 2FA
         $user->two_factor_enabled = !$user->two_factor_enabled;
         $user->save();
     

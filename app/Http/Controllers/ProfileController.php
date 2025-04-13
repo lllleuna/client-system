@@ -53,5 +53,16 @@ class ProfileController extends Controller
     
         return back()->with('success', 'Password updated successfully.');
     }
+
+    public function toggleTwoFactor(Request $request)
+    {
+        $user = Auth::user();
+    
+        $user->two_factor_enabled = !$user->two_factor_enabled;
+        $user->save();
+    
+        return redirect()->back()->with('success', 'Two-Factor Authentication has been ' . ($user->two_factor_enabled ? 'enabled' : 'disabled') . '.');
+    }
+    
 }
 

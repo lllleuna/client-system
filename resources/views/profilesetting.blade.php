@@ -48,7 +48,7 @@
                 <h3 class="text-lg font-medium text-gray-900">Account Security</h3>
             </div>
 
-            <form method="POST" action="{{ route('profile.updatePassword') }}" class="px-4 py-8 w-full max-w-md">
+            <form method="POST" action="{{ route('profile.updatePassword') }}" class="px-4 py-8 w-full">
                 @csrf
 
                 {{-- Current Password --}}
@@ -80,14 +80,41 @@
                 </div>
 
                 {{-- Save Button --}}
-                <div class="flex justify-end">
+                <div class="flex justify-center">
                     <button type="submit"
-                        class="bg-indigo-600 hover:bg-indigo-700 text-white font-medium px-5 py-2 rounded-lg transition duration-200">
+                        class="bg-indigo-600 w-full hover:bg-indigo-700 text-white font-medium px-5 py-2 rounded-lg transition duration-200">
                         Save
                     </button>
                 </div>
             </form>
         </div>
+
+        <div class="bg-white rounded-xl shadow-md overflow-hidden mb-8">
+            <div class="bg-gray-50 px-4 py-5 border-b border-gray-200">
+                <h3 class="text-lg font-medium text-gray-900">Setup 2-Factor Authentication</h3>
+            </div>
+
+            <div class="px-4 py-8 flex flex-col items-center space-y-4">
+                <p class="text-gray-700 text-sm">
+                    Two-Factor Authentication is:
+                    @if ($user->two_factor_enabled)
+                        <span class="text-green-600 font-semibold">Enabled</span>
+                    @else
+                        <span class="text-red-600 font-semibold">Disabled</span>
+                    @endif
+                </p>
+
+                <form action="{{ route('profile.toggle2fa') }}" method="POST">
+                    @csrf
+                    <button type="submit"
+                        class="px-4 py-2 rounded-lg text-white
+                            {{ $user->two_factor_enabled ? 'bg-red-500 hover:bg-red-600' : 'bg-blue-500 hover:bg-blue-600' }}">
+                        {{ $user->two_factor_enabled ? 'Disable 2FA' : 'Enable 2FA' }}
+                    </button>
+                </form>
+            </div>
+        </div>
+
 
     </div>
 

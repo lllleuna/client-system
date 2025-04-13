@@ -49,6 +49,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/profile/update-password', [ProfileController::class, 'updatePassword'])->name('profile.updatePassword');
 });
 
+Route::post('/profile/toggle-2fa', [ProfileController::class, 'toggleTwoFactor'])->name('profile.toggle2fa');
 
 
 Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');

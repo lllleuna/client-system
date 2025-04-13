@@ -20,7 +20,7 @@ class ProfileController extends Controller
             'profile_picture' => 'required|image|mimes:jpeg,png|max:2048',
         ]);
 
-        $user = Auth::guard('external')->user(); // adjust guard as needed
+        $user = Auth::->user();
 
         $file = $request->file('profile_picture');
         $filename = 'profile_' . $user->id . '.' . $file->getClientOriginalExtension();

@@ -1,7 +1,7 @@
 <!-- Profile Dropdown -->
 <div class="relative" x-data="{ profileOpen: false }">
     <button @click="profileOpen = !profileOpen" class="focus:outline-none">
-        <img src="{{ $user->profile_picture ? asset('shared/uploads/' . $user->profile_picture) : asset('images/default.png') }}"
+        <img src="{{ Auth::user()->profile_picture ? asset('shared/uploads/' . Auth::user()->profile_picture) : asset('images/default.png') }}"
             class="h-12 w-12 rounded-full transition-transform duration-300 hover:scale-105" alt="Cooperative Logo">
     </button>
     <!-- Profile Dropdown Menu -->

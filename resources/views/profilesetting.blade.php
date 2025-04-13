@@ -36,9 +36,9 @@
                         </button>
                     </div>
                 </div>
-                <h3 class="flex items-center mt-2 space-x-2 py-2 uppercase">
+                <h2 class="flex items-center mt-2 font-semibold space-x-2 py-2 uppercase">
                     {{ Auth::user()->tc_name ?? 'Cooperative Chairperson' }}
-                </h3>
+                </h2>
             </div>
         </div>
 

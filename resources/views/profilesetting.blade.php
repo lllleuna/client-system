@@ -1,40 +1,84 @@
 @extends('layouts.layout')
 
 @section('content')
-    <div class="container">
+    <div class="max-w-4xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
         @if (session('success'))
-            <div class="alert alert-success">{{ session('success') }}</div>
+            <div class="mb-6 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-md shadow-sm" role="alert">
+                <p>{{ session('success') }}</p>
+            </div>
         @endif
 
-        {{-- Profile Picture Card --}}
-        <div class="card">
-            <div class="card-header">Cooperative Logo</div>
-            <div class="card-body text-center">
-                <img src="{{ $user->profile_picture ? asset('shared/uploads/' . $user->profile_picture) : asset('images/default.png') }}"
-                    class="rounded-circle" width="150" height="150" alt="Profile Picture">
-                <br><br>
-                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editProfilePicModal">Edit
-                    Picture</button>
+        {{-- Profile Picture/Logo Card --}}
+        <div class="bg-white rounded-xl shadow-md overflow-hidden mb-8">
+            <div class="bg-gray-50 px-4 py-5 border-b border-gray-200">
+                <h3 class="text-lg font-medium text-gray-900">Cooperative Logo</h3>
+            </div>
+            <div class="px-4 py-8 flex flex-col items-center">
+                <div class="relative group">
+                    <img 
+                        src="{{ $user->profile_picture ? asset('shared/uploads/' . $user->profile_picture) : asset('images/default.png') }}"
+                        class="h-40 w-40 object-cover rounded-full ring-4 ring-gray-100 shadow-md" 
+                        alt="Cooperative Logo"
+                    >
+                    <div class="absolute inset-0 rounded-full bg-black bg-opacity-0 group-hover:bg-opacity-30 transition-opacity flex items-center justify-center">
+                        <button 
+                            class="opacity-0 group-hover:opacity-100 transition-opacity bg-white text-gray-700 px-3 py-2 rounded-lg shadow text-sm font-medium"
+                            data-bs-toggle="modal" 
+                            data-bs-target="#editProfilePicModal"
+                        >
+                            Change Logo
+                        </button>
+                    </div>
+                </div>
+                
+                <button 
+                    class="mt-6 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                    data-bs-toggle="modal" 
+                    data-bs-target="#editProfilePicModal"
+                >
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                    </svg>
+                    Edit Logo
+                </button>
             </div>
         </div>
     </div>
 
     {{-- Modal: Edit Profile Picture --}}
     <div class="modal fade" id="editProfilePicModal" tabindex="-1">
-        <div class="modal-dialog">
+        <div class="modal-dialog max-w-md mx-auto">
             <form action="{{ route('profile.updatePicture') }}" method="POST" enctype="multipart/form-data">
                 @csrf
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Change Cooperative Logo</h5>
+                <div class="bg-white rounded-lg shadow-xl overflow-hidden">
+                    <div class="px-6 py-4 border-b border-gray-200">
+                        <h3 class="text-lg font-medium text-gray-900">Change Cooperative Logo</h3>
                     </div>
-                    <div class="modal-body">
-                        <input type="file" name="profile_picture" accept="image/png, image/jpeg" class="form-control"
-                            required>
+                    <div class="p-6">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Upload new logo</label>
+                        <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
+                            <div class="space-y-1 text-center">
+                                <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48">
+                                    <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                                <div class="flex text-sm text-gray-600">
+                                    <label for="file-upload" class="relative cursor-pointer bg-white rounded-md font-medium text-blue-600 hover:text-blue-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-blue-500">
+                                        <span>Upload a file</span>
+                                        <input id="file-upload" name="profile_picture" type="file" class="sr-only" accept="image/png, image/jpeg" required>
+                                    </label>
+                                    <p class="pl-1">or drag and drop</p>
+                                </div>
+                                <p class="text-xs text-gray-500">PNG, JPG up to 10MB</p>
+                            </div>
+                        </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-success">Save</button>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Discard</button>
+                    <div class="px-6 py-4 bg-gray-50 flex justify-end space-x-3">
+                        <button type="button" class="inline-flex justify-center py-2 px-4 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" data-bs-dismiss="modal">
+                            Cancel
+                        </button>
+                        <button type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                            Save
+                        </button>
                     </div>
                 </div>
             </form>

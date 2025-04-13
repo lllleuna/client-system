@@ -188,7 +188,7 @@
                     <div class="space-y-3">
                         @php
                             $actions = [
-                                ['route' => 'cgsrenewal', 'text' => 'CGS Renewal', 'color' => 'green'],
+                                ['route' => 'cgsrenewal', 'text' => 'CGS Renewal', 'color' => 'green'], 
                                 ['route' => 'training', 'text' => 'Request Training', 'color' => 'blue'],
                                 ['route' => 'membersMasterlist', 'text' => 'Update Info', 'color' => 'yellow'],
                                 // ['route' => 'concern', 'text' => 'Related Concern', 'color' => 'purple'],
@@ -272,14 +272,26 @@
                                     'title' => "Citizen's Charter",
                                     'url' => 'https://otc.gov.ph/about/citizens-charter-2/',
                                     'icon' => 'book',
+                                    'tooltip' => 'View the Citizen’s Charter',
                                 ],
-                                ['title' => 'Terms and Conditions', 'url' => '#', 'icon' => 'phone'],
-                                ['title' => 'Privacy Policy', 'url' => '#', 'icon' => 'question'],
+                                [
+                                    'title' => 'Terms and Conditions',
+                                    'url' => '#',
+                                    'icon' => 'phone',
+                                    'tooltip' => 'Read the terms and conditions',
+                                ],
+                                [
+                                    'title' => 'Privacy Policy',
+                                    'url' => '#',
+                                    'icon' => 'question',
+                                    'tooltip' => 'Understand how your data is handled',
+                                ],
                                 [
                                     'title' => 'Contact Support',
                                     'url' => '#',
                                     'icon' => 'mail',
                                     'modal' => 'contactModal',
+                                    'tooltip' => 'Send us a message for help',
                                 ],
                             ];
                         @endphp
@@ -288,13 +300,15 @@
                             @if (isset($link['modal']))
                                 <button type="button"
                                     onclick="document.getElementById('{{ $link['modal'] }}').classList.remove('hidden')"
+                                    title="{{ $link['tooltip'] ?? $link['title'] }}"
                                     class="flex items-center p-4 rounded-lg bg-gray-50 hover:bg-gray-100 transition-colors">
                                     <span class="text-blue-600 hover:text-blue-700">{{ $link['title'] }}</span>
                                 </button>
                             @else
                                 <a href="{{ $link['url'] }}"
-                                    class="flex items-center p-4 rounded-lg bg-gray-50 hover:bg-gray-100 transition-colors"
-                                    @if (str_starts_with($link['url'], 'http')) target="_blank" rel="noopener noreferrer" @endif>
+                                title="{{ $link['tooltip'] ?? $link['title'] }}"
+                                class="flex items-center p-4 rounded-lg bg-gray-50 hover:bg-gray-100 transition-colors"
+                                @if (str_starts_with($link['url'], 'http')) target="_blank" rel="noopener noreferrer" @endif>
                                     <span class="text-blue-600 hover:text-blue-700">{{ $link['title'] }}</span>
                                 </a>
                             @endif

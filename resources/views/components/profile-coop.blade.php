@@ -5,6 +5,11 @@
             src="{{ asset('images/rizalCoop.png') }}" 
             alt="Profile" 
             class="h-12 w-12 rounded-full transition-transform duration-300 hover:scale-105"
+            title="Your Profile" 
+            {{-- We can add info if hover over the image
+            John Michael Cruz
+            Taguig C5 Transport Cooperatives
+            johnmichaelcruz0937@gmail.com   --}}
         />
     </button>
     <!-- Profile Dropdown Menu -->

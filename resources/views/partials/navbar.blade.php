@@ -34,12 +34,12 @@
                 <div class="hidden md:flex items-center space-x-6">
                     <!-- Center Section: Navigation Links -->
                     <div class="flex space-x-6">
-                        <a href="{{ url('/dash') }}" class="hover:text-gray-300 transition">Home</a>
-                        <a href="{{ route('infoupdate') }}" class="hover:text-gray-300 transition">My Information</a>
+                        <a href="{{ url('/dash') }}" class="hover:text-gray-300 transition" title="Go to Home">Home</a>
+                        <a href="{{ route('infoupdate') }}" class="hover:text-gray-300 transition" title="Edit your Information">My Information</a>
                         <!-- Services Dropdown -->
                         <div class="relative" x-data="{ open: false }">
                             @if (Auth::check() && Auth::user()->accreditation_status === 'Active')
-                                <button @click="open = !open" class="hover:text-gray-300 transition flex items-center">
+                                <button @click="open = !open" class="hover:text-gray-300 transition flex items-center" title="Access available services">
                                     Services ▼
                                 </button>
                                 <div
@@ -47,11 +47,24 @@
                                     @click.away="open = false"
                                     class="absolute left-0 mt-2 w-48 bg-white text-black rounded-lg shadow-lg z-50"
                                 >
-                                    <a href="{{ route('cgsrenewal') }}" class="block px-4 py-2 hover:bg-gray-200">Certificate of Good Standing</a>
-                                    <a href="{{ route('training') }}" class="block px-4 py-2 hover:bg-gray-200">Training & Seminars</a>
+                                    <a 
+                                        href="{{ route('cgsrenewal') }}" 
+                                        class="block px-4 py-2 hover:bg-gray-200" 
+                                        title="Request or renew your Certificate of Good Standing"
+                                    >
+                                        Certificate of Good Standing
+                                    </a>
+                                    <a 
+                                        href="{{ route('training') }}" 
+                                        class="block px-4 py-2 hover:bg-gray-200" 
+                                        title="Apply or view training and seminar schedules"
+                                    >
+                                        Training & Seminars
+                                    </a>
                                 </div>
                             @endif
                         </div>
+
                     </div>
 
                     <!-- Right Section: Actions -->
@@ -76,8 +89,8 @@
                  x-transition:leave-end="opacity-0 transform -translate-y-2"
                  class="md:hidden">
                 <div class="pt-4 pb-3 space-y-3">
-                    <a href="{{ url('/dash') }}" class="block hover:bg-gray-700 px-3 py-2 rounded-md">Dashboard</a>
-                    <a href="{{ route('infoupdate') }}" class="block hover:bg-gray-700 px-3 py-2 rounded-md">My Information</a>
+                    <a href="{{ url('/dash') }}" class="block hover:bg-gray-700 px-3 py-2 rounded-md">Home</a>
+                    <a href="{{ route('infoupdate') }}" class="block hover:bg-gray-700 px-3 py-2 rounded-md" >My Information</a>
                     
                     <!-- Mobile Services Dropdown -->
                     <div x-data="{ servicesOpen: false }">

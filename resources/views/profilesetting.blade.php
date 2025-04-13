@@ -283,9 +283,9 @@
                                         <label for="file-upload"
                                             class="relative cursor-pointer bg-white rounded-md font-medium text-blue-600 hover:text-blue-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-blue-500">
                                             <span>Upload a file</span>
+                                            <input id="file-upload" name="profile_picture" type="file"
+                                                class="sr-only" accept="image/png, image/jpeg" required>
 
-                                            <input id="file-upload" type="file" name="profile_picture"
-                                                accept="image/png, image/jpeg" required>
                                             <p id="file-error" class="text-red-500 text-sm mt-1 hidden"></p>
 
                                         </label>

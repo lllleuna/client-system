@@ -23,18 +23,28 @@ class ProfileController extends Controller
         $request->validate([
             'profile_picture' => 'required|image|mimes:jpeg,png|max:2048',
         ]);
-
-        $user = Auth::user();
-
-        $file = $request->file('profile_picture');
-        $filename = 'profile_' . $user->id . '.' . $file->getClientOriginalExtension();
-        $filePath = $file->storeAs('uploads', $filename, 'shared');
-
-        $user->profile_picture = $filename;
-        $user->save();
-
-        return redirect()->back()->with('success', 'Profile picture updated.');
+    
+        try {
+            $user = Auth::user();
+    
+            $file = $request->file('profile_picture');
+            $filename = 'profile_' . $user->id . '.' . $file->getClientOriginalExtension();
+            $filePath = $file->storeAs('uploads', $filename, 'shared');
+    
+            if (!$filePath) {
+                return redirect()->back()->with('error', 'File upload failed.');
+            }
+    
+            $user->profile_picture = $filename;
+            $user->save();
+    
+            return redirect()->back()->with('success', 'Profile picture updated.');
+    
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'An error occurred while updating the profile picture: ' . $e->getMessage());
+        }
     }
+    
 
     public function updatePassword(Request $request)
     {

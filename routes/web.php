@@ -84,7 +84,6 @@ Route::get('/verify-email/{token}', [RegisteredUserController::class, 'verifyEma
 
 // ------------------------------------------
 
-// Setting Up MFA ----------
 Route::get('/auth/mfa', function() {
     return view('/auth/mfa');
 })->name('verify.contact');
@@ -93,6 +92,9 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/verify-otp', [RegisteredUserController::class, 'verifyOtp'])->name('verify.otp');
     Route::post('/auth/resend-otp', [RegisteredUserController::class, 'resendOtp'])->name('resend.otp');
 });
+
+Route::get('/verify-contact-otp', [ProfileController::class, 'showVerifyContactOtp'])->name('verify.contact.otp');
+Route::post('/verify-contact-otp', [ProfileController::class, 'verifyContactOtp'])->name('verify.contact.otp.submit');
 
 
 //MyInformation

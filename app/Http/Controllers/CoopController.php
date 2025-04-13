@@ -21,6 +21,7 @@ use App\Models\CoopTraining;
 use App\Models\CoopAward;
 use App\Models\GeneralInfo;
 use App\Models\CoopBusiness;
+use App\Notifications\SendOtpNotification;
 
 class CoopController extends Controller
 {
@@ -247,7 +248,7 @@ class CoopController extends Controller
             'contact_no' => [
                 'required',
                 'regex:/^(9)\d{9}$/',
-                'max:12',
+                'max:11',
                 Rule::unique('externalusers', 'contact_no')->ignore($user->id),
             ],
             'cda_reg_no' => 'nullable|string|max:50',
@@ -291,8 +292,22 @@ class CoopController extends Controller
             ];
         
             if ($externalUser->contact_no !== $validatedData['contact_no']) {
-                // Contact number changed, reset verification
-                $updateData['contact_no_verified_at'] = null;
+                $otp = rand(100000, 999999); // 6-digit OTP
+            
+                $externalUser->update([
+                    'pending_contact_no' => $validatedData['contact_no'],
+                    'contact_otp' => $otp,
+                    'contact_otp_expires_at' => now()->addMinutes(10),
+                    'contact_no_verified_at' => null, // Reset verification
+                ]);
+            
+                // Send OTP using Vonage
+                $contactWithCountryCode = '63' . ltrim($validatedData['contact_no'], '0'); // Philippines number format
+                $externalUser->notify(new SendOtpNotification($otp, $contactWithCountryCode));
+            
+                Session::put('pending_contact_verification_id', $externalUser->id);
+            
+                return redirect()->route('verify.contact.otp')->with('success', 'OTP sent to your new number. Please verify it.');
             }
         
             // Update external user info

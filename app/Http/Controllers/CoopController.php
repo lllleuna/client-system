@@ -308,7 +308,7 @@ class CoopController extends Controller
             
                 Session::put('pending_contact_verification_id', $externalUser->id);
             
-                return redirect()->route('verify.contact.otp')->with('success', 'OTP sent to your new number. Please verify it.');
+                return redirect()->route('verify.contact')->with('success', 'OTP sent to your new number. Please verify it.');
             }
         
             // Update external user info

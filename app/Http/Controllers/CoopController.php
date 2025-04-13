@@ -303,8 +303,7 @@ class CoopController extends Controller
                 ]);
             
                 // Send OTP using Vonage
-                $contactWithCountryCode = '63' . ltrim($validatedData['contact_no'], '0'); // Philippines number format
-                $externalUser->notify(new SendOtpNotification($otp, $contactWithCountryCode));
+                $contactWithCountryCode = '63' . ltrim($validatedData['contact_no'], '0');
             
                 Session::put('pending_contact_verification_id', $externalUser->id);
             

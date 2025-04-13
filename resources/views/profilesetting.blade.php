@@ -45,7 +45,7 @@
 
         <div class="bg-white rounded-xl shadow-md overflow-hidden mb-8">
             <div class="bg-gray-50 px-4 py-5 border-b border-gray-200">
-                <h3 class="text-lg font-medium text-gray-900">Account Security</h3>
+                <h3 class="text-lg font-medium text-gray-900">Account Password</h3>
             </div>
 
             <form method="POST" action="{{ route('profile.updatePassword') }}" class="px-4 py-8 w-full">

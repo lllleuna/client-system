@@ -49,8 +49,9 @@ class SessionController extends Controller
             $user->save();
     
             // Send OTP via Vonage
-            $user->notify(new \App\Notifications\SendOtpNotification($otp, $user->contact_no));
-    
+            $formattedNumber = '63' . ltrim($user->contact_no, '0'); // Remove leading 0 if present
+            $user->notify(new \App\Notifications\SendOtpNotification($otp, $formattedNumber));
+
             // Store user id in session temporarily for OTP validation
             session([
                 '2fa_user_id' => $user->id,
@@ -120,8 +121,9 @@ class SessionController extends Controller
         $user->two_factor_login_otp = $otp;
         $user->two_factor_login_expires_at = now()->addMinutes(5);
         $user->save();
-    
-        $user->notify(new \App\Notifications\SendOtpNotification($otp, $user->contact_no));
+        
+        $formattedNumber = '63' . ltrim($user->contact_no, '0'); // Ensure it starts with 63
+        $user->notify(new \App\Notifications\SendOtpNotification($otp, $formattedNumber));        
     
         return back()->with('status', 'A new OTP has been sent to your contact number.');
     }

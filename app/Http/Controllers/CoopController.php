@@ -22,6 +22,7 @@ use App\Models\CoopAward;
 use App\Models\GeneralInfo;
 use App\Models\CoopBusiness;
 use App\Notifications\SendOtpNotification;
+use Illuminate\Support\Facades\Session;
 
 class CoopController extends Controller
 {

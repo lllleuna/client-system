@@ -82,7 +82,7 @@
                                                 required accept=".pdf" onchange="showFileName(event)">
                                         </label>
                                     </div>
-                                    <p class="text-xs text-gray-500">PDF up to 5MB</p>
+                                    <p class="text-xs text-gray-500">PDF up to 10MB</p>
                                     <p id="selected-file-name" class="text-sm text-gray-700 font-semibold mt-2 hidden"></p>
                                 </div>
                             </div>

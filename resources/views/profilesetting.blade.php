@@ -285,11 +285,14 @@
                                             <span>Upload a file</span>
                                             <input id="file-upload" name="profile_picture" type="file"
                                                 class="sr-only" accept="image/png, image/jpeg" required>
+
                                         </label>
-                                        <p class="pl-1">or drag and drop</p>
                                     </div>
-                                    <p class="text-xs text-gray-500">PNG, JPG up to 10MB</p>
+                                    <p class="text-xs text-gray-500">PNG, JPG up to 2MB</p>
                                 </div>
+                                @error('profile_picture')
+                                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                                @enderror
                             </div>
                         </div>
                         <div class="px-6 py-4 bg-gray-50 flex justify-end space-x-3">

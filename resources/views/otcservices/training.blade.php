@@ -129,8 +129,8 @@
                                                 class="sr-only" required accept=".pdf" onchange="showFileName(event)">
                                         </label>
                                     </div>
-                                    <p id="file-name" class="text-xs text-gray-700 mt-1"></p> <!-- File name display -->
-                                    <p class="text-xs text-gray-500">PDF up to 5MB</p>
+                                    <p id="file-name" class="text-base text-gray-700 mt-5">PDF up to 5MB</p> <!-- File name display -->
+                                    
                                 </div>
                             </div>
                             @error('letter_of_intent')

@@ -24,7 +24,7 @@
         </div>
 
         {{-- Training Registration Form --}}
-        <form action="#" method="POST" enctype="multipart/form-data" class="space-y-8">
+        <form action="{{ route('training.request.store') }}" method="POST" enctype="multipart/form-data" class="space-y-8">
             @csrf
 
             {{-- Training Mode Selection --}}
@@ -50,7 +50,7 @@
                         <ul class="mt-3 text-sm text-gray-500 pl-6 list-disc space-y-1">
                             <li>Direct interaction with instructors.</li>
                             <li>Hands-on learning experience.</li>
-                            <li>Networking opportunities.</li>
+                            <li>Ideal for Cooperatives around Metro Manila.</li>
                         </ul>
                     </label>
 
@@ -129,8 +129,9 @@
                                                 class="sr-only" required accept=".pdf" onchange="showFileName(event)">
                                         </label>
                                     </div>
-                                    <p id="file-name" class="text-base text-gray-700 mt-5">PDF up to 5MB</p> <!-- File name display -->
-                                    
+                                    <p id="file-name" class="text-base text-gray-700 mt-5">PDF up to 5MB</p>
+                                    <!-- File name display -->
+
                                 </div>
                             </div>
                             @error('letter_of_intent')

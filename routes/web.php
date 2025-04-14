@@ -17,9 +17,13 @@ use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\RenewalController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TrainingRequestController;
 
 Route::post('/renewal/submit', [RenewalController::class, 'submit'])->name('renewal.submit');
 
+Route::middleware(['auth'])->group(function () {
+    Route::post('/training-request', [TrainingRequestController::class, 'store'])->name('training.request.store');
+});
 
 //Login Page
 Route::get('/', function () {

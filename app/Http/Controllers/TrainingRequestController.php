@@ -37,6 +37,13 @@ class TrainingRequestController extends Controller
             'cda_reg_no' => Auth::user()->cda_reg_no ?? null,
             'reference_no' => $reference_no,
         ]);
+
+        if (Auth::check()) {
+            $userEmail = Auth::user()->email;
+        } else {
+            // Handle error, no user authenticated
+            return redirect()->route('login')->with('error', 'You must be logged in to submit a training request.');
+        }
     
         // Send email
         Mail::to(Auth::user()->email)->send(new TrainingRequestConfirmation(Auth::user(), $reference_no));

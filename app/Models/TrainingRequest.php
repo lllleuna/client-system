@@ -15,6 +15,7 @@ class TrainingRequest extends Model
         'letter_of_intent', 
         'cda_reg_no', 
         'reference_no', 
+        'email', 
         'status', 
         'training_date_time'
     ];

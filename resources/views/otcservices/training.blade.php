@@ -40,7 +40,8 @@
                             <span class="font-medium">Face to Face Training</span>
                         </div>
                         <p class="mt-2 text-sm text-gray-500 pl-6">
-                            Attend in-person training sessions at Training Room 8th Floor Columbia Towers.
+                            Attend in-person training sessions at <br> <span class="font-semibold">Training Room 8th Floor
+                                Columbia Towers</span>.
                         </p>
                         <a href="https://maps.app.goo.gl/nyhGcJoLtsnonWT37"
                             class="mt-2 text-sm text-blue-700 pl-6 underline">
@@ -125,9 +126,10 @@
                                             class="relative cursor-pointer rounded-md font-medium text-blue-600 hover:text-blue-500">
                                             <span>Upload a file</span>
                                             <input id="letter_of_intent" name="letter_of_intent" type="file"
-                                                class="sr-only" required accept=".pdf">
+                                                class="sr-only" required accept=".pdf" onchange="showFileName(event)">
                                         </label>
                                     </div>
+                                    <p id="file-name" class="text-xs text-gray-700 mt-1"></p> <!-- File name display -->
                                     <p class="text-xs text-gray-500">PDF up to 5MB</p>
                                 </div>
                             </div>
@@ -146,6 +148,9 @@
                             </div>
                         </div>
                     </div>
+
+                    {!! htmlFormSnippet() !!}
+
                 </div>
             </div>
 
@@ -157,6 +162,9 @@
                 </button>
             </div>
         </form>
+
+        {!! htmlScriptTagJsApi() !!}
+
     </div>
 
     {{-- JavaScript for file upload preview --}}

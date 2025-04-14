@@ -169,6 +169,12 @@
 
     {{-- JavaScript for file upload preview --}}
     <script>
+        function showFileName(event) {
+            const input = event.target;
+            const fileName = input.files.length > 0 ? input.files[0].name : 'No file chosen';
+            document.getElementById('file-name').textContent = fileName;
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
             const fileInput = document.getElementById('letter_of_intent');
             const preview = document.getElementById('letter_of_intent_preview');

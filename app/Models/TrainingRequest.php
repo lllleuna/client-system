@@ -20,9 +20,11 @@ class TrainingRequest extends Model
         'training_date_time'
     ];
 
-    const STATUS_NEW = 'new';
-    const STATUS_APPROVED = 'approved';
-    const STATUS_REJECTED = 'rejected';
+    const STATUS_NEW = 'new'; // When the client has just submitted a training request
+    const STATUS_APPROVED = 'approved'; // Approved by the OTC but training has not yet been conducted
+    const STATUS_COMPLETED = 'completed'; // The training was successfully conducted and attended by the client
+    const STATUS_ABSENT = 'absent'; // The client did not attend the scheduled training
+    const STATUS_REJECTED = 'rejected'; // The OTC has reviewed and denied the training request
 
     public function user()
     {

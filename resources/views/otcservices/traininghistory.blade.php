@@ -6,7 +6,7 @@
         <!-- Header Section -->
         <div class="max-w-4xl mx-auto mb-10">
             <h1 class="text-3xl font-extrabold text-gray-900 sm:text-4xl mb-3">Training History</h1>
-            <p class="text-lg text-gray-600">Access your cooperative's training records and certificates.</p>
+            <p class="text-lg text-gray-600">Access your cooperative's training records.</p>
 
             <!-- Filter Form -->
             <form method="GET" class="mt-8 bg-white rounded-lg shadow-sm p-6 border border-gray-200">
@@ -21,7 +21,7 @@
                     </div>
 
                     <div class="flex-1">
-                        <label for="month" class="block text-sm font-medium text-gray-700 mb-1">Month</label>
+                        <label for="month" class="block text-sm font-medium text-gray-700 mb-1">Training Month</label>
                         <select id="month" name="month" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 transition">
                             <option value="">All Months</option>
                             @foreach(range(1, 12) as $month)

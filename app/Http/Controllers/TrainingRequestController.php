@@ -13,6 +13,25 @@ use App\Mail\TrainingRequestConfirmation;
 
 class TrainingRequestController extends Controller
 {
+    public function index(Request $request) 
+    {
+        $query = TrainingRequest::where('user_id', Auth::id());
+
+        if ($request->filled('training_type')) {
+            $query->where('training_type', $request->training_type);
+        }
+
+        if ($request->filled('month')) {
+            $month = $request->month;
+            $query->whereMonth('training_date_time', Carbon::parse("2025-$month-01")->month);
+        }
+
+        $trainings = $query->latest('training_date_time')->paginate(5);
+
+        return view('otcservices.traininghistory', compact('trainings'));
+    }
+
+
     public function store(Request $request)
     {
         // Ensure the user is authenticated before proceeding

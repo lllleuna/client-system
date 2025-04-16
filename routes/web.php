@@ -300,9 +300,11 @@ Route::get('/download-cgs/{filename}', [ServicesController::class, 'downloadCGS'
 Route::get('/otcservices/accredit', [ServicesController::class, 'accredit'])->name('accreditationcert');
 Route::get('/download-accredit/{filename}', [ServicesController::class, 'downloadAccredit'])->name('download.accredit');
 
-Route::get('/otcservices/traininghistory', function () {
-    return view('otcservices.traininghistory');
-})->name('traininghistory');
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/training-history', [TrainingRequestController::class, 'index'])->name('traininghistory');
+    // Route::get('/training-history/{id}', [TrainingRequestController::class, 'show'])->name('training.history.show');
+});
 
 
 // Accreditation Process

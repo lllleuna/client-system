@@ -81,43 +81,50 @@ class ApplicationController extends Controller
 
     public function processForm2(Request $request)
     {
-        $validatedData = $request->validate([
-            'file_upload' => 'required|file|mimes:pdf|max:10240',
-            'message' => 'nullable|string|max:300', 
-            'consent' => 'required|in:on', 
-            'oath' => 'required|in:on', 
-        ]);
-        
-        $validatedData['consent'] = $request->has('consent') ? 1 : 0;
-        $validatedData['oath'] = $request->has('oath') ? 1 : 0;
-        $filePaths = [];
+        try {
+            $validatedData = $request->validate([
+                'file_upload' => 'required|file|mimes:pdf|max:10240',
+                'message' => 'nullable|string|max:300', 
+                'consent' => 'required|in:on', 
+                'oath' => 'required|in:on', 
+            ]);
+            
+            $validatedData['consent'] = $request->has('consent') ? 1 : 0;
+            $validatedData['oath'] = $request->has('oath') ? 1 : 0;
+            $filePaths = [];
 
-        if ($request->hasFile('file_upload')) {
-            $file = $request->file('file_upload');
-        
-            $destinationPath = '/var/www/shared_uploads/uploads';
-        
-            if (!file_exists($destinationPath)) {
-                mkdir($destinationPath, 0755, true);
+            if ($request->hasFile('file_upload')) {
+                $file = $request->file('file_upload');
+            
+                $destinationPath = '/var/www/shared_uploads/uploads';
+            
+                if (!file_exists($destinationPath)) {
+                    mkdir($destinationPath, 0755, true);
+                }
+            
+                $filename = time() . '_' . $file->getClientOriginalName();
+            
+                $file->move($destinationPath, $filename);
+            
+                $filePaths['file_upload'] = 'uploads/' . $filename;
             }
-        
-            $filename = time() . '_' . $file->getClientOriginalName();
-        
-            $file->move($destinationPath, $filename);
-        
-            $filePaths['file_upload'] = 'uploads/' . $filename;
+            
+
+            $allFormData = array_merge($request->session()->get('form_data', []), $validatedData, $filePaths);
+
+            if (!isset($allFormData['tc_name'])) {
+                return back()->withErrors(['tc_name' => 'Transportation Cooperative Name is missing.']);
+            }
+            
+            $request->session()->put('form_data', $allFormData); 
+
+            return redirect()->route('confirmation');
+        } catch (\Throwable $e) {
+            \Log::error($e); // Log the real error for debugging
+
+            return redirect()->route('dashboard')->with('error', 'Something went wrong. Please follow format and instructions then try again.');
         }
         
-
-        $allFormData = array_merge($request->session()->get('form_data', []), $validatedData, $filePaths);
-
-        if (!isset($allFormData['tc_name'])) {
-            return back()->withErrors(['tc_name' => 'Transportation Cooperative Name is missing.']);
-        }
-        
-        $request->session()->put('form_data', $allFormData); 
-
-        return redirect()->route('confirmation');
     }
 
 

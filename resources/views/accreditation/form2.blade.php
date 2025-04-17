@@ -58,6 +58,9 @@ FOR FILE UPLOADS --}}
                                 class="mt-2 px-2 py-1 bg-blue-500 text-white rounded-lg">Change File</button>
                         </div>
                     </div>
+                    @error('file_upload')
+                        <div class="ml-7 text-sm text-red-600">{{ $message }}</div>
+                    @enderror
                     <div id="file_error" class="text-sm text-red-600 hidden">Please upload a requirement file</div>
                     <x-form-error name="file_upload" class="text-sm text-red-600" />
                 </div>
@@ -158,8 +161,7 @@ FOR FILE UPLOADS --}}
                     Previous
                 </a>
                 <button type="submit" id="submit_button"
-                    class="bg-blue-900 text-white px-4 py-2 rounded-lg hover:bg-blue-800 focus:outline-none"
-                    >Next</button>
+                    class="bg-blue-900 text-white px-4 py-2 rounded-lg hover:bg-blue-800 focus:outline-none">Next</button>
             </div>
         </div>
     </form>
@@ -182,5 +184,4 @@ FOR FILE UPLOADS --}}
         const charCount = document.getElementById('char_count');
         charCount.textContent = message.value.length;
     }
-
 </script>

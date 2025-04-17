@@ -87,6 +87,7 @@ class ApplicationController extends Controller
             'consent' => 'required|in:on', 
             'oath' => 'required|in:on', 
         ]);
+        
         $validatedData['consent'] = $request->has('consent') ? 1 : 0;
         $validatedData['oath'] = $request->has('oath') ? 1 : 0;
         $filePaths = [];

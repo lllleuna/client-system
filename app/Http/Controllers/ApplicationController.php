@@ -36,18 +36,20 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\AccreditationSubmitted;
 use Symfony\Component\HttpKernel\Exception\TooLargeException; // Laravel 10+
 use Symfony\Component\HttpKernel\Exception\PayloadTooLargeHttpException;
+use Illuminate\Http\Exceptions\PostTooLargeException;
+
 
 class ApplicationController extends Controller
 {
     public function render($request, Throwable $exception)
     {
-        if ($exception instanceof PayloadTooLargeHttpException || $exception instanceof TooLargeException) {
+        if ($exception instanceof PostTooLargeException) {
             return redirect()->route('dashboard')
-                ->with('error', 'The uploaded file or form data is too large. Please reduce the file size and try again.');
+                ->with('error', 'The uploaded file is too large. Please reduce the file size and try again.');
         }
     
         return parent::render($request, $exception);
-    }
+    }    
     
     public function showForm1(Request $request)
     {

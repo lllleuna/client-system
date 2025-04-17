@@ -61,6 +61,12 @@ FOR FILE UPLOADS --}}
                     @error('file_upload')
                         <div class="ml-7 text-sm text-red-600">{{ $message }}</div>
                     @enderror
+                    @if (session('error'))
+                        <div class="bg-red-100 text-red-800 p-3 rounded mb-4">
+                            {{ session('error') }}
+                        </div>
+                    @endif
+
                     <div id="file_error" class="text-sm text-red-600 hidden">Please upload a requirement file</div>
                     <x-form-error name="file_upload" class="text-sm text-red-600" />
                 </div>

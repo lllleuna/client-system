@@ -80,10 +80,6 @@
         Our team will carefully review your application within the next 1-2 business days. You will be notified of any updates regarding your application status.
       </p>
       
-      <p>
-        If you have any questions or require further assistance, please don't hesitate to contact OTC.
-      </p>
-      
       <p>Thank you for your application.</p>
       
       <div class="signature">

@@ -25,7 +25,7 @@
     
     .email-header {
       background-color: #e3e9fe;
-      color: white;
+      color: black;
       padding: 20px;
     }
     

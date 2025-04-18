@@ -63,7 +63,6 @@ FOR FILE UPLOADS --}}
                     @enderror
 
                     <div id="file_error" class="text-sm text-red-600 hidden">Please upload a requirement file</div>
-                    <x-form-error name="file_upload" class="text-sm text-red-600" />
                 </div>
             </div>
             <!-- Comments Section -->

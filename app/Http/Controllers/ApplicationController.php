@@ -95,7 +95,6 @@ class ApplicationController extends Controller
 
     public function processForm2(Request $request)
     {
-        try {
             $validatedData = $request->validate([
                 'file_upload' => 'required|file|mimes:pdf|max:8192',
                 'message' => 'nullable|string|max:300', 
@@ -133,11 +132,6 @@ class ApplicationController extends Controller
             $request->session()->put('form_data', $allFormData); 
 
             return redirect()->route('confirmation');
-        } catch (\Throwable $e) {
-            \Log::error($e); // Log the real error for debugging
-
-            return redirect()->route('dashboard')->with('error', 'Something went wrong. Please follow format and instructions then try again.');
-        }
         
     }
 
@@ -421,7 +415,7 @@ class ApplicationController extends Controller
         } catch (\Throwable $e) {
             \Log::error($e); // Log the real error for debugging
 
-            return redirect()->route('dashboard')->with('error', 'Something went wrong. Please try again later.');
+            return redirect()->route('dashboard')->with('error', 'Something went wrong. Make sure to follow instructions and try again later.');
         }
 
     }

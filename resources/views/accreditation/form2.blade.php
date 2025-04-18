@@ -65,19 +65,6 @@ FOR FILE UPLOADS --}}
                     <div id="file_error" class="text-sm text-red-600 hidden">Please upload a requirement file</div>
                 </div>
             </div>
-            <!-- Comments Section -->
-            <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
-                <h2 class="text-lg font-semibold text-gray-800 mb-4">Additional Comments</h2>
-                <div class="space-y-2">
-                    <label for="message" class="text-sm text-gray-600">
-                        Please indicate any comments or clarifications regarding your application. Max: 300 Characters
-                    </label>
-                    <textarea id="message" name="message" rows="4"
-                        class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                        maxlength="300" oninput="updateCharCount()" placeholder="Your message here..."></textarea>
-                    <div class="text-right text-xs text-gray-500"><span id="char_count">0</span>/300 characters</div>
-                </div>
-            </div>
             <!-- Department Section -->
             <div class="bg-orange-50 rounded-xl shadow-sm p-6 border border-orange-100">
                 <h2 class="text-xl font-semibold text-orange-800">OTC Operational Department</h2>

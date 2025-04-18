@@ -97,7 +97,7 @@ class ApplicationController extends Controller
     {
         try {
             $validatedData = $request->validate([
-                'file_upload' => 'required|file|mimes:pdf|max:10240',
+                'file_upload' => 'required|file|mimes:pdf|max:8192',
                 'message' => 'nullable|string|max:300', 
                 'consent' => 'required|in:on', 
                 'oath' => 'required|in:on', 

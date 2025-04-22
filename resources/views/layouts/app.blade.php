@@ -23,7 +23,8 @@
                         <img src="{{ asset('images/otc-logo.png') }}"
                             class="h-12 w-auto transition-transform duration-300 hover:scale-105" alt="OTC Logo" />
                     </a>
-                    <span class="text-lg text-white font-semibold hidden md:block">Office of Transportation Cooperatives - Client
+                    <span class="text-lg text-white font-semibold hidden md:block">Office of Transportation Cooperatives
+                        - Client
                         Portal</span>
                     <span class="text-lg font-semibold md:hidden">OTC Portal</span>
                 </div>
@@ -36,8 +37,8 @@
                         class="nav-link {{ request()->routeIs('about') ? 'text-blue-400' : 'text-white' }}">About</a>
                     <a href="{{ route('services') }}"
                         class="nav-link {{ request()->routeIs('services') ? 'text-blue-400' : 'text-white' }}">Services</a>
-                    <a href="{{ route('contact') }}"
-                        class="nav-link {{ request()->routeIs('contact') ? 'text-blue-400' : 'text-white' }}">Contact</a>
+                    {{-- <a href="{{ route('contact') }}"
+                        class="nav-link {{ request()->routeIs('contact') ? 'text-blue-400' : 'text-white' }}">Contact</a> --}}
                 </div>
             </div>
         </div>

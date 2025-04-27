@@ -22,7 +22,7 @@
                         </div>
 
                         <form action="{{ $mode == 'edit' ? route('grant.update', $grant->id) : route('addGrant') }}"
-                            method="POST" class="space-y-6">
+                            method="POST" enctype="multipart/form-data" class="space-y-6">
                             @csrf
                             @if ($mode == 'edit')
                                 @method('PUT')

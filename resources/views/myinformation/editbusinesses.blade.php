@@ -23,7 +23,7 @@
 
                         <form
                             action="{{ $mode == 'edit' ? route('business.update', $business->id) : route('addbusiness') }}"
-                            method="POST" class="space-y-6">
+                            method="POST" enctype="multipart/form-data" class="space-y-6">
                             @csrf
                             @if ($mode == 'edit')
                                 @method('PUT')
@@ -133,6 +133,38 @@
                                         class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-100 focus:border-blue-400 transition-all duration-200 @error('nature_of_business') border-red-500 @enderror"
                                         placeholder="Describe the nature of the business" required>{{ old('nature_of_business', $business->nature_of_business ?? '') }}</textarea>
                                     @error('nature_of_business')
+                                        <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
+                                    @enderror
+                                </div>
+
+                                <div>
+                                    <label class="flex items-center text-sm font-medium text-gray-700 mb-2">
+                                        <svg class="w-4 h-4 mr-2 text-gray-400" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M7 16V4h10v12M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                        </svg>
+                                        Upload File <span class="text-red-500">*</span>
+                                    </label>
+
+                                    @if (isset($business) && $business->file_upload)
+                                        <!-- If a file is already uploaded, show the file name and a link to download -->
+                                        <div class="mb-2">
+                                            <label class="text-sm font-medium text-gray-700">Current File:</label>
+                                            <p class="text-sm text-gray-600">
+                                                <a href="{{ asset('shared/' . $business->file_upload) }}" target="_blank"
+                                                    class="text-blue-500 hover:underline">
+                                                    {{ basename($business->file_upload) }}
+                                                </a>
+                                            </p>
+                                            <p class="text-sm text-gray-600">Click to view or download the current file.</p>
+                                        </div>
+                                    @endif
+
+                                    <input type="file" name="file_upload"
+                                        class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-100 focus:border-blue-400 transition-all duration-200 @error('file_upload') border-red-500 @enderror">
+
+                                    @error('file_upload')
                                         <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
                                     @enderror
                                 </div>

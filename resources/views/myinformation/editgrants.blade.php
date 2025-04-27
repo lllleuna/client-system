@@ -69,6 +69,23 @@
                                     @enderror
                                 </div>
 
+                                <div>
+                                    <label class="flex items-center text-sm font-medium text-gray-700 mb-2">
+                                        <svg class="w-4 h-4 mr-2 text-gray-400" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M7 16V4h10v12M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                        </svg>
+                                        Upload File <span class="text-red-500">*</span>
+                                    </label>
+                                    <input type="file" name="file_upload"
+                                        class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-100 focus:border-blue-400 transition-all duration-200 @error('file_upload') border-red-500 @enderror"
+                                        required>
+                                    @error('file_upload')
+                                        <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
+                                    @enderror
+                                </div>
+
                                 {{-- Source --}}
                                 <div>
                                     <label class="flex items-center text-sm font-medium text-gray-700 mb-2">

@@ -768,6 +768,7 @@ class CoopController extends Controller
             'date_acquired' => 'required|date|before_or_equal:today',
             'amount'          => 'required|numeric',
             'source'          => 'required|string|max:200',
+            'file_upload'     => 'required|file|mimes:pdf,jpg,jpeg,png|max:2048',
             'status_remarks'  => 'nullable|string|max:255',
         ]);        
         
@@ -792,6 +793,7 @@ class CoopController extends Controller
             'date_acquired'   => 'required|date',
             'amount'          => 'required|numeric',
             'source'          => 'required|string|max:200',
+            'file_upload'     => 'required|file|mimes:pdf,jpg,jpeg,png|max:2048',
             'status_remarks'  => 'nullable|string|max:255',
         ]); 
 
@@ -846,6 +848,7 @@ class CoopController extends Controller
             'acquired_at'          => 'required|date|before_or_equal:today',
             'amount'          => 'required|numeric',
             'utilization'  => 'required',
+            'file_upload'     => 'required|file|mimes:pdf,jpg,jpeg,png|max:2048',
             'remarks'  => 'nullable|string|max:255',
         ]);        
         
@@ -871,6 +874,7 @@ class CoopController extends Controller
             'acquired_at'          => 'required|date|before_or_equal:today',
             'amount'          => 'required|numeric',
             'utilization'  => 'required',
+            'file_upload'     => 'required|file|mimes:pdf,jpg,jpeg,png|max:2048',
             'remarks'  => 'nullable|string|max:255',
         ]); 
 
@@ -1081,6 +1085,7 @@ class CoopController extends Controller
             'starting_capital'     => 'nullable|numeric|min:0',
             'capital_to_date'      => 'nullable|integer|min:0',
             'years_of_existence'   => 'nullable|numeric|min:0',
+            'file_upload'     => 'required|file|mimes:pdf,jpg,jpeg,png|max:2048',
             'status'               => 'nullable|string|max:200',
             'remarks'              => 'nullable|string|max:200',
         ]);               
@@ -1111,6 +1116,7 @@ class CoopController extends Controller
             'starting_capital'     => 'nullable|numeric|min:0',
             'capital_to_date'      => 'nullable|numeric|min:0',
             'years_of_existence'   => 'nullable|integer|min:0',
+            'file_upload'     => 'required|file|mimes:pdf,jpg,jpeg,png|max:2048',
             'status'               => 'nullable|string|max:200',
             'remarks'              => 'nullable|string|max:200',
         ]); 

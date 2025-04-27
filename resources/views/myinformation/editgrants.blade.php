@@ -78,13 +78,29 @@
                                         </svg>
                                         Upload File <span class="text-red-500">*</span>
                                     </label>
+
+                                    @if (isset($grant) && $grant->file_upload)
+                                        <!-- If a file is already uploaded, show the file name and a link to download -->
+                                        <div class="mb-2">
+                                            <label class="text-sm font-medium text-gray-700">Current File:</label>
+                                            <p class="text-sm text-gray-600">
+                                                <a href="{{ asset('storage/' . $grant->file_upload) }}" target="_blank"
+                                                    class="text-blue-500 hover:underline">
+                                                    {{ basename($grant->file_upload) }}
+                                                </a>
+                                            </p>
+                                            <p class="text-sm text-gray-600">Click to view or download the current file.</p>
+                                        </div>
+                                    @endif
+
                                     <input type="file" name="file_upload"
-                                        class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-100 focus:border-blue-400 transition-all duration-200 @error('file_upload') border-red-500 @enderror"
-                                        required>
+                                        class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-100 focus:border-blue-400 transition-all duration-200 @error('file_upload') border-red-500 @enderror">
+
                                     @error('file_upload')
                                         <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
                                     @enderror
                                 </div>
+
 
                                 {{-- Source --}}
                                 <div>

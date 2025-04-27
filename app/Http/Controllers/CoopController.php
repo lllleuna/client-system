@@ -765,20 +765,35 @@ class CoopController extends Controller
     public function addGrant(Request $request) 
     {
         $validated = $request->validate([
-            'date_acquired' => 'required|date|before_or_equal:today',
+            'date_acquired'   => 'required|date|before_or_equal:today',
             'amount'          => 'required|numeric',
             'source'          => 'required|string|max:200',
             'file_upload'     => 'required|file|mimes:pdf,jpg,jpeg,png|max:2048',
             'status_remarks'  => 'nullable|string|max:255',
         ]);        
-        
+    
         $user = Auth::user();
         $validated['externaluser_id'] = $user->id;
+    
+        // Handle file upload
+        if ($request->hasFile('file_upload')) {
+            $file = $request->file('file_upload');
+    
+            // Create a custom filename (optional)
+            $filename = time() . '_' . $file->getClientOriginalName();
+    
+            // Store the file in 'shared/uploads' folder
+            $filePath = $file->storeAs('uploads', $filename, 'shared');
+    
+            // Save the path in database
+            $validated['file_upload'] = $filePath;
+        }
+    
         CoopGrants::create($validated);
-
+    
         return redirect()->route('grants')->with('success', 'Added successfully!');
     }
-
+    
     public function editGrant($id)
     {
         $grant = CoopGrants::findOrFail($id);
@@ -788,19 +803,36 @@ class CoopController extends Controller
     public function updateGrant(Request $request, $id)
     {
         $grant = CoopGrants::findOrFail($id);
-
+    
         $validated = $request->validate([
             'date_acquired'   => 'required|date',
             'amount'          => 'required|numeric',
             'source'          => 'required|string|max:200',
-            'file_upload'     => 'required|file|mimes:pdf,jpg,jpeg,png|max:2048',
+            'file_upload'     => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:2048', // Make it nullable for updates
             'status_remarks'  => 'nullable|string|max:255',
         ]); 
-
+    
+        // Handle file upload
+        if ($request->hasFile('file_upload')) {
+            $file = $request->file('file_upload');
+    
+            // Create a custom filename
+            $filename = time() . '_' . str_replace(' ', '_', $file->getClientOriginalName());
+    
+            // Store the file in 'uploads' folder using 'shared' disk
+            $filePath = $file->storeAs('uploads', $filename, 'shared');
+    
+            // Update the validated array
+            $validated['file_upload'] = $filePath;
+        } else {
+            // If no new file uploaded, keep the old file path
+            $validated['file_upload'] = $grant->file_upload;
+        }
+    
         $grant->update($validated);
-
+    
         return redirect()->route('grants')->with('success', 'Updated successfully.');
-    }
+    }    
 
     public function destroyGrant($id)
     {
@@ -842,23 +874,42 @@ class CoopController extends Controller
         return view('myinformation.editloans', ['loan' => null, 'mode' => 'create']);
     }
 
-    public function addLoan(Request $request) {
+    public function addLoan(Request $request)
+    {
         $validated = $request->validate([
             'financing_institution' => 'required|string|max:100',
-            'acquired_at'          => 'required|date|before_or_equal:today',
-            'amount'          => 'required|numeric',
-            'utilization'  => 'required',
-            'file_upload'     => 'required|file|mimes:pdf,jpg,jpeg,png|max:2048',
-            'remarks'  => 'nullable|string|max:255',
-        ]);        
-        
+            'acquired_at'           => 'required|date|before_or_equal:today',
+            'amount'                => 'required|numeric',
+            'utilization'           => 'required',
+            'file_upload'           => 'required|file|mimes:pdf,jpg,jpeg,png|max:2048',
+            'remarks'               => 'nullable|string|max:255',
+        ]);
+    
+        // Handle file upload
+        if ($request->hasFile('file_upload')) {
+            $file = $request->file('file_upload');
+    
+            // Create a custom filename
+            $filename = time() . '_' . str_replace(' ', '_', $file->getClientOriginalName());
+    
+            // Store the file in 'uploads' folder using 'shared' disk
+            $filePath = $file->storeAs('uploads', $filename, 'shared');
+    
+            // Add the file path to validated data
+            $validated['file_upload'] = $filePath;
+        }
+    
+        // Get the authenticated user and add their ID
         $user = Auth::user();
         $validated['externaluser_id'] = $user->id;
+    
+        // Create a new record in the CoopLoan model
         CoopLoan::create($validated);
-
+    
+        // Redirect with a success message
         return redirect()->route('loans')->with('success', 'Added successfully!');
     }
-
+    
     public function editLoan($id)
     {
         $loan = CoopLoan::findOrFail($id);
@@ -868,21 +919,41 @@ class CoopController extends Controller
     public function updateLoan(Request $request, $id)
     {
         $loan = CoopLoan::findOrFail($id);
-
+    
         $validated = $request->validate([
             'financing_institution' => 'required|string|max:100',
-            'acquired_at'          => 'required|date|before_or_equal:today',
-            'amount'          => 'required|numeric',
-            'utilization'  => 'required',
-            'file_upload'     => 'required|file|mimes:pdf,jpg,jpeg,png|max:2048',
-            'remarks'  => 'nullable|string|max:255',
-        ]); 
-
+            'acquired_at'           => 'required|date|before_or_equal:today',
+            'amount'                => 'required|numeric',
+            'utilization'           => 'required',
+            'file_upload'           => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:2048',  // Make file upload optional for updates
+            'remarks'               => 'nullable|string|max:255',
+        ]);
+    
+        // Handle file upload (if a new file is uploaded)
+        if ($request->hasFile('file_upload')) {
+            // Delete the old file if it exists
+            if ($loan->file_upload && file_exists(storage_path('app/shared/' . $loan->file_upload))) {
+                unlink(storage_path('app/shared/' . $loan->file_upload));
+            }
+    
+            // Handle the new file
+            $file = $request->file('file_upload');
+            $filename = time() . '_' . str_replace(' ', '_', $file->getClientOriginalName());
+            $filePath = $file->storeAs('uploads', $filename, 'shared');
+    
+            // Add the file path to the validated data
+            $validated['file_upload'] = $filePath;
+        } else {
+            // If no file was uploaded, retain the original file path
+            $validated['file_upload'] = $loan->file_upload;
+        }
+    
+        // Update the loan with the validated data
         $loan->update($validated);
-
+    
         return redirect()->route('loans')->with('success', 'Updated successfully.');
     }
-
+    
     public function destroyLoan($id)
     {
         $loan = CoopLoan::findOrFail($id); 
@@ -1077,7 +1148,7 @@ class CoopController extends Controller
         return view('myinformation.editbusinesses', ['business' => null, 'mode' => 'create']);
     }
 
-    public function addBusiness(Request $request) 
+    public function addBusiness(Request $request)
     {
         $validated = $request->validate([
             'type'                 => 'nullable|string|max:200',
@@ -1085,21 +1156,37 @@ class CoopController extends Controller
             'starting_capital'     => 'nullable|numeric|min:0',
             'capital_to_date'      => 'nullable|integer|min:0',
             'years_of_existence'   => 'nullable|numeric|min:0',
-            'file_upload'     => 'required|file|mimes:pdf,jpg,jpeg,png|max:2048',
+            'file_upload'          => 'required|file|mimes:pdf,jpg,jpeg,png|max:2048',
             'status'               => 'nullable|string|max:200',
             'remarks'              => 'nullable|string|max:200',
-        ]);               
+        ]);
     
+        // Handle file upload
+        if ($request->hasFile('file_upload')) {
+            // Get the uploaded file
+            $file = $request->file('file_upload');
+            
+            // Generate a unique filename using the current timestamp and the original filename
+            $filename = time() . '_' . str_replace(' ', '_', $file->getClientOriginalName());
+            
+            // Store the file in the 'uploads' folder, using the 'shared' disk
+            $filePath = $file->storeAs('uploads', $filename, 'shared');
+            
+            // Add the file path to the validated data
+            $validated['file_upload'] = $filePath;
+        }
+    
+        // Add the user ID to the validated data
         $user = Auth::user();
         $validated['externaluser_id'] = $user->id;
-
     
+        // Create the business record with the validated data
         CoopBusiness::create($validated);
     
+        // Redirect with success message
         return redirect()->route('businesses')->with('success', 'Added successfully!');
     }
     
-
     public function editBusiness($id)
     {
         $business = CoopBusiness::findOrFail($id);
@@ -1109,24 +1196,43 @@ class CoopController extends Controller
     public function updateBusiness(Request $request, $id)
     {
         $business = CoopBusiness::findOrFail($id);
-
+    
         $validated = $request->validate([
             'type'                 => 'nullable|string|max:200',
             'nature_of_business'   => 'nullable|string|max:200',
             'starting_capital'     => 'nullable|numeric|min:0',
             'capital_to_date'      => 'nullable|numeric|min:0',
-            'years_of_existence'   => 'nullable|integer|min:0',
-            'file_upload'     => 'required|file|mimes:pdf,jpg,jpeg,png|max:2048',
+            'years_of_existence'   => 'nullable|numeric|min:0',
+            'file_upload'          => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:2048', // Changed to nullable
             'status'               => 'nullable|string|max:200',
             'remarks'              => 'nullable|string|max:200',
-        ]); 
-        
-
+        ]);
+    
+        // Check if the file is being uploaded
+        if ($request->hasFile('file_upload')) {
+            // Get the uploaded file
+            $file = $request->file('file_upload');
+            
+            // Generate a unique filename using the current timestamp and the original filename
+            $filename = time() . '_' . str_replace(' ', '_', $file->getClientOriginalName());
+            
+            // Store the file in the 'uploads' folder using the 'shared' disk
+            $filePath = $file->storeAs('uploads', $filename, 'shared');
+            
+            // Add the new file path to the validated data
+            $validated['file_upload'] = $filePath;
+        } else {
+            // If no new file is uploaded, keep the existing file path
+            $validated['file_upload'] = $business->file_upload;
+        }
+    
+        // Update the business record with the validated data
         $business->update($validated);
-
+    
+        // Redirect with success message
         return redirect()->route('businesses')->with('success', 'Updated successfully.');
     }
-
+    
     public function destroyBusiness($id)
     {
         $business = CoopBusiness::findOrFail($id); 

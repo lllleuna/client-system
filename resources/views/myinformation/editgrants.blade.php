@@ -84,7 +84,7 @@
                                         <div class="mb-2">
                                             <label class="text-sm font-medium text-gray-700">Current File:</label>
                                             <p class="text-sm text-gray-600">
-                                                <a href="{{ asset('storage/' . $grant->file_upload) }}" target="_blank"
+                                                <a href="{{ asset('shared/' . $grant->file_upload) }}" target="_blank"
                                                     class="text-blue-500 hover:underline">
                                                     {{ basename($grant->file_upload) }}
                                                 </a>

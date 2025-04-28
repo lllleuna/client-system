@@ -367,16 +367,18 @@ class CoopController extends Controller
     
     public function restoreIndex()
     {
-        // Fetch archives from each table
-        $memberArchives = MemberArchive::latest()->get();
-        $unitArchives = UnitArchive::latest()->get();
-        $governanceArchives = GovernanceArchive::latest()->get();
+        $authUserId = auth()->user()->id; // Get the authenticated user's ID
+
+        // Fetch archives from each table filtered by externaluser_id
+        $memberArchives = MemberArchive::where('externaluser_id', $authUserId)->latest()->get();
+        $unitArchives = UnitArchive::where('externaluser_id', $authUserId)->latest()->get();
+        $governanceArchives = GovernanceArchive::where('externaluser_id', $authUserId)->latest()->get();
         
         // Add the 3 new archives
-        $grantArchives = GrantArchive::latest()->get();
-        $loanArchives = LoanArchive::latest()->get();
-        $businessArchives = BusinessArchive::latest()->get();
-        
+        $grantArchives = GrantArchive::where('externaluser_id', $authUserId)->latest()->get();
+        $loanArchives = LoanArchive::where('externaluser_id', $authUserId)->latest()->get();
+        $businessArchives = BusinessArchive::where('externaluser_id', $authUserId)->latest()->get();
+    
         // Merge all archive collections
         $archives = $memberArchives
                     ->merge($unitArchives)

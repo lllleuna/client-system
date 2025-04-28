@@ -373,7 +373,7 @@ class CoopController extends Controller
         $governanceArchives = GovernanceArchive::latest()->get();
         
         // Add the 3 new archives
-        $membershipArchives = MembershipArchive::latest()->get();
+        $grantArchives = GrantArchive::latest()->get();
         $loanArchives = LoanArchive::latest()->get();
         $businessArchives = BusinessArchive::latest()->get();
         
@@ -381,7 +381,7 @@ class CoopController extends Controller
         $archives = $memberArchives
                     ->merge($unitArchives)
                     ->merge($governanceArchives)
-                    ->merge($membershipArchives)
+                    ->merge($grantArchives)
                     ->merge($loanArchives)
                     ->merge($businessArchives);
     

@@ -243,7 +243,7 @@ class CoopController extends Controller
     
             $archive->delete();
     
-        } elseif (in_array($tableName, ['coop_owned_units', 'indiv_owned_units'])) {
+        } elseif (in_array($tableName, ['coop_owned_units', 'indiv_owned_units', 'coopunits'])) {
             $archive = UnitArchive::findOrFail($id);
     
             // Restore to coopunits table

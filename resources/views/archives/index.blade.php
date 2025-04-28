@@ -4,23 +4,28 @@
     <div class="container mx-auto px-4 py-6">
         <h1 class="text-2xl font-semibold mb-6">Archives</h1>
 
-        @if (session('success'))
-            <div class="bg-green-500 text-white p-4 rounded-md mb-4">
-                <strong>Success:</strong> {{ session('success') }}
-            </div>
-        @endif
+        <x-error-notif/>
+        <x-success-notif/>
 
-        @if (session('error'))
-            <div class="bg-red-500 text-white p-4 rounded-md mb-4">
-                <strong>Error:</strong> {{ session('error') }}
-            </div>
-        @endif
+        {{-- Category Filter --}}
+        <div class="mb-4">
+            <label for="categoryFilter" class="block text-gray-700 text-sm font-bold mb-2">Filter by Category:</label>
+            <select id="categoryFilter" class="border border-gray-300 rounded px-3 py-2 w-full sm:w-1/3">
+                <option value="">All Categories</option>
+                <option value="members_masterlist">Members</option>
+                <option value="coop_units">Units</option>
+                <option value="governance">Governance</option>
+                <option value="coop_grants">Grants</option>
+                <option value="coop_loans">Loans</option>
+                <option value="coop_businesses">Businesses</option>
+            </select>
+        </div>
 
         <div class="overflow-x-auto">
-            <table class="min-w-full bg-white border border-gray-300">
+            <table class="min-w-full bg-white border border-gray-300" id="archivesTable">
                 <thead>
                     <tr class="bg-gray-100 text-gray-700 uppercase text-sm leading-normal">
-                        <th class="py-3 px-6 text-left">Category</th> {{-- Now this is Table Name --}}
+                        <th class="py-3 px-6 text-left">Category</th>
                         <th class="py-3 px-6 text-left">Name</th>
                         <th class="py-3 px-6 text-left">Deleted At</th>
                         <th class="py-3 px-6 text-center">Actions</th>
@@ -28,7 +33,7 @@
                 </thead>
                 <tbody class="text-gray-600 text-sm font-light">
                     @forelse($archives as $archive)
-                        <tr class="border-b border-gray-200 hover:bg-gray-100">
+                        <tr class="border-b border-gray-200 hover:bg-gray-100" data-category="{{ $archive->table_name }}">
                             <td class="py-3 px-6 text-left whitespace-nowrap">
                                 {{ ucfirst(str_replace('_', ' ', $archive->table_name)) }}
                             </td>
@@ -86,4 +91,20 @@
             </table>
         </div>
     </div>
+
+    {{-- Javascript for filtering --}}
+    <script>
+        document.getElementById('categoryFilter').addEventListener('change', function() {
+            let selectedCategory = this.value;
+            let rows = document.querySelectorAll('#archivesTable tbody tr');
+
+            rows.forEach(row => {
+                if (selectedCategory === '' || row.getAttribute('data-category') === selectedCategory) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
+    </script>
 @endsection

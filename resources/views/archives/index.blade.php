@@ -8,7 +8,7 @@
         <x-success-notif/>
 
         {{-- Category Filter --}}
-        <div class="mb-4">
+        <div class="mb-4 mt-4">
             <label for="categoryFilter" class="block text-gray-700 text-sm font-bold mb-2">Filter by Category:</label>
             <select id="categoryFilter" class="border border-gray-300 rounded px-3 py-2 w-full sm:w-1/3">
                 <option value="">All Categories</option>

@@ -113,9 +113,10 @@ Route::post('/myinformation/member', [CoopController::class, 'addMember'])->midd
 Route::get('/myinformation/member/{id}/view', [CoopController::class, 'editMember'])->middleware('auth')->name('editMember');
 Route::put('/myinformation/member/{id}', [CoopController::class, 'updateMember'])->middleware('auth')->name('members.update');
 Route::delete('/myinformation/member/{id}', [CoopController::class, 'destroyMember'])->middleware('auth')->name('members.destroy');
-Route::post('/myinformation/member/{id}/restore', [CoopController::class, 'restoreMember'])->name('member.restore');
-Route::get('/myinformation/archives', [CoopController::class, 'restoreIndex'])->name('member.archives');
 
+Route::post('/myinformation/{id}/restore', [CoopController::class, 'restore'])->middleware('auth')->name('archives.restore');
+Route::get('/myinformation/archives', [CoopController::class, 'restoreIndex'])->middleware('auth')->name('archives.index');
+Route::delete('/delete/{id}', [CoopController::class, 'permanentDelete'])->name('archives.permanentDelete');
 
 //Training List
 Route::get('/myinformation/traininglist', function () {

@@ -209,37 +209,39 @@ class CoopController extends Controller
         ]);
     }
 
-    public function restoreMember($id)
+    public function restore($id)
     {
-        // Find the archived member
-        $archivedMember = MemberArchive::findOrFail($id);
+        $archive = MemberArchive::findOrFail($id);
 
-        // Create a new member in the main table
-        CoopMembership::create([
-            'externaluser_id' => $archivedMember->externaluser_id,
-            'firstname' => $archivedMember->firstname,
-            'middlename' => $archivedMember->middlename,
-            'lastname' => $archivedMember->lastname,
-            'sex' => $archivedMember->sex,
-            'role' => $archivedMember->role,
-            'email' => $archivedMember->email,
-            'mobile_no' => $archivedMember->mobile_no,
-            'birthday' => $archivedMember->birthday,
-            'joined_date' => $archivedMember->joined_date,
-            'address' => $archivedMember->address,
-            'sss_enrolled' => $archivedMember->sss_enrolled,
-            'pagibig_enrolled' => $archivedMember->pagibig_enrolled,
-            'philhealth_enrolled' => $archivedMember->philhealth_enrolled,
-            'employment_type' => $archivedMember->employment_type,
-            'share_capital' => $archivedMember->share_capital,
-        ]);
+        if ($archive->table_name == 'members_masterlist') {
+            // Restore to CoopMembership (or your original model)
+            DB::table('members_masterlist')->insert([
+                'externaluser_id' => $archive->externaluser_id,
+                'firstname' => $archive->firstname,
+                'middlename' => $archive->middlename,
+                'lastname' => $archive->lastname,
+                'sex' => $archive->sex,
+                'role' => $archive->role,
+                'email' => $archive->email,
+                'mobile_no' => $archive->mobile_no,
+                'birthday' => $archive->birthday,
+                'joined_date' => $archive->joined_date,
+                'address' => $archive->address,
+                'sss_enrolled' => $archive->sss_enrolled,
+                'pagibig_enrolled' => $archive->pagibig_enrolled,
+                'philhealth_enrolled' => $archive->philhealth_enrolled,
+                'employment_type' => $archive->employment_type,
+                'share_capital' => $archive->share_capital,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+        }
+        // If you add other tables later, you can add other cases here.
 
-        // Delete the archived record
-        $archivedMember->delete();
+        // Delete from archive after restoring
+        $archive->delete();
 
-        return response()->json([
-            'message' => 'Member restored successfully.'
-        ]);
+        return redirect()->back()->with('success', 'Record restored successfully.');
     }
 
     public function restoreIndex()
@@ -249,6 +251,13 @@ class CoopController extends Controller
         return view('archives.index', compact('archives'));
     }
     
+    public function permanentDelete($id)
+    {
+        $archive = MemberArchive::findOrFail($id);
+        $archive->delete();
+
+        return redirect()->back()->with('success', 'Record permanently deleted.');
+    }
 
     // ---------------------------------------------
     // ------------ General Info ------------------------

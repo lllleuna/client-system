@@ -23,6 +23,7 @@ use App\Models\GeneralInfo;
 use App\Models\CoopBusiness;
 use App\Notifications\SendOtpNotification;
 use Illuminate\Support\Facades\Session;
+use App\Models\MemberArchive;
 
 class CoopController extends Controller
 {
@@ -173,15 +174,81 @@ class CoopController extends Controller
 
     public function destroyMember($id)
     {
-        $member = CoopMembership::findOrFail($id); // Find the member
-        $member->delete(); // Delete the member
+        // Find the member to be archived
+        $member = CoopMembership::findOrFail($id);
 
+        // Archive the member by copying its data to the archive table
+        $archivedMember = new MemberArchive();
+        $archivedMember->externaluser_id = $member->externaluser_id;
+        $archivedMember->firstname = $member->firstname;
+        $archivedMember->middlename = $member->middlename;
+        $archivedMember->lastname = $member->lastname;
+        $archivedMember->sex = $member->sex;
+        $archivedMember->role = $member->role;
+        $archivedMember->email = $member->email;
+        $archivedMember->mobile_no = $member->mobile_no;
+        $archivedMember->birthday = $member->birthday;
+        $archivedMember->joined_date = $member->joined_date;
+        $archivedMember->address = $member->address;
+        $archivedMember->sss_enrolled = $member->sss_enrolled;
+        $archivedMember->pagibig_enrolled = $member->pagibig_enrolled;
+        $archivedMember->philhealth_enrolled = $member->philhealth_enrolled;
+        $archivedMember->employment_type = $member->employment_type;
+        $archivedMember->share_capital = $member->share_capital;
+        $archivedMember->deleted_at = now(); // Store the timestamp of when it was archived
+        $archivedMember->save(); // Save the archived member record
+
+        // Delete the member from the original table
+        $member->delete(); 
+
+        // You can call a method to update general counts or other logic if needed
         $this->updateGeneralInfoCounts();
 
         return response()->json([
-            'message' => 'Member deleted successfully.'
+            'message' => 'Member archived successfully.'
         ]);
     }
+
+    public function restoreMember($id)
+    {
+        // Find the archived member
+        $archivedMember = MemberArchive::findOrFail($id);
+
+        // Create a new member in the main table
+        CoopMembership::create([
+            'externaluser_id' => $archivedMember->externaluser_id,
+            'firstname' => $archivedMember->firstname,
+            'middlename' => $archivedMember->middlename,
+            'lastname' => $archivedMember->lastname,
+            'sex' => $archivedMember->sex,
+            'role' => $archivedMember->role,
+            'email' => $archivedMember->email,
+            'mobile_no' => $archivedMember->mobile_no,
+            'birthday' => $archivedMember->birthday,
+            'joined_date' => $archivedMember->joined_date,
+            'address' => $archivedMember->address,
+            'sss_enrolled' => $archivedMember->sss_enrolled,
+            'pagibig_enrolled' => $archivedMember->pagibig_enrolled,
+            'philhealth_enrolled' => $archivedMember->philhealth_enrolled,
+            'employment_type' => $archivedMember->employment_type,
+            'share_capital' => $archivedMember->share_capital,
+        ]);
+
+        // Delete the archived record
+        $archivedMember->delete();
+
+        return response()->json([
+            'message' => 'Member restored successfully.'
+        ]);
+    }
+
+    public function restoreIndex()
+    {
+        $archives = MemberArchive::latest()->get();
+    
+        return view('archives.index', compact('archives'));
+    }
+    
 
     // ---------------------------------------------
     // ------------ General Info ------------------------

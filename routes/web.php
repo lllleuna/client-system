@@ -113,6 +113,8 @@ Route::post('/myinformation/member', [CoopController::class, 'addMember'])->midd
 Route::get('/myinformation/member/{id}/view', [CoopController::class, 'editMember'])->middleware('auth')->name('editMember');
 Route::put('/myinformation/member/{id}', [CoopController::class, 'updateMember'])->middleware('auth')->name('members.update');
 Route::delete('/myinformation/member/{id}', [CoopController::class, 'destroyMember'])->middleware('auth')->name('members.destroy');
+Route::post('/myinformation/member/{id}/restore', [CoopController::class, 'restoreMember'])->name('member.restore');
+Route::get('/myinformation/archives', [CoopController::class, 'restoreIndex'])->name('member.archives');
 
 
 //Training List

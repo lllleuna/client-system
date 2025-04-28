@@ -26,6 +26,9 @@ use Illuminate\Support\Facades\Session;
 use App\Models\MemberArchive;
 use App\Models\UnitArchive;
 use App\Models\GovernanceArchive;
+use App\Models\GrantArchive;
+use App\Models\LoanArchive;
+use App\Models\BusinessArchive;
 
 class CoopController extends Controller
 {
@@ -241,7 +244,6 @@ class CoopController extends Controller
                         'created_at' => now(),
                         'updated_at' => now(),
                     ]);
-                    // Delete from archive
                     $archive->delete();
                 }
             } else {
@@ -250,7 +252,6 @@ class CoopController extends Controller
     
                 if ($archive) {
                     if ($archive->table_name == 'coop_units') {
-                        // Restore to coopunits
                         DB::table('coopunits')->insert([
                             'externaluser_id' => $archive->externaluser_id,
                             'type' => $archive->type,
@@ -269,7 +270,6 @@ class CoopController extends Controller
                             'created_at' => now(),
                             'updated_at' => now(),
                         ]);
-                        // Delete from unit archive
                         $archive->delete();
                     }
                 } else {
@@ -278,7 +278,6 @@ class CoopController extends Controller
     
                     if ($archive) {
                         if ($archive->table_name == 'governance') {
-                            // Restore to governance table
                             DB::table('governance_list')->insert([
                                 'externaluser_id' => $archive->externaluser_id,
                                 'firstname' => $archive->firstname,
@@ -298,8 +297,62 @@ class CoopController extends Controller
                                 'created_at' => now(),
                                 'updated_at' => now(),
                             ]);
-                            // Delete from governance archive
                             $archive->delete();
+                        }
+                    } else {
+                        // Now check in GrantArchive
+                        $archive = DB::table('grant_archives')->where('id', $id)->first();
+    
+                        if ($archive) {
+                            DB::table('coop_grants_and_donations')->insert([
+                                'externaluser_id' => $archive->externaluser_id,
+                                'date_acquired' => $archive->date_acquired,
+                                'amount' => $archive->amount,
+                                'source' => $archive->source,
+                                'status_remarks' => $archive->status_remarks,
+                                'file_upload' => $archive->file_upload,
+                                'created_at' => now(),
+                                'updated_at' => now(),
+                            ]);
+                            DB::table('grant_archives')->where('id', $id)->delete();
+                        } else {
+                            // Now check in LoanArchive
+                            $archive = DB::table('loan_archives')->where('id', $id)->first();
+    
+                            if ($archive) {
+                                DB::table('coop_loans')->insert([
+                                    'externaluser_id' => $archive->externaluser_id,
+                                    'financing_institution' => $archive->financing_institution,
+                                    'acquired_at' => $archive->acquired_at,
+                                    'amount' => $archive->amount,
+                                    'utilization' => $archive->utilization,
+                                    'remarks' => $archive->remarks,
+                                    'file_upload' => $archive->file_upload,
+                                    'created_at' => now(),
+                                    'updated_at' => now(),
+                                ]);
+                                DB::table('loan_archives')->where('id', $id)->delete();
+                            } else {
+                                // Finally check in BusinessArchive
+                                $archive = DB::table('business_archives')->where('id', $id)->first();
+    
+                                if ($archive) {
+                                    DB::table('coop_businesses')->insert([
+                                        'externaluser_id' => $archive->externaluser_id,
+                                        'type' => $archive->type,
+                                        'nature_of_business' => $archive->nature_of_business,
+                                        'starting_capital' => $archive->starting_capital,
+                                        'capital_to_date' => $archive->capital_to_date,
+                                        'years_of_existence' => $archive->years_of_existence,
+                                        'status' => $archive->status,
+                                        'remarks' => $archive->remarks,
+                                        'file_upload' => $archive->file_upload,
+                                        'created_at' => now(),
+                                        'updated_at' => now(),
+                                    ]);
+                                    DB::table('business_archives')->where('id', $id)->delete();
+                                }
+                            }
                         }
                     }
                 }
@@ -312,20 +365,29 @@ class CoopController extends Controller
         }
     }
     
-    
     public function restoreIndex()
     {
         // Fetch archives from each table
         $memberArchives = MemberArchive::latest()->get();
         $unitArchives = UnitArchive::latest()->get();
-        $governanceArchives = GovernanceArchive::latest()->get(); // Fetch Governance Archives
+        $governanceArchives = GovernanceArchive::latest()->get();
+        
+        // Add the 3 new archives
+        $membershipArchives = MembershipArchive::latest()->get();
+        $loanArchives = LoanArchive::latest()->get();
+        $businessArchives = BusinessArchive::latest()->get();
         
         // Merge all archive collections
-        $archives = $memberArchives->merge($unitArchives)->merge($governanceArchives);
-        
+        $archives = $memberArchives
+                    ->merge($unitArchives)
+                    ->merge($governanceArchives)
+                    ->merge($membershipArchives)
+                    ->merge($loanArchives)
+                    ->merge($businessArchives);
+    
         // Sort all archives by deleted_at descending
         $archives = $archives->sortByDesc('deleted_at');
-        
+    
         // Return the view with all the archives
         return view('archives.index', compact('archives'));
     }
@@ -336,6 +398,9 @@ class CoopController extends Controller
         $memberArchive = MemberArchive::find($id);
         $unitArchive = UnitArchive::find($id);
         $governanceArchive = GovernanceArchive::find($id);
+        $grantArchive = GrantArchive::find($id);
+        $loanArchive = LoanArchive::find($id);
+        $businessArchive = BusinessArchive::find($id);
     
         // Determine the table name by checking which archive table has the record
         if ($memberArchive) {
@@ -347,6 +412,15 @@ class CoopController extends Controller
         } elseif ($governanceArchive) {
             $archive = $governanceArchive;
             $tableName = 'governance';
+        } elseif ($grantArchive) {
+            $archive = $grantArchive;
+            $tableName = 'coop_grants';
+        } elseif ($loanArchive) {
+            $archive = $loanArchive;
+            $tableName = 'coop_loans';
+        } elseif ($businessArchive) {
+            $archive = $businessArchive;
+            $tableName = 'coop_businesses';
         } else {
             // Handle case where record doesn't exist in any of the archive tables
             return redirect()->back()->with('error', 'Record not found in any archive.');
@@ -356,7 +430,7 @@ class CoopController extends Controller
         $archive->delete();
     
         return redirect()->back()->with('success', 'Record permanently deleted.');
-    }    
+    }
     
 
     // ---------------------------------------------
@@ -1081,12 +1155,27 @@ class CoopController extends Controller
 
     public function destroyGrant($id)
     {
-        $grant = CoopGrants::findOrFail($id); 
-        $grant->delete(); 
-
-
+        // Find the grant record
+        $grant = CoopGrants::findOrFail($id);
+    
+        // Insert into grant_archives table
+        DB::table('grant_archives')->insert([
+            'table_name' => 'coop_grants', // You can store the source table name here
+            'externaluser_id' => $grant->externaluser_id,
+            'date_acquired' => $grant->date_acquired,
+            'amount' => $grant->amount,
+            'source' => $grant->source,
+            'status_remarks' => $grant->status_remarks,
+            'file_upload' => $grant->file_upload,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+    
+        // Now delete the original record
+        $grant->delete();
+    
         return response()->json([
-            'message' => 'Deleted successfully.'
+            'message' => 'Grant archived and deleted successfully.'
         ]);
     }
 
@@ -1201,12 +1290,28 @@ class CoopController extends Controller
     
     public function destroyLoan($id)
     {
-        $loan = CoopLoan::findOrFail($id); 
-        $loan->delete(); 
-
-
+        // Find the loan record
+        $loan = CoopLoan::findOrFail($id);
+    
+        // Archive into loan_archives table
+        DB::table('loan_archives')->insert([
+            'table_name' => 'coop_loans', // Name of source table
+            'externaluser_id' => $loan->externaluser_id,
+            'financing_institution' => $loan->financing_institution,
+            'acquired_at' => $loan->acquired_at,
+            'amount' => $loan->amount,
+            'utilization' => $loan->utilization,
+            'remarks' => $loan->remarks,
+            'file_upload' => $loan->file_upload,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+    
+        // Now delete the original record
+        $loan->delete();
+    
         return response()->json([
-            'message' => 'Deleted successfully.'
+            'message' => 'Loan archived and deleted successfully.'
         ]);
     }
 
@@ -1480,12 +1585,30 @@ class CoopController extends Controller
     
     public function destroyBusiness($id)
     {
-        $business = CoopBusiness::findOrFail($id); 
-        $business->delete(); 
-
-
+        // Find the business record
+        $business = CoopBusiness::findOrFail($id);
+    
+        // Archive the business into business_archives table
+        DB::table('business_archives')->insert([
+            'table_name' => 'coop_businesses', // Name of the source table
+            'externaluser_id' => $business->externaluser_id,
+            'type' => $business->type,
+            'nature_of_business' => $business->nature_of_business,
+            'starting_capital' => $business->starting_capital,
+            'capital_to_date' => $business->capital_to_date,
+            'years_of_existence' => $business->years_of_existence,
+            'status' => $business->status,
+            'remarks' => $business->remarks,
+            'file_upload' => $business->file_upload,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+    
+        // Now delete the original record
+        $business->delete();
+    
         return response()->json([
-            'message' => 'Deleted successfully.'
+            'message' => 'Business archived and deleted successfully.'
         ]);
     }
 

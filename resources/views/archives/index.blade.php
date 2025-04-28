@@ -35,8 +35,14 @@
                             <td class="py-3 px-6 text-left">
                                 @if (isset($archive->firstname))
                                     {{ $archive->firstname }} {{ $archive->middlename }} {{ $archive->lastname }}
-                                @elseif(isset($archive->plate_no))
+                                @elseif (isset($archive->plate_no))
                                     Plate No: {{ $archive->plate_no }}
+                                @elseif (isset($archive->grant_name))
+                                    Grant: {{ $archive->grant_name }}
+                                @elseif (isset($archive->loan_type))
+                                    Loan: {{ $archive->loan_type }}
+                                @elseif (isset($archive->nature_of_business))
+                                    Business: {{ $archive->nature_of_business }}
                                 @else
                                     N/A
                                 @endif

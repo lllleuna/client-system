@@ -283,7 +283,7 @@ class CoopController extends Controller
             if ($archive) {
                 if ($archive->table_name == 'governance') {
                     // Restore to governance table
-                    DB::table('governance')->insert([
+                    DB::table('governance_list')->insert([
                         'externaluser_id' => $archive->externaluser_id,
                         'firstname' => $archive->firstname,
                         'middlename' => $archive->middlename,

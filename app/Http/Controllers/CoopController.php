@@ -273,16 +273,9 @@ class CoopController extends Controller
     
                     // Delete from unit archive
                     $archive->delete();
-                }
-    
-            }
-    
-            // If not found in MemberArchive or UnitArchive, try GovernanceArchive
-            $archive = GovernanceArchive::find($id);
 
-            if ($archive) {
-                if ($archive->table_name == 'governance') {
-                    // Restore to governance table
+                } elseif ($archive->table_name == 'governance') {
+                    $archive = GovernanceArchive::find($id);
                     DB::table('governance_list')->insert([
                         'externaluser_id' => $archive->externaluser_id,
                         'firstname' => $archive->firstname,
@@ -302,12 +295,12 @@ class CoopController extends Controller
                         'created_at' => now(),
                         'updated_at' => now(),
                     ]);
+
+                    $archive->delete();
+
                 }
     
-                // Delete from governance archive
-                $archive->delete();
-            }
-    
+            } 
     
             return redirect()->back()->with('success', 'Record restored successfully.');
     

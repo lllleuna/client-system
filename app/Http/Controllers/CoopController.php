@@ -334,17 +334,29 @@ class CoopController extends Controller
     {
         $id = $request->id;
         $tableName = $request->table_name;
-    
+        
+        // Handle Member Archive
         if ($tableName == 'members_masterlist') {
             $archive = MemberArchive::findOrFail($id);
-        } else {
+        }
+        // Handle Unit Archive
+        elseif ($tableName == 'coop_units') {
             $archive = UnitArchive::findOrFail($id);
         }
+        // Handle Governance Archive
+        elseif ($tableName == 'governance') {
+            $archive = GovernanceArchive::findOrFail($id);
+        } else {
+            // Handle case where table_name is invalid
+            return redirect()->back()->with('error', 'Invalid table name.');
+        }
     
+        // Delete the record
         $archive->delete();
-    
+        
         return redirect()->back()->with('success', 'Record permanently deleted.');
     }
+    
     
 
     // ---------------------------------------------

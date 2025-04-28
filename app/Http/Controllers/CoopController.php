@@ -25,6 +25,7 @@ use App\Notifications\SendOtpNotification;
 use Illuminate\Support\Facades\Session;
 use App\Models\MemberArchive;
 use App\Models\UnitArchive;
+use App\Models\GovernanceArchive;
 
 class CoopController extends Controller
 {
@@ -273,7 +274,40 @@ class CoopController extends Controller
                     // Delete from unit archive
                     $archive->delete();
                 }
+    
             }
+    
+            // If not found in MemberArchive or UnitArchive, try GovernanceArchive
+            $archive = GovernanceArchive::find($id);
+
+            if ($archive) {
+                if ($archive->table_name == 'governance') {
+                    // Restore to governance table
+                    DB::table('governance')->insert([
+                        'externaluser_id' => $archive->externaluser_id,
+                        'firstname' => $archive->firstname,
+                        'middlename' => $archive->middlename,
+                        'lastname' => $archive->lastname,
+                        'sex' => $archive->sex,
+                        'role' => $archive->role,
+                        'email' => $archive->email,
+                        'mobile_no' => $archive->mobile_no,
+                        'birthday' => $archive->birthday,
+                        'start_term' => $archive->start_term,
+                        'end_term' => $archive->end_term,
+                        'address' => $archive->address,
+                        'sss_enrolled' => $archive->sss_enrolled,
+                        'pagibig_enrolled' => $archive->pagibig_enrolled,
+                        'philhealth_enrolled' => $archive->philhealth_enrolled,
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ]);
+                }
+    
+                // Delete from governance archive
+                $archive->delete();
+            }
+    
     
             return redirect()->back()->with('success', 'Record restored successfully.');
     
@@ -281,7 +315,7 @@ class CoopController extends Controller
             return redirect()->back()->with('error', 'An error occurred while restoring the record. Please try again.');
         }
     }
-     
+    
     
     public function restoreIndex()
     {
@@ -305,8 +339,13 @@ class CoopController extends Controller
     
         if ($tableName == 'members_masterlist') {
             $archive = MemberArchive::findOrFail($id);
-        } else {
+        } elseif ($tableName == 'coop_units') {
             $archive = UnitArchive::findOrFail($id);
+        } elseif ($tableName == 'governance') {
+            $archive = GovernanceArchive::findOrFail($id);
+        } else {
+            // Handle case where table_name is not valid or supported
+            return redirect()->back()->with('error', 'Invalid table name.');
         }
     
         $archive->delete();
@@ -898,15 +937,49 @@ class CoopController extends Controller
 
     public function destroyOfficer($id)
     {
-        $officer = CoopGovernance::findOrFail($id); // Find the member
-        $officer->delete(); // Delete the member
-
-        $this->updateGeneralInfoCounts();
-
-        return response()->json([
-            'message' => 'Officer deleted successfully.'
-        ]);
+        try {
+            // Find the officer in CoopGovernance
+            $officer = CoopGovernance::findOrFail($id);
+            
+            // Archive the officer's data before deleting
+            GovernanceArchive::create([
+                'table_name' => 'governance',
+                'externaluser_id' => $officer->externaluser_id,
+                'firstname' => $officer->firstname,
+                'middlename' => $officer->middlename,
+                'lastname' => $officer->lastname,
+                'sex' => $officer->sex,
+                'role' => $officer->role,
+                'email' => $officer->email,
+                'mobile_no' => $officer->mobile_no,
+                'birthday' => $officer->birthday,
+                'start_term' => $officer->start_term,
+                'end_term' => $officer->end_term,
+                'address' => $officer->address,
+                'sss_enrolled' => $officer->sss_enrolled,
+                'pagibig_enrolled' => $officer->pagibig_enrolled,
+                'philhealth_enrolled' => $officer->philhealth_enrolled,
+            ]);
+            
+            // Now delete the officer from CoopGovernance
+            $officer->delete();
+    
+            // Optionally update counts or perform any other logic
+            $this->updateGeneralInfoCounts();
+    
+            // Return a success message
+            return response()->json([
+                'message' => 'Officer deleted and archived successfully.'
+            ]);
+        } catch (\Exception $e) {
+            // Handle any errors
+            return response()->json([
+                'error' => 'An error occurred while deleting the officer. Please try again.',
+                'details' => $e->getMessage()
+            ], 500);
+        }
     }
+    
 
     // --------------------------------------------
     //  ----------- GRANTS AND DONATIONS ----------

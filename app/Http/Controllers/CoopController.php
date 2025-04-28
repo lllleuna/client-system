@@ -246,31 +246,31 @@ class CoopController extends Controller
     
         } else {
             // If not found in MemberArchive, try UnitArchive
-            $unitArchive = UnitArchive::findOrFail($id);
+            $archive = UnitArchive::findOrFail($id);
     
-            if (in_array($unitArchive->table_name, ['coop_owned_units', 'indiv_owned_units', 'coopunits'])) {
+            if ($archive->table_name == 'coop_units') {
                 // Restore to coopunits
                 DB::table('coopunits')->insert([
-                    'externaluser_id' => $unitArchive->externaluser_id,
-                    'type' => $unitArchive->type,
-                    'plate_no' => $unitArchive->plate_no,
-                    'mv_file_no' => $unitArchive->mv_file_no,
-                    'engine_no' => $unitArchive->engine_no,
-                    'chassis_no' => $unitArchive->chassis_no,
-                    'ltfrb_case_no' => $unitArchive->ltfrb_case_no,
-                    'date_granted' => $unitArchive->date_granted,
-                    'date_of_expiry' => $unitArchive->date_of_expiry,
-                    'origin' => $unitArchive->origin,
-                    'via' => $unitArchive->via,
-                    'destination' => $unitArchive->destination,
-                    'owned_by' => $unitArchive->owned_by,
-                    'member_id' => $unitArchive->member_id,
+                    'externaluser_id' => $archive->externaluser_id,
+                    'type' => $archive->type,
+                    'plate_no' => $archive->plate_no,
+                    'mv_file_no' => $archive->mv_file_no,
+                    'engine_no' => $archive->engine_no,
+                    'chassis_no' => $archive->chassis_no,
+                    'ltfrb_case_no' => $archive->ltfrb_case_no,
+                    'date_granted' => $archive->date_granted,
+                    'date_of_expiry' => $archive->date_of_expiry,
+                    'origin' => $archive->origin,
+                    'via' => $archive->via,
+                    'destination' => $archive->destination,
+                    'owned_by' => $archive->owned_by,
+                    'member_id' => $archive->member_id,
                     'created_at' => now(),
                     'updated_at' => now(),
                 ]);
 
                 // Delete from unit archive
-                $unitArchive->delete();
+                $archive->delete();
             }
     
         }

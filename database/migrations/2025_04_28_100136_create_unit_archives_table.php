@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('unit_archives', function (Blueprint $table) {
             $table->id();
-            $table->string('table_name')->nullable()->after('id');
+            $table->string('table_name')->nullable();
             $table->foreignId('externaluser_id')->constrained('externalusers')->onDelete('cascade');
             $table->string('type')->nullable();
             $table->string('plate_no')->nullable();

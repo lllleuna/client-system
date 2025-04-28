@@ -15,9 +15,9 @@
                 <option value="members_masterlist">Members</option>
                 <option value="coop_units">Units</option>
                 <option value="governance">Governance</option>
-                <option value="coop_grants">Grants</option>
+                <option value="grants">Grants</option>
                 <option value="coop_loans">Loans</option>
-                <option value="coop_businesses">Businesses</option>
+                <option value="businesses">Businesses</option>
             </select>
         </div>
 
@@ -81,14 +81,15 @@
                             </td>
                         </tr>
                     @empty
-                        <tr>
-                            <td colspan="4" class="py-4 px-6 text-center text-gray-500">
-                                No archived data found.
-                            </td>
-                        </tr>
+                        {{-- We will handle no data with JS, so no need to output here --}}
                     @endforelse
                 </tbody>
             </table>
+
+            {{-- No Data Message (hidden by default) --}}
+            <div id="noDataMessage" class="text-center text-gray-500 mt-6 hidden">
+                No archived data found.
+            </div>
         </div>
     </div>
 
@@ -97,14 +98,26 @@
         document.getElementById('categoryFilter').addEventListener('change', function() {
             let selectedCategory = this.value;
             let rows = document.querySelectorAll('#archivesTable tbody tr');
+            let noDataMessage = document.getElementById('noDataMessage');
+            let anyVisible = false;
 
             rows.forEach(row => {
                 if (selectedCategory === '' || row.getAttribute('data-category') === selectedCategory) {
                     row.style.display = '';
+                    anyVisible = true;
                 } else {
                     row.style.display = 'none';
                 }
             });
+
+            // Show "No Data" message if no rows are visible
+            if (!anyVisible) {
+                document.getElementById('archivesTable').style.display = 'none';
+                noDataMessage.classList.remove('hidden');
+            } else {
+                document.getElementById('archivesTable').style.display = '';
+                noDataMessage.classList.add('hidden');
+            }
         });
     </script>
 @endsection

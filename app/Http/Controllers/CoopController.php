@@ -211,10 +211,9 @@ class CoopController extends Controller
         ]);
     }
 
-    public function restore(Request $request)
+    public function restore(Request $request, $id)
     {
-        $id = $request->id;
-        $tableName = $request->table_name;
+        $tableName = $request->table_name; // table_name is still from hidden input
     
         if ($tableName == 'members_masterlist') {
             $archive = MemberArchive::findOrFail($id);
@@ -246,7 +245,7 @@ class CoopController extends Controller
         } elseif (in_array($tableName, ['coop_owned_units', 'indiv_owned_units', 'coopunits'])) {
             $archive = UnitArchive::findOrFail($id);
     
-            // Restore to coopunits table
+            // Restore to coopunits
             DB::table('coopunits')->insert([
                 'externaluser_id' => $archive->externaluser_id,
                 'type' => $archive->type,
@@ -270,7 +269,7 @@ class CoopController extends Controller
         }
     
         return redirect()->back()->with('success', 'Record restored successfully.');
-    }
+    }    
     
     public function restoreIndex()
     {

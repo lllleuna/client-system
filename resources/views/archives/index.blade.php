@@ -21,8 +21,15 @@
                             {{ ucfirst(str_replace('_', ' ', $archive->table_name)) }}
                         </td>
                         <td class="py-3 px-6 text-left">
-                            {{ $archive->firstname }} {{ $archive->middlename }} {{ $archive->lastname }}
+                            @if(isset($archive->firstname))
+                                {{ $archive->firstname }} {{ $archive->middlename }} {{ $archive->lastname }}
+                            @elseif(isset($archive->plate_no))
+                                Plate No: {{ $archive->plate_no }}
+                            @else
+                                No Name
+                            @endif
                         </td>
+                        
                         <td class="py-3 px-6 text-left">
                             {{ \Carbon\Carbon::parse($archive->deleted_at)->format('M d, Y') }}
                         </td>

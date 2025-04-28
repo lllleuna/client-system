@@ -24,6 +24,7 @@ use App\Models\CoopBusiness;
 use App\Notifications\SendOtpNotification;
 use Illuminate\Support\Facades\Session;
 use App\Models\MemberArchive;
+use App\Models\UnitArchive;
 
 class CoopController extends Controller
 {
@@ -210,12 +211,15 @@ class CoopController extends Controller
         ]);
     }
 
-    public function restore($id)
+    public function restore(Request $request)
     {
-        $archive = MemberArchive::findOrFail($id);
-
-        if ($archive->table_name == 'members_masterlist') {
-            // Restore to CoopMembership (or your original model)
+        $id = $request->id;
+        $tableName = $request->table_name;
+    
+        if ($tableName == 'members_masterlist') {
+            $archive = MemberArchive::findOrFail($id);
+    
+            // Restore to members_masterlist
             DB::table('members_masterlist')->insert([
                 'externaluser_id' => $archive->externaluser_id,
                 'firstname' => $archive->firstname,
@@ -236,29 +240,69 @@ class CoopController extends Controller
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);
+    
+            $archive->delete();
+    
+        } elseif (in_array($tableName, ['coop_owned_units', 'indiv_owned_units'])) {
+            $archive = UnitArchive::findOrFail($id);
+    
+            // Restore to coopunits table
+            DB::table('coopunits')->insert([
+                'externaluser_id' => $archive->externaluser_id,
+                'type' => $archive->type,
+                'plate_no' => $archive->plate_no,
+                'mv_file_no' => $archive->mv_file_no,
+                'engine_no' => $archive->engine_no,
+                'chassis_no' => $archive->chassis_no,
+                'ltfrb_case_no' => $archive->ltfrb_case_no,
+                'date_granted' => $archive->date_granted,
+                'date_of_expiry' => $archive->date_of_expiry,
+                'origin' => $archive->origin,
+                'via' => $archive->via,
+                'destination' => $archive->destination,
+                'owned_by' => $archive->owned_by,
+                'member_id' => $archive->member_id,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+    
+            $archive->delete();
         }
-        // If you add other tables later, you can add other cases here.
-
-        // Delete from archive after restoring
-        $archive->delete();
-
+    
         return redirect()->back()->with('success', 'Record restored successfully.');
     }
-
+    
     public function restoreIndex()
     {
-        $archives = MemberArchive::latest()->get();
+        $memberArchives = MemberArchive::latest()->get();
+        $unitArchives = UnitArchive::latest()->get();
+    
+        // Merge the two collections
+        $archives = $memberArchives->merge($unitArchives);
+    
+        // Sort all archives by deleted_at descending
+        $archives = $archives->sortByDesc('deleted_at');
     
         return view('archives.index', compact('archives'));
     }
     
-    public function permanentDelete($id)
+    
+    public function permanentDelete(Request $request)
     {
-        $archive = MemberArchive::findOrFail($id);
+        $id = $request->id;
+        $tableName = $request->table_name;
+    
+        if ($tableName == 'members_masterlist') {
+            $archive = MemberArchive::findOrFail($id);
+        } else {
+            $archive = UnitArchive::findOrFail($id);
+        }
+    
         $archive->delete();
-
+    
         return redirect()->back()->with('success', 'Record permanently deleted.');
     }
+    
 
     // ---------------------------------------------
     // ------------ General Info ------------------------
@@ -539,14 +583,35 @@ class CoopController extends Controller
 
     public function destroyCoopOwnedUnit($id)
     {
-        $coopunit = CoopUnit::findOrFail($id); // Find the member
-        $coopunit->delete(); // Delete the member
-
-
+        $coopunit = CoopUnit::findOrFail($id);
+    
+        // Archive the coop owned unit
+        $archive = new UnitArchive();
+        $archive->externaluser_id = $coopunit->externaluser_id;
+        $archive->type = $coopunit->type;
+        $archive->plate_no = $coopunit->plate_no;
+        $archive->mv_file_no = $coopunit->mv_file_no;
+        $archive->engine_no = $coopunit->engine_no;
+        $archive->chassis_no = $coopunit->chassis_no;
+        $archive->ltfrb_case_no = $coopunit->ltfrb_case_no;
+        $archive->date_granted = $coopunit->date_granted;
+        $archive->date_of_expiry = $coopunit->date_of_expiry;
+        $archive->origin = $coopunit->origin;
+        $archive->via = $coopunit->via;
+        $archive->destination = $coopunit->destination;
+        $archive->owned_by = $coopunit->owned_by;
+        $archive->member_id = $coopunit->member_id;
+        $archive->deleted_at = now();
+        $archive->table_name = 'coop_units';
+        $archive->save();
+    
+        // Delete the coop unit
+        $coopunit->delete();
+    
         return response()->json([
-            'message' => 'Unit deleted successfully.'
+            'message' => 'Unit archived and deleted successfully.'
         ]);
-    }
+    }    
 
     // --------------------------------------------
     //  ------- INDIVIDUALLY OWNED UNITS ----------
@@ -686,14 +751,36 @@ class CoopController extends Controller
 
     public function destroyIndivOwnedUnit($id)
     {
-        $indivunit = CoopUnit::findOrFail($id); // Find the member
-        $indivunit->delete(); // Delete the member
-
-
+        $indivunit = CoopUnit::findOrFail($id);
+    
+        // Archive the individual owned unit
+        $archive = new UnitArchive();
+        $archive->externaluser_id = $indivunit->externaluser_id;
+        $archive->type = $indivunit->type;
+        $archive->plate_no = $indivunit->plate_no;
+        $archive->mv_file_no = $indivunit->mv_file_no;
+        $archive->engine_no = $indivunit->engine_no;
+        $archive->chassis_no = $indivunit->chassis_no;
+        $archive->ltfrb_case_no = $indivunit->ltfrb_case_no;
+        $archive->date_granted = $indivunit->date_granted;
+        $archive->date_of_expiry = $indivunit->date_of_expiry;
+        $archive->origin = $indivunit->origin;
+        $archive->via = $indivunit->via;
+        $archive->destination = $indivunit->destination;
+        $archive->owned_by = $indivunit->owned_by;
+        $archive->member_id = $indivunit->member_id;
+        $archive->deleted_at = now();
+        $archive->table_name = 'coop_units';
+        $archive->save();
+    
+        // Delete the individual unit
+        $indivunit->delete();
+    
         return response()->json([
-            'message' => 'Unit deleted successfully.'
+            'message' => 'Unit archived and deleted successfully.'
         ]);
     }
+    
 
     // --------------------------------------------
     //  -------------- Employment -------------------

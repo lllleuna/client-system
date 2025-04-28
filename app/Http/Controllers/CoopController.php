@@ -241,66 +241,69 @@ class CoopController extends Controller
                         'created_at' => now(),
                         'updated_at' => now(),
                     ]);
+                    // Delete from archive
+                    $archive->delete();
                 }
-    
-                // Delete from archive
-                $archive->delete();
-    
             } else {
                 // If not found in MemberArchive, try UnitArchive
-                $archive = UnitArchive::findOrFail($id);
+                $archive = UnitArchive::find($id);
     
-                if ($archive->table_name == 'coop_units') {
-                    // Restore to coopunits
-                    DB::table('coopunits')->insert([
-                        'externaluser_id' => $archive->externaluser_id,
-                        'type' => $archive->type,
-                        'plate_no' => $archive->plate_no,
-                        'mv_file_no' => $archive->mv_file_no,
-                        'engine_no' => $archive->engine_no,
-                        'chassis_no' => $archive->chassis_no,
-                        'ltfrb_case_no' => $archive->ltfrb_case_no,
-                        'date_granted' => $archive->date_granted,
-                        'date_of_expiry' => $archive->date_of_expiry,
-                        'origin' => $archive->origin,
-                        'via' => $archive->via,
-                        'destination' => $archive->destination,
-                        'owned_by' => $archive->owned_by,
-                        'member_id' => $archive->member_id,
-                        'created_at' => now(),
-                        'updated_at' => now(),
-                    ]);
-    
-                    // Delete from unit archive
-                    $archive->delete();
-
-                } elseif ($archive->table_name == 'governance') {
+                if ($archive) {
+                    if ($archive->table_name == 'coop_units') {
+                        // Restore to coopunits
+                        DB::table('coopunits')->insert([
+                            'externaluser_id' => $archive->externaluser_id,
+                            'type' => $archive->type,
+                            'plate_no' => $archive->plate_no,
+                            'mv_file_no' => $archive->mv_file_no,
+                            'engine_no' => $archive->engine_no,
+                            'chassis_no' => $archive->chassis_no,
+                            'ltfrb_case_no' => $archive->ltfrb_case_no,
+                            'date_granted' => $archive->date_granted,
+                            'date_of_expiry' => $archive->date_of_expiry,
+                            'origin' => $archive->origin,
+                            'via' => $archive->via,
+                            'destination' => $archive->destination,
+                            'owned_by' => $archive->owned_by,
+                            'member_id' => $archive->member_id,
+                            'created_at' => now(),
+                            'updated_at' => now(),
+                        ]);
+                        // Delete from unit archive
+                        $archive->delete();
+                    }
+                } else {
+                    // If not found in MemberArchive or UnitArchive, try GovernanceArchive
                     $archive = GovernanceArchive::find($id);
-                    DB::table('governance_list')->insert([
-                        'externaluser_id' => $archive->externaluser_id,
-                        'firstname' => $archive->firstname,
-                        'middlename' => $archive->middlename,
-                        'lastname' => $archive->lastname,
-                        'sex' => $archive->sex,
-                        'role' => $archive->role,
-                        'email' => $archive->email,
-                        'mobile_no' => $archive->mobile_no,
-                        'birthday' => $archive->birthday,
-                        'start_term' => $archive->start_term,
-                        'end_term' => $archive->end_term,
-                        'address' => $archive->address,
-                        'sss_enrolled' => $archive->sss_enrolled,
-                        'pagibig_enrolled' => $archive->pagibig_enrolled,
-                        'philhealth_enrolled' => $archive->philhealth_enrolled,
-                        'created_at' => now(),
-                        'updated_at' => now(),
-                    ]);
-
-                    $archive->delete();
-
-                }
     
-            } 
+                    if ($archive) {
+                        if ($archive->table_name == 'governance') {
+                            // Restore to governance table
+                            DB::table('governance_list')->insert([
+                                'externaluser_id' => $archive->externaluser_id,
+                                'firstname' => $archive->firstname,
+                                'middlename' => $archive->middlename,
+                                'lastname' => $archive->lastname,
+                                'sex' => $archive->sex,
+                                'role' => $archive->role,
+                                'email' => $archive->email,
+                                'mobile_no' => $archive->mobile_no,
+                                'birthday' => $archive->birthday,
+                                'start_term' => $archive->start_term,
+                                'end_term' => $archive->end_term,
+                                'address' => $archive->address,
+                                'sss_enrolled' => $archive->sss_enrolled,
+                                'pagibig_enrolled' => $archive->pagibig_enrolled,
+                                'philhealth_enrolled' => $archive->philhealth_enrolled,
+                                'created_at' => now(),
+                                'updated_at' => now(),
+                            ]);
+                            // Delete from governance archive
+                            $archive->delete();
+                        }
+                    }
+                }
+            }
     
             return redirect()->back()->with('success', 'Record restored successfully.');
     

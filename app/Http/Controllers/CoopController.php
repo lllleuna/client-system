@@ -196,6 +196,7 @@ class CoopController extends Controller
         $archivedMember->employment_type = $member->employment_type;
         $archivedMember->share_capital = $member->share_capital;
         $archivedMember->deleted_at = now(); // Store the timestamp of when it was archived
+        $archivedMember->table_name = 'members_masterlist';
         $archivedMember->save(); // Save the archived member record
 
         // Delete the member from the original table

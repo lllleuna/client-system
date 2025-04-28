@@ -268,10 +268,11 @@ class CoopController extends Controller
                     'created_at' => now(),
                     'updated_at' => now(),
                 ]);
+
+                // Delete from unit archive
+                $unitArchive->delete();
             }
     
-            // Delete from unit archive
-            $unitArchive->delete();
         }
     
         return redirect()->back()->with('success', 'Record restored successfully.');

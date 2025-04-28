@@ -937,16 +937,42 @@ class CoopController extends Controller
 
     public function destroyOfficer($id)
     {
-        $officer = CoopGovernance::findOrFail($id); // Find the member
-        $officer->delete(); // Delete the member
-
+        // Find the officer to delete
+        $officer = CoopGovernance::findOrFail($id);
+    
+        // Archive the officer first
+        $archive = new GovernanceArchive();
+        $archive->externaluser_id = $officer->externaluser_id;
+        $archive->firstname = $officer->firstname;
+        $archive->middlename = $officer->middlename;
+        $archive->lastname = $officer->lastname;
+        $archive->sex = $officer->sex;
+        $archive->role = $officer->role;
+        $archive->email = $officer->email;
+        $archive->mobile_no = $officer->mobile_no;
+        $archive->birthday = $officer->birthday;
+        $archive->start_term = $officer->start_term;
+        $archive->end_term = $officer->end_term;
+        $archive->address = $officer->address;
+        $archive->sss_enrolled = $officer->sss_enrolled;
+        $archive->pagibig_enrolled = $officer->pagibig_enrolled;
+        $archive->philhealth_enrolled = $officer->philhealth_enrolled;
+        $archive->deleted_at = now();  // Indicating the officer was deleted
+        $archive->table_name = 'governance';  // Mark the table name as governance for reference
+        $archive->save();  // Save the archive record
+    
+        // Delete the officer from the original table
+        $officer->delete();
+    
+        // Optional: Update any related data or counts after deletion
         $this->updateGeneralInfoCounts();
-
+    
         return response()->json([
-            'message' => 'Officer deleted successfully.'
+            'message' => 'Officer archived and deleted successfully.'
         ]);
     }
-    
+        
+
     // --------------------------------------------
     //  ----------- GRANTS AND DONATIONS ----------
     // --------------------------------------------

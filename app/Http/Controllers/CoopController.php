@@ -336,15 +336,15 @@ class CoopController extends Controller
         $tableName = $request->table_name;
         
         // Handle Member Archive
-        if ($tableName == 'members_masterlist') {
+        if ($tableName == 'Members masterlist') {
             $archive = MemberArchive::findOrFail($id);
         }
         // Handle Unit Archive
-        elseif ($tableName == 'coop_units') {
+        elseif ($tableName == 'Coop units') {
             $archive = UnitArchive::findOrFail($id);
         }
         // Handle Governance Archive
-        elseif ($tableName == 'governance') {
+        elseif ($tableName == 'Governance') {
             $archive = GovernanceArchive::findOrFail($id);
         } else {
             // Handle case where table_name is invalid

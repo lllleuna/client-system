@@ -15,9 +15,9 @@
                 <option value="members_masterlist">Members</option>
                 <option value="coop_units">Units</option>
                 <option value="governance">Governance</option>
-                <option value="grants">Grants</option>
+                <option value="coop_grants">Grants</option>
                 <option value="coop_loans">Loans</option>
-                <option value="businesses">Businesses</option>
+                <option value="coop_businesses">Businesses</option>
             </select>
         </div>
 

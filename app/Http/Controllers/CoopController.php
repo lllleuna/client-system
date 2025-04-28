@@ -330,26 +330,31 @@ class CoopController extends Controller
         return view('archives.index', compact('archives'));
     }
     
-    
     public function permanentDelete(Request $request)
     {
         $id = $request->id;
         $tableName = $request->table_name;
     
-        if ($tableName == 'members_masterlist') {
-            $archive = MemberArchive::findOrFail($id);
-        } elseif ($tableName == 'coop_units') {
-            $archive = UnitArchive::findOrFail($id);
-        } elseif ($tableName == 'governance') {
-            $archive = GovernanceArchive::findOrFail($id);
-        } else {
-            // Handle case where table_name is not valid or supported
-            return redirect()->back()->with('error', 'Invalid table name.');
+        try {
+            if ($tableName == 'members_masterlist') {
+                $archive = MemberArchive::findOrFail($id);
+            } elseif ($tableName == 'coop_units') {
+                $archive = UnitArchive::findOrFail($id);
+            } elseif ($tableName == 'governance') {
+                $archive = GovernanceArchive::findOrFail($id);
+            } else {
+                // Handle case where table_name is not valid or supported
+                return redirect()->back()->with('error', 'Invalid table name.');
+            }
+    
+            // Use forceDelete() to permanently delete the record
+            $archive->forceDelete();
+    
+            return redirect()->back()->with('success', 'Record permanently deleted.');
+            
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'An error occurred while deleting the record. Please try again.');
         }
-    
-        $archive->delete();
-    
-        return redirect()->back()->with('success', 'Record permanently deleted.');
     }
     
 

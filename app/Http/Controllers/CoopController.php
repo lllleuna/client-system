@@ -330,33 +330,33 @@ class CoopController extends Controller
         return view('archives.index', compact('archives'));
     }
     
-    public function permanentDelete(Request $request)
+    public function permanentDelete(Request $request, $id)
     {
-        $id = $request->id;
-        $tableName = $request->table_name;
-        
-        // Handle Member Archive
-        if ($tableName == 'Members masterlist') {
-            $archive = MemberArchive::findOrFail($id);
-        }
-        // Handle Unit Archive
-        elseif ($tableName == 'Coop units') {
-            $archive = UnitArchive::findOrFail($id);
-        }
-        // Handle Governance Archive
-        elseif ($tableName == 'Governance') {
-            $archive = GovernanceArchive::findOrFail($id);
+        // Find the archive record by ID across all archive tables
+        $memberArchive = MemberArchive::find($id);
+        $unitArchive = UnitArchive::find($id);
+        $governanceArchive = GovernanceArchive::find($id);
+    
+        // Determine the table name by checking which archive table has the record
+        if ($memberArchive) {
+            $archive = $memberArchive;
+            $tableName = 'members_masterlist';
+        } elseif ($unitArchive) {
+            $archive = $unitArchive;
+            $tableName = 'coop_units';
+        } elseif ($governanceArchive) {
+            $archive = $governanceArchive;
+            $tableName = 'governance';
         } else {
-            // Handle case where table_name is invalid
-            return redirect()->back()->with('error', 'Invalid table name.');
+            // Handle case where record doesn't exist in any of the archive tables
+            return redirect()->back()->with('error', 'Record not found in any archive.');
         }
     
-        // Delete the record
+        // Delete the record from the respective archive table
         $archive->delete();
-        
-        return redirect()->back()->with('success', 'Record permanently deleted.');
-    }
     
+        return redirect()->back()->with('success', 'Record permanently deleted.');
+    }    
     
 
     // ---------------------------------------------

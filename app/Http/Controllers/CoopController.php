@@ -213,71 +213,75 @@ class CoopController extends Controller
 
     public function restore($id)
     {
-        // Try to find in MemberArchive first
-        $archive = MemberArchive::find($id);
+        try {
+            // Try to find in MemberArchive first
+            $archive = MemberArchive::find($id);
     
-        if ($archive) {
-            if ($archive->table_name == 'members_masterlist') {
-                // Restore to members_masterlist
-                DB::table('members_masterlist')->insert([
-                    'externaluser_id' => $archive->externaluser_id,
-                    'firstname' => $archive->firstname,
-                    'middlename' => $archive->middlename,
-                    'lastname' => $archive->lastname,
-                    'sex' => $archive->sex,
-                    'role' => $archive->role,
-                    'email' => $archive->email,
-                    'mobile_no' => $archive->mobile_no,
-                    'birthday' => $archive->birthday,
-                    'joined_date' => $archive->joined_date,
-                    'address' => $archive->address,
-                    'sss_enrolled' => $archive->sss_enrolled,
-                    'pagibig_enrolled' => $archive->pagibig_enrolled,
-                    'philhealth_enrolled' => $archive->philhealth_enrolled,
-                    'employment_type' => $archive->employment_type,
-                    'share_capital' => $archive->share_capital,
-                    'created_at' => now(),
-                    'updated_at' => now(),
-                ]);
-            }
+            if ($archive) {
+                if ($archive->table_name == 'members_masterlist') {
+                    // Restore to members_masterlist
+                    DB::table('members_masterlist')->insert([
+                        'externaluser_id' => $archive->externaluser_id,
+                        'firstname' => $archive->firstname,
+                        'middlename' => $archive->middlename,
+                        'lastname' => $archive->lastname,
+                        'sex' => $archive->sex,
+                        'role' => $archive->role,
+                        'email' => $archive->email,
+                        'mobile_no' => $archive->mobile_no,
+                        'birthday' => $archive->birthday,
+                        'joined_date' => $archive->joined_date,
+                        'address' => $archive->address,
+                        'sss_enrolled' => $archive->sss_enrolled,
+                        'pagibig_enrolled' => $archive->pagibig_enrolled,
+                        'philhealth_enrolled' => $archive->philhealth_enrolled,
+                        'employment_type' => $archive->employment_type,
+                        'share_capital' => $archive->share_capital,
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ]);
+                }
     
-            // Delete from archive
-            $archive->delete();
-    
-        } else {
-            // If not found in MemberArchive, try UnitArchive
-            $archive = UnitArchive::findOrFail($id);
-    
-            if ($archive->table_name == 'coop_units') {
-                // Restore to coopunits
-                DB::table('coopunits')->insert([
-                    'externaluser_id' => $archive->externaluser_id,
-                    'type' => $archive->type,
-                    'plate_no' => $archive->plate_no,
-                    'mv_file_no' => $archive->mv_file_no,
-                    'engine_no' => $archive->engine_no,
-                    'chassis_no' => $archive->chassis_no,
-                    'ltfrb_case_no' => $archive->ltfrb_case_no,
-                    'date_granted' => $archive->date_granted,
-                    'date_of_expiry' => $archive->date_of_expiry,
-                    'origin' => $archive->origin,
-                    'via' => $archive->via,
-                    'destination' => $archive->destination,
-                    'owned_by' => $archive->owned_by,
-                    'member_id' => $archive->member_id,
-                    'created_at' => now(),
-                    'updated_at' => now(),
-                ]);
-
-                // Delete from unit archive
+                // Delete from archive
                 $archive->delete();
+    
+            } else {
+                // If not found in MemberArchive, try UnitArchive
+                $archive = UnitArchive::findOrFail($id);
+    
+                if ($archive->table_name == 'coop_units') {
+                    // Restore to coopunits
+                    DB::table('coopunits')->insert([
+                        'externaluser_id' => $archive->externaluser_id,
+                        'type' => $archive->type,
+                        'plate_no' => $archive->plate_no,
+                        'mv_file_no' => $archive->mv_file_no,
+                        'engine_no' => $archive->engine_no,
+                        'chassis_no' => $archive->chassis_no,
+                        'ltfrb_case_no' => $archive->ltfrb_case_no,
+                        'date_granted' => $archive->date_granted,
+                        'date_of_expiry' => $archive->date_of_expiry,
+                        'origin' => $archive->origin,
+                        'via' => $archive->via,
+                        'destination' => $archive->destination,
+                        'owned_by' => $archive->owned_by,
+                        'member_id' => $archive->member_id,
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ]);
+    
+                    // Delete from unit archive
+                    $archive->delete();
+                }
             }
     
-        }
+            return redirect()->back()->with('success', 'Record restored successfully.');
     
-        return redirect()->back()->with('success', 'Record restored successfully.');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'An error occurred while restoring the record. Please try again.');
+        }
     }
-      
+     
     
     public function restoreIndex()
     {

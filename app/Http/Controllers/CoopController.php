@@ -937,47 +937,39 @@ class CoopController extends Controller
 
     public function destroyOfficer($id)
     {
-        try {
-            // Find the officer in CoopGovernance
-            $officer = CoopGovernance::findOrFail($id);
-            
-            // Archive the officer's data before deleting
-            GovernanceArchive::create([
-                'table_name' => 'governance',
-                'externaluser_id' => $officer->externaluser_id,
-                'firstname' => $officer->firstname,
-                'middlename' => $officer->middlename,
-                'lastname' => $officer->lastname,
-                'sex' => $officer->sex,
-                'role' => $officer->role,
-                'email' => $officer->email,
-                'mobile_no' => $officer->mobile_no,
-                'birthday' => $officer->birthday,
-                'start_term' => $officer->start_term,
-                'end_term' => $officer->end_term,
-                'address' => $officer->address,
-                'sss_enrolled' => $officer->sss_enrolled,
-                'pagibig_enrolled' => $officer->pagibig_enrolled,
-                'philhealth_enrolled' => $officer->philhealth_enrolled,
-            ]);
-            
-            // Now delete the officer from CoopGovernance
-            $officer->delete();
+        // Find the officer
+        $officer = CoopGovernance::findOrFail($id);
+        
+        // Archive the officer
+        $archive = new GovernanceArchive();
+        $archive->externaluser_id = $officer->externaluser_id;
+        $archive->firstname = $officer->firstname;
+        $archive->middlename = $officer->middlename;
+        $archive->lastname = $officer->lastname;
+        $archive->sex = $officer->sex;
+        $archive->role = $officer->role;
+        $archive->email = $officer->email;
+        $archive->mobile_no = $officer->mobile_no;
+        $archive->birthday = $officer->birthday;
+        $archive->start_term = $officer->start_term;
+        $archive->end_term = $officer->end_term;
+        $archive->address = $officer->address;
+        $archive->sss_enrolled = $officer->sss_enrolled;
+        $archive->pagibig_enrolled = $officer->pagibig_enrolled;
+        $archive->philhealth_enrolled = $officer->philhealth_enrolled;
+        $archive->deleted_at = now();  // Indicating deletion time
+        $archive->table_name = 'governance';  // Set the table name for reference
+        $archive->save();
     
-            // Optionally update counts or perform any other logic
-            $this->updateGeneralInfoCounts();
+        // Delete the officer from the original table
+        $officer->delete();
     
-            // Return a success message
-            return response()->json([
-                'message' => 'Officer deleted and archived successfully.'
-            ]);
-        } catch (\Exception $e) {
-            // Handle any errors
-            return response()->json([
-                'error' => 'An error occurred while deleting the officer. Please try again.',
-                'details' => $e->getMessage()
-            ], 500);
-        }
+        // Optional: Update any counts or related data after deletion (if needed)
+        $this->updateGeneralInfoCounts();
+    
+        return response()->json([
+            'message' => 'Officer archived and deleted successfully.'
+        ]);
     }
     
 

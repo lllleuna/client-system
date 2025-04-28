@@ -211,14 +211,12 @@ class CoopController extends Controller
         ]);
     }
 
-    public function restore(Request $request, $id)
+    public function restore($id)
     {
-        $tableName = $request->table_name; // table_name is still from hidden input
-    
-        if ($tableName == 'members_masterlist') {
-            $archive = MemberArchive::findOrFail($id);
-    
-            // Restore to members_masterlist
+        $archive = MemberArchive::findOrFail($id);
+
+        if ($archive->table_name == 'members_masterlist') {
+            // Restore to CoopMembership (or your original model)
             DB::table('members_masterlist')->insert([
                 'externaluser_id' => $archive->externaluser_id,
                 'firstname' => $archive->firstname,
@@ -239,37 +237,14 @@ class CoopController extends Controller
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);
-    
-            $archive->delete();
-    
-        } elseif (in_array($tableName, ['coop_owned_units', 'indiv_owned_units', 'coopunits'])) {
-            $archive = UnitArchive::findOrFail($id);
-    
-            // Restore to coopunits
-            DB::table('coopunits')->insert([
-                'externaluser_id' => $archive->externaluser_id,
-                'type' => $archive->type,
-                'plate_no' => $archive->plate_no,
-                'mv_file_no' => $archive->mv_file_no,
-                'engine_no' => $archive->engine_no,
-                'chassis_no' => $archive->chassis_no,
-                'ltfrb_case_no' => $archive->ltfrb_case_no,
-                'date_granted' => $archive->date_granted,
-                'date_of_expiry' => $archive->date_of_expiry,
-                'origin' => $archive->origin,
-                'via' => $archive->via,
-                'destination' => $archive->destination,
-                'owned_by' => $archive->owned_by,
-                'member_id' => $archive->member_id,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
-    
-            $archive->delete();
         }
-    
+        // If you add other tables later, you can add other cases here.
+
+        // Delete from archive after restoring
+        $archive->delete();
+
         return redirect()->back()->with('success', 'Record restored successfully.');
-    }    
+    }   
     
     public function restoreIndex()
     {

@@ -319,15 +319,18 @@ class CoopController extends Controller
     
     public function restoreIndex()
     {
+        // Fetch archives from each table
         $memberArchives = MemberArchive::latest()->get();
         $unitArchives = UnitArchive::latest()->get();
-    
-        // Merge the two collections
-        $archives = $memberArchives->merge($unitArchives);
-    
+        $governanceArchives = GovernanceArchive::latest()->get(); // Fetch Governance Archives
+        
+        // Merge all archive collections
+        $archives = $memberArchives->merge($unitArchives)->merge($governanceArchives);
+        
         // Sort all archives by deleted_at descending
         $archives = $archives->sortByDesc('deleted_at');
-    
+        
+        // Return the view with all the archives
         return view('archives.index', compact('archives'));
     }
     

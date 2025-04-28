@@ -38,7 +38,7 @@
                                 @elseif(isset($archive->plate_no))
                                     Plate No: {{ $archive->plate_no }}
                                 @else
-                                    No Name
+                                    N/A
                                 @endif
                             </td>
 

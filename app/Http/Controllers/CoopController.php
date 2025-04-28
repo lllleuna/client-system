@@ -1290,30 +1290,43 @@ class CoopController extends Controller
     
     public function destroyLoan($id)
     {
-        // Find the loan record
-        $loan = CoopLoan::findOrFail($id);
+        try {
+            // Find the loan record
+            $loan = CoopLoan::findOrFail($id);
     
-        // Archive into loan_archives table
-        DB::table('loan_archives')->insert([
-            'table_name' => 'coop_loans', // Name of source table
-            'externaluser_id' => $loan->externaluser_id,
-            'financing_institution' => $loan->financing_institution,
-            'acquired_at' => $loan->acquired_at,
-            'amount' => $loan->amount,
-            'utilization' => $loan->utilization,
-            'remarks' => $loan->remarks,
-            'file_upload' => $loan->file_upload,
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
+            // Attempt to archive into loan_archives table
+            $inserted = DB::table('loan_archives')->insert([
+                'table_name' => 'coop_loans', // Name of source table
+                'externaluser_id' => $loan->externaluser_id,
+                'financing_institution' => $loan->financing_institution,
+                'acquired_at' => $loan->acquired_at,
+                'amount' => $loan->amount,
+                'utilization' => $loan->utilization,
+                'remarks' => $loan->remarks,
+                'file_upload' => $loan->file_upload,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
     
-        // Now delete the original record
-        $loan->delete();
+            if ($inserted) {
+                // Only delete if insert was successful
+                $loan->delete();
     
-        return response()->json([
-            'message' => 'Loan archived and deleted successfully.'
-        ]);
-    }
+                return response()->json([
+                    'message' => 'Loan archived and deleted successfully.'
+                ]);
+            } else {
+                return response()->json([
+                    'message' => 'Failed to archive loan. Deletion aborted.'
+                ], 500);
+            }
+    
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'An error occurred: ' . $e->getMessage()
+            ], 500);
+        }
+    }    
 
     // --------------------------------------------
     //  ------- TRAININGS AND SEMINAR --------------

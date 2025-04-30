@@ -73,10 +73,18 @@
                 <div class="mb-4">
                     <label class="block text-sm font-medium text-gray-700" for="new_password">New Password</label>
                     <input type="password" name="new_password" id="new_password" required
-                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-indigo-200">
+                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-indigo-200"
+                        oninput="checkPasswordStrength()">
                     @error('new_password')
                         <span class="text-red-500 text-sm">{{ $message }}</span>
                     @enderror
+
+                    <ul class="mt-2 text-sm text-gray-600 space-y-1" id="password-requirements">
+                        <li id="length" class="text-gray-500">• At least 12 characters</li>
+                        <li id="uppercase" class="text-gray-500">• At least one uppercase letter</li>
+                        <li id="lowercase" class="text-gray-500">• At least one lowercase letter</li>
+                        <li id="symbol" class="text-gray-500">• At least one symbol (e.g., @, #, $, !)</li>
+                    </ul>
                 </div>
 
                 {{-- Confirm New Password --}}
@@ -155,8 +163,8 @@
                     <div class="flex flex-col items-center space-y-5 py-4">
                         <div class="flex items-center justify-center w-16 h-16 rounded-full bg-gray-100">
                             @if ($user->two_factor_enabled)
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-green-600" viewBox="0 0 20 20"
-                                    fill="currentColor">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-green-600"
+                                    viewBox="0 0 20 20" fill="currentColor">
                                     <path fill-rule="evenodd"
                                         d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
                                         clip-rule="evenodd" />
@@ -320,6 +328,22 @@
     </div>
 
     <script>
+        function checkPasswordStrength() {
+            const password = document.getElementById('new_password').value;
+
+            // Criteria
+            const length = password.length >= 12;
+            const uppercase = /[A-Z]/.test(password);
+            const lowercase = /[a-z]/.test(password);
+            const symbol = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+
+            // Update UI
+            document.getElementById('length').className = length ? 'text-green-600' : 'text-gray-500';
+            document.getElementById('uppercase').className = uppercase ? 'text-green-600' : 'text-gray-500';
+            document.getElementById('lowercase').className = lowercase ? 'text-green-600' : 'text-gray-500';
+            document.getElementById('symbol').className = symbol ? 'text-green-600' : 'text-gray-500';
+        }
+        
         document.getElementById('file-upload').addEventListener('change', function(e) {
             const file = e.target.files[0];
             const maxSizeMB = 2;

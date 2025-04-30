@@ -284,6 +284,11 @@ Route::middleware(['auth'])->group(function () {
 Route::post('/', [SessionController::class, 'store']);
 Route::post('/logout', [SessionController::class, 'destroy']);
 
+Route::get('/logout', function () {
+    Auth::logout();
+    Session::flush();
+    return redirect('/login');
+})->name('logout');
 
 
 //Services

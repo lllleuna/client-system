@@ -83,6 +83,7 @@
                         <li id="length" class="text-gray-500">• At least 12 characters</li>
                         <li id="uppercase" class="text-gray-500">• At least one uppercase letter</li>
                         <li id="lowercase" class="text-gray-500">• At least one lowercase letter</li>
+                        <li id="number" class="text-gray-500">• At least one number</li>
                         <li id="symbol" class="text-gray-500">• At least one symbol (e.g., @, #, $, !)</li>
                     </ul>
                 </div>
@@ -92,7 +93,9 @@
                     <label class="block text-sm font-medium text-gray-700" for="new_password_confirmation">Confirm New
                         Password</label>
                     <input type="password" name="new_password_confirmation" id="new_password_confirmation" required
-                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-indigo-200">
+                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-indigo-200"
+                        oninput="checkPasswordMatch()">
+                    <p id="match-feedback" class="text-sm mt-1"></p>
                 </div>
 
                 {{-- Save Button --}}
@@ -331,19 +334,42 @@
         function checkPasswordStrength() {
             const password = document.getElementById('new_password').value;
 
-            // Criteria
             const length = password.length >= 12;
             const uppercase = /[A-Z]/.test(password);
             const lowercase = /[a-z]/.test(password);
+            const number = /[0-9]/.test(password);
             const symbol = /[!@#$%^&*(),.?":{}|<>]/.test(password);
 
-            // Update UI
+            // Update requirement UI
             document.getElementById('length').className = length ? 'text-green-600' : 'text-gray-500';
             document.getElementById('uppercase').className = uppercase ? 'text-green-600' : 'text-gray-500';
             document.getElementById('lowercase').className = lowercase ? 'text-green-600' : 'text-gray-500';
+            document.getElementById('number').className = number ? 'text-green-600' : 'text-gray-500';
             document.getElementById('symbol').className = symbol ? 'text-green-600' : 'text-gray-500';
+
+            // Also re-check password match when new_password changes
+            checkPasswordMatch();
         }
-        
+
+        function checkPasswordMatch() {
+            const password = document.getElementById('new_password').value;
+            const confirm = document.getElementById('new_password_confirmation').value;
+            const feedback = document.getElementById('match-feedback');
+
+            if (!confirm) {
+                feedback.textContent = '';
+                return;
+            }
+
+            if (password === confirm) {
+                feedback.textContent = '✔ Passwords match';
+                feedback.className = 'text-green-600 text-sm mt-1';
+            } else {
+                feedback.textContent = '✘ Passwords do not match';
+                feedback.className = 'text-red-600 text-sm mt-1';
+            }
+        }
+
         document.getElementById('file-upload').addEventListener('change', function(e) {
             const file = e.target.files[0];
             const maxSizeMB = 2;

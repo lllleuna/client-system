@@ -287,7 +287,7 @@ Route::post('/logout', [SessionController::class, 'destroy']);
 Route::get('/logout', function () {
     Auth::logout();
     Session::flush();
-    return redirect('/login');
+    return redirect('/');
 })->name('logout');
 
 

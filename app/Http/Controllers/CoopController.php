@@ -331,7 +331,7 @@ class CoopController extends Controller
                 DB::table('business_archives')->where('id', $id)->delete();
     
             } elseif ($archive = DB::table('training_archives')->where('id', $id)->first()) {
-                DB::table('coop_trainings')->insert([
+                DB::table('cooptrainings')->insert([
                     'externaluser_id' => $archive->externaluser_id,
                     'title' => $archive->title,
                     'venue' => $archive->venue,
@@ -347,7 +347,7 @@ class CoopController extends Controller
                 DB::table('training_archives')->where('id', $id)->delete();
     
             } elseif ($archive = DB::table('award_archives')->where('id', $id)->first()) {
-                DB::table('coop_awards')->insert([
+                DB::table('coopawards')->insert([
                     'externaluser_id' => $archive->externaluser_id,
                     'title' => $archive->title,
                     'description' => $archive->description,

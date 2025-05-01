@@ -4,8 +4,8 @@
     <div class="container mx-auto px-4 py-6">
         <h1 class="text-2xl font-semibold mb-6">Archives</h1>
 
-        <x-error-notif/>
-        <x-success-notif/>
+        <x-error-notif />
+        <x-success-notif />
 
         {{-- Category Filter --}}
         <div class="mb-4 mt-4">
@@ -35,23 +35,55 @@
                     @forelse($archives as $archive)
                         <tr class="border-b border-gray-200 hover:bg-gray-100" data-category="{{ $archive->table_name }}">
                             <td class="py-3 px-6 text-left whitespace-nowrap">
-                                {{ ucfirst(str_replace('_', ' ', $archive->table_name)) }}
+                                {{ match ($archive->table_name) {
+                                    'members_masterlist' => 'Member',
+                                    'coop_units' => 'Unit',
+                                    'governance' => 'Governance',
+                                    'coop_grants' => 'Grant/Donation',
+                                    'coop_loans' => 'Loan',
+                                    'coop_trainings' => 'Training',
+                                    'coop_awards' => 'Award',
+                                    'coop_businesses' => 'Business',
+                                    default => ucfirst(str_replace('_', ' ', $archive->table_name)),
+                                } }}
                             </td>
+
                             <td class="py-3 px-6 text-left">
-                                @if (isset($archive->firstname))
-                                    {{ $archive->firstname }} {{ $archive->middlename }} {{ $archive->lastname }}
-                                @elseif (isset($archive->plate_no))
-                                    Plate No: {{ $archive->plate_no }}
-                                @elseif (isset($archive->source))
-                                    Grant: {{ $archive->source }}
-                                @elseif (isset($archive->financing_institution))
-                                    Loan: {{ $archive->financing_institution }}
-                                @elseif (isset($archive->nature_of_business))
-                                    Business: {{ $archive->nature_of_business }}
-                                @else
-                                    N/A
-                                @endif
+                                @switch($archive->table_name)
+                                    @case('members_masterlist')
+                                    @case('governance')
+                                        {{ $archive->firstname }} {{ $archive->middlename }} {{ $archive->lastname }}
+                                    @break
+
+                                    @case('coop_units')
+                                        Plate No: {{ $archive->plate_no }}
+                                    @break
+
+                                    @case('coop_grants')
+                                        Source: {{ $archive->source }}
+                                    @break
+
+                                    @case('coop_loans')
+                                        Institution: {{ $archive->financing_institution }}
+                                    @break
+
+                                    @case('coop_businesses')
+                                        Nature: {{ $archive->nature_of_business }}
+                                    @break
+
+                                    @case('coop_trainings')
+                                        Title: {{ $archive->title_of_training }}
+                                    @break
+
+                                    @case('coop_awards')
+                                        From: {{ $archive->awarding_body }}
+                                    @break
+
+                                    @default
+                                        N/A
+                                @endswitch
                             </td>
+
 
                             <td class="py-3 px-6 text-left">
                                 {{ \Carbon\Carbon::parse($archive->deleted_at)->format('M d, Y') }}
@@ -80,44 +112,44 @@
                                 </div>
                             </td>
                         </tr>
-                    @empty
-                        {{-- We will handle no data with JS, so no need to output here --}}
-                    @endforelse
-                </tbody>
-            </table>
+                        @empty
+                            {{-- We will handle no data with JS, so no need to output here --}}
+                        @endforelse
+                    </tbody>
+                </table>
 
-            {{-- No Data Message (hidden by default) --}}
-            <div id="noDataMessage" class="text-center text-gray-500 mt-6 hidden">
-                No archived data found.
+                {{-- No Data Message (hidden by default) --}}
+                <div id="noDataMessage" class="text-center text-gray-500 mt-6 hidden">
+                    No archived data found.
+                </div>
             </div>
         </div>
-    </div>
 
-    {{-- Javascript for filtering --}}
-    <script>
-        document.getElementById('categoryFilter').addEventListener('change', function() {
-            let selectedCategory = this.value;
-            let rows = document.querySelectorAll('#archivesTable tbody tr');
-            let noDataMessage = document.getElementById('noDataMessage');
-            let anyVisible = false;
+        {{-- Javascript for filtering --}}
+        <script>
+            document.getElementById('categoryFilter').addEventListener('change', function() {
+                let selectedCategory = this.value;
+                let rows = document.querySelectorAll('#archivesTable tbody tr');
+                let noDataMessage = document.getElementById('noDataMessage');
+                let anyVisible = false;
 
-            rows.forEach(row => {
-                if (selectedCategory === '' || row.getAttribute('data-category') === selectedCategory) {
-                    row.style.display = '';
-                    anyVisible = true;
+                rows.forEach(row => {
+                    if (selectedCategory === '' || row.getAttribute('data-category') === selectedCategory) {
+                        row.style.display = '';
+                        anyVisible = true;
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
+
+                // Show "No Data" message if no rows are visible
+                if (!anyVisible) {
+                    document.getElementById('archivesTable').style.display = 'none';
+                    noDataMessage.classList.remove('hidden');
                 } else {
-                    row.style.display = 'none';
+                    document.getElementById('archivesTable').style.display = '';
+                    noDataMessage.classList.add('hidden');
                 }
             });
-
-            // Show "No Data" message if no rows are visible
-            if (!anyVisible) {
-                document.getElementById('archivesTable').style.display = 'none';
-                noDataMessage.classList.remove('hidden');
-            } else {
-                document.getElementById('archivesTable').style.display = '';
-                noDataMessage.classList.add('hidden');
-            }
-        });
-    </script>
-@endsection
+        </script>
+    @endsection

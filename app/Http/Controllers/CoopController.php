@@ -29,6 +29,8 @@ use App\Models\GovernanceArchive;
 use App\Models\GrantArchive;
 use App\Models\LoanArchive;
 use App\Models\BusinessArchive;
+use App\Models\TrainingArchive;
+use App\Models\AwardArchive;
 
 class CoopController extends Controller
 {
@@ -218,152 +220,156 @@ class CoopController extends Controller
     public function restore($id)
     {
         try {
-            // Try to find in MemberArchive first
-            $archive = MemberArchive::find($id);
+            // Check each archive table one by one
+            if ($archive = MemberArchive::find($id)) {
+                DB::table('members_masterlist')->insert([
+                    'externaluser_id' => $archive->externaluser_id,
+                    'firstname' => $archive->firstname,
+                    'middlename' => $archive->middlename,
+                    'lastname' => $archive->lastname,
+                    'sex' => $archive->sex,
+                    'role' => $archive->role,
+                    'email' => $archive->email,
+                    'mobile_no' => $archive->mobile_no,
+                    'birthday' => $archive->birthday,
+                    'joined_date' => $archive->joined_date,
+                    'address' => $archive->address,
+                    'sss_enrolled' => $archive->sss_enrolled,
+                    'pagibig_enrolled' => $archive->pagibig_enrolled,
+                    'philhealth_enrolled' => $archive->philhealth_enrolled,
+                    'employment_type' => $archive->employment_type,
+                    'share_capital' => $archive->share_capital,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+                $archive->delete();
     
-            if ($archive) {
-                if ($archive->table_name == 'members_masterlist') {
-                    // Restore to members_masterlist
-                    DB::table('members_masterlist')->insert([
-                        'externaluser_id' => $archive->externaluser_id,
-                        'firstname' => $archive->firstname,
-                        'middlename' => $archive->middlename,
-                        'lastname' => $archive->lastname,
-                        'sex' => $archive->sex,
-                        'role' => $archive->role,
-                        'email' => $archive->email,
-                        'mobile_no' => $archive->mobile_no,
-                        'birthday' => $archive->birthday,
-                        'joined_date' => $archive->joined_date,
-                        'address' => $archive->address,
-                        'sss_enrolled' => $archive->sss_enrolled,
-                        'pagibig_enrolled' => $archive->pagibig_enrolled,
-                        'philhealth_enrolled' => $archive->philhealth_enrolled,
-                        'employment_type' => $archive->employment_type,
-                        'share_capital' => $archive->share_capital,
-                        'created_at' => now(),
-                        'updated_at' => now(),
-                    ]);
-                    $archive->delete();
-                }
+            } elseif ($archive = UnitArchive::find($id)) {
+                DB::table('coopunits')->insert([
+                    'externaluser_id' => $archive->externaluser_id,
+                    'type' => $archive->type,
+                    'plate_no' => $archive->plate_no,
+                    'mv_file_no' => $archive->mv_file_no,
+                    'engine_no' => $archive->engine_no,
+                    'chassis_no' => $archive->chassis_no,
+                    'ltfrb_case_no' => $archive->ltfrb_case_no,
+                    'date_granted' => $archive->date_granted,
+                    'date_of_expiry' => $archive->date_of_expiry,
+                    'origin' => $archive->origin,
+                    'via' => $archive->via,
+                    'destination' => $archive->destination,
+                    'owned_by' => $archive->owned_by,
+                    'member_id' => $archive->member_id,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+                $archive->delete();
+    
+            } elseif ($archive = GovernanceArchive::find($id)) {
+                DB::table('governance_list')->insert([
+                    'externaluser_id' => $archive->externaluser_id,
+                    'firstname' => $archive->firstname,
+                    'middlename' => $archive->middlename,
+                    'lastname' => $archive->lastname,
+                    'sex' => $archive->sex,
+                    'role' => $archive->role,
+                    'email' => $archive->email,
+                    'mobile_no' => $archive->mobile_no,
+                    'birthday' => $archive->birthday,
+                    'start_term' => $archive->start_term,
+                    'end_term' => $archive->end_term,
+                    'address' => $archive->address,
+                    'sss_enrolled' => $archive->sss_enrolled,
+                    'pagibig_enrolled' => $archive->pagibig_enrolled,
+                    'philhealth_enrolled' => $archive->philhealth_enrolled,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+                $archive->delete();
+    
+            } elseif ($archive = DB::table('grant_archives')->where('id', $id)->first()) {
+                DB::table('coop_grants_and_donations')->insert([
+                    'externaluser_id' => $archive->externaluser_id,
+                    'date_acquired' => $archive->date_acquired,
+                    'amount' => $archive->amount,
+                    'source' => $archive->source,
+                    'status_remarks' => $archive->status_remarks,
+                    'file_upload' => $archive->file_upload,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+                DB::table('grant_archives')->where('id', $id)->delete();
+    
+            } elseif ($archive = DB::table('loan_archives')->where('id', $id)->first()) {
+                DB::table('coop_loans')->insert([
+                    'externaluser_id' => $archive->externaluser_id,
+                    'financing_institution' => $archive->financing_institution,
+                    'acquired_at' => $archive->acquired_at,
+                    'amount' => $archive->amount,
+                    'utilization' => $archive->utilization,
+                    'remarks' => $archive->remarks,
+                    'file_upload' => $archive->file_upload,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+                DB::table('loan_archives')->where('id', $id)->delete();
+    
+            } elseif ($archive = DB::table('business_archives')->where('id', $id)->first()) {
+                DB::table('coop_businesses')->insert([
+                    'externaluser_id' => $archive->externaluser_id,
+                    'type' => $archive->type,
+                    'nature_of_business' => $archive->nature_of_business,
+                    'starting_capital' => $archive->starting_capital,
+                    'capital_to_date' => $archive->capital_to_date,
+                    'years_of_existence' => $archive->years_of_existence,
+                    'status' => $archive->status,
+                    'remarks' => $archive->remarks,
+                    'file_upload' => $archive->file_upload,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+                DB::table('business_archives')->where('id', $id)->delete();
+    
+            } elseif ($archive = DB::table('training_archives')->where('id', $id)->first()) {
+                DB::table('coop_trainings')->insert([
+                    'externaluser_id' => $archive->externaluser_id,
+                    'title' => $archive->title,
+                    'venue' => $archive->venue,
+                    'conducted_by' => $archive->conducted_by,
+                    'date_from' => $archive->date_from,
+                    'date_to' => $archive->date_to,
+                    'no_of_participants' => $archive->no_of_participants,
+                    'type' => $archive->type,
+                    'file_upload' => $archive->file_upload,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+                DB::table('training_archives')->where('id', $id)->delete();
+    
+            } elseif ($archive = DB::table('award_archives')->where('id', $id)->first()) {
+                DB::table('coop_awards')->insert([
+                    'externaluser_id' => $archive->externaluser_id,
+                    'title' => $archive->title,
+                    'description' => $archive->description,
+                    'awarding_body' => $archive->awarding_body,
+                    'awarded_at' => $archive->awarded_at,
+                    'file_upload' => $archive->file_upload,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+                DB::table('award_archives')->where('id', $id)->delete();
+    
             } else {
-                // If not found in MemberArchive, try UnitArchive
-                $archive = UnitArchive::find($id);
-    
-                if ($archive) {
-                    if ($archive->table_name == 'coop_units') {
-                        DB::table('coopunits')->insert([
-                            'externaluser_id' => $archive->externaluser_id,
-                            'type' => $archive->type,
-                            'plate_no' => $archive->plate_no,
-                            'mv_file_no' => $archive->mv_file_no,
-                            'engine_no' => $archive->engine_no,
-                            'chassis_no' => $archive->chassis_no,
-                            'ltfrb_case_no' => $archive->ltfrb_case_no,
-                            'date_granted' => $archive->date_granted,
-                            'date_of_expiry' => $archive->date_of_expiry,
-                            'origin' => $archive->origin,
-                            'via' => $archive->via,
-                            'destination' => $archive->destination,
-                            'owned_by' => $archive->owned_by,
-                            'member_id' => $archive->member_id,
-                            'created_at' => now(),
-                            'updated_at' => now(),
-                        ]);
-                        $archive->delete();
-                    }
-                } else {
-                    // If not found in MemberArchive or UnitArchive, try GovernanceArchive
-                    $archive = GovernanceArchive::find($id);
-    
-                    if ($archive) {
-                        if ($archive->table_name == 'governance') {
-                            DB::table('governance_list')->insert([
-                                'externaluser_id' => $archive->externaluser_id,
-                                'firstname' => $archive->firstname,
-                                'middlename' => $archive->middlename,
-                                'lastname' => $archive->lastname,
-                                'sex' => $archive->sex,
-                                'role' => $archive->role,
-                                'email' => $archive->email,
-                                'mobile_no' => $archive->mobile_no,
-                                'birthday' => $archive->birthday,
-                                'start_term' => $archive->start_term,
-                                'end_term' => $archive->end_term,
-                                'address' => $archive->address,
-                                'sss_enrolled' => $archive->sss_enrolled,
-                                'pagibig_enrolled' => $archive->pagibig_enrolled,
-                                'philhealth_enrolled' => $archive->philhealth_enrolled,
-                                'created_at' => now(),
-                                'updated_at' => now(),
-                            ]);
-                            $archive->delete();
-                        }
-                    } else {
-                        // Now check in GrantArchive
-                        $archive = DB::table('grant_archives')->where('id', $id)->first();
-    
-                        if ($archive) {
-                            DB::table('coop_grants_and_donations')->insert([
-                                'externaluser_id' => $archive->externaluser_id,
-                                'date_acquired' => $archive->date_acquired,
-                                'amount' => $archive->amount,
-                                'source' => $archive->source,
-                                'status_remarks' => $archive->status_remarks,
-                                'file_upload' => $archive->file_upload,
-                                'created_at' => now(),
-                                'updated_at' => now(),
-                            ]);
-                            DB::table('grant_archives')->where('id', $id)->delete();
-                        } else {
-                            // Now check in LoanArchive
-                            $archive = DB::table('loan_archives')->where('id', $id)->first();
-    
-                            if ($archive) {
-                                DB::table('coop_loans')->insert([
-                                    'externaluser_id' => $archive->externaluser_id,
-                                    'financing_institution' => $archive->financing_institution,
-                                    'acquired_at' => $archive->acquired_at,
-                                    'amount' => $archive->amount,
-                                    'utilization' => $archive->utilization,
-                                    'remarks' => $archive->remarks,
-                                    'file_upload' => $archive->file_upload,
-                                    'created_at' => now(),
-                                    'updated_at' => now(),
-                                ]);
-                                DB::table('loan_archives')->where('id', $id)->delete();
-                            } else {
-                                // Finally check in BusinessArchive
-                                $archive = DB::table('business_archives')->where('id', $id)->first();
-    
-                                if ($archive) {
-                                    DB::table('coop_businesses')->insert([
-                                        'externaluser_id' => $archive->externaluser_id,
-                                        'type' => $archive->type,
-                                        'nature_of_business' => $archive->nature_of_business,
-                                        'starting_capital' => $archive->starting_capital,
-                                        'capital_to_date' => $archive->capital_to_date,
-                                        'years_of_existence' => $archive->years_of_existence,
-                                        'status' => $archive->status,
-                                        'remarks' => $archive->remarks,
-                                        'file_upload' => $archive->file_upload,
-                                        'created_at' => now(),
-                                        'updated_at' => now(),
-                                    ]);
-                                    DB::table('business_archives')->where('id', $id)->delete();
-                                }
-                            }
-                        }
-                    }
-                }
+                return redirect()->back()->with('error', 'No archived record found with this ID.');
             }
     
             return redirect()->back()->with('success', 'Record restored successfully.');
-    
+        
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'An error occurred while restoring the record. Please try again.');
         }
     }
+    
     
     public function restoreIndex()
     {
@@ -378,14 +384,19 @@ class CoopController extends Controller
         $grantArchives = GrantArchive::where('externaluser_id', $authUserId)->latest()->get();
         $loanArchives = LoanArchive::where('externaluser_id', $authUserId)->latest()->get();
         $businessArchives = BusinessArchive::where('externaluser_id', $authUserId)->latest()->get();
-    
+
+        $trainingArchives = TrainingArchive::where('externaluser_id', $authUserId)->latest()->get();
+        $awardArchives = AwardArchive::where('externaluser_id', $authUserId)->latest()->get();
+
         // Merge all archive collections
         $archives = $memberArchives
                     ->merge($unitArchives)
                     ->merge($governanceArchives)
                     ->merge($grantArchives)
                     ->merge($loanArchives)
-                    ->merge($businessArchives);
+                    ->merge($businessArchives)
+                    ->merge($trainingArchives)
+                    ->merge($awardArchives);
     
         // Sort all archives by deleted_at descending
         $archives = $archives->sortByDesc('deleted_at');
@@ -403,7 +414,9 @@ class CoopController extends Controller
         $grantArchive = GrantArchive::find($id);
         $loanArchive = LoanArchive::find($id);
         $businessArchive = BusinessArchive::find($id);
-    
+        $trainingArchive = TrainingArchive::find($id);
+        $awardArchive = AwardArchive::find($id);
+
         // Determine the table name by checking which archive table has the record
         if ($memberArchive) {
             $archive = $memberArchive;
@@ -423,7 +436,15 @@ class CoopController extends Controller
         } elseif ($businessArchive) {
             $archive = $businessArchive;
             $tableName = 'coop_businesses';
-        } else {
+        } elseif ($trainingArchive) {
+            $archive = $trainingArchive;
+            $tableName = 'coop_trainings';
+        } elseif ($awardArchive) {
+            $archive = $awardArchive;
+            $tableName = 'coop_awards';
+        }
+        
+        else {
             // Handle case where record doesn't exist in any of the archive tables
             return redirect()->back()->with('error', 'Record not found in any archive.');
         }
@@ -1413,14 +1434,32 @@ class CoopController extends Controller
 
     public function destroyTraining($id)
     {
-        $train = CoopTraining::findOrFail($id); 
-        $train->delete(); 
-
-
-        return response()->json([
-            'message' => 'Deleted successfully.'
+        // Find the training record
+        $train = CoopTraining::findOrFail($id);
+    
+        // Archive into training_archives table
+        DB::table('training_archives')->insert([
+            'table_name' => 'coop_trainings', // Source table name
+            'externaluser_id' => $train->externaluser_id,
+            'title_of_training' => $train->title_of_training,
+            'start_date' => $train->start_date,
+            'end_date' => $train->end_date,
+            'no_of_attendees' => $train->no_of_attendees,
+            'total_fund' => $train->total_fund,
+            'remarks' => $train->remarks,
+            'total_members' => $train->total_members,
+            'deleted_at' => now(), // Record when it was deleted
+            'created_at' => now(),
+            'updated_at' => now(),
         ]);
-    }
+    
+        // Delete the original record
+        $train->delete();
+    
+        return response()->json([
+            'message' => 'Training archived and deleted successfully.'
+        ]);
+    }    
 
     // --------------------------------------------
     //  --------------- AWARDS --------------------
@@ -1482,14 +1521,28 @@ class CoopController extends Controller
 
     public function destroyAward($id)
     {
-        $award = CoopAward::findOrFail($id); 
-        $award->delete(); 
-
-
-        return response()->json([
-            'message' => 'Deleted successfully.'
+        // Find the award record
+        $award = CoopAward::findOrFail($id);
+    
+        // Archive into award_archives table
+        DB::table('award_archives')->insert([
+            'table_name' => 'coop_awards', // Source table name
+            'externaluser_id' => $award->externaluser_id,
+            'awarding_body' => $award->awarding_body,
+            'nature_of_award' => $award->nature_of_award,
+            'date_received' => $award->date_received,
+            'deleted_at' => now(), // For record tracking in archive
+            'created_at' => now(),
+            'updated_at' => now(),
         ]);
-    }
+    
+        // Delete the original award record
+        $award->delete();
+    
+        return response()->json([
+            'message' => 'Award archived and deleted successfully.'
+        ]);
+    }    
 
     // --------------------------------------------
     //  -------------- BUSINESS -----------------

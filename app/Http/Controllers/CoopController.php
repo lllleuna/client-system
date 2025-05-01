@@ -448,13 +448,13 @@ class CoopController extends Controller
                 case 'members_masterlist':
                     MemberArchive::findOrFail($id)->delete();
                     break;
-                case 'coopunits':
+                case 'coop_units':
                     UnitArchive::findOrFail($id)->delete();
                     break;
-                case 'governance_list':
+                case 'governance':
                     GovernanceArchive::findOrFail($id)->delete();
                     break;
-                case 'coop_grants_and_donations':
+                case 'coop_grants':
                     DB::table('grant_archives')->where('id', $id)->delete();
                     break;
                 case 'coop_loans':
@@ -463,10 +463,10 @@ class CoopController extends Controller
                 case 'coop_businesses':
                     DB::table('business_archives')->where('id', $id)->delete();
                     break;
-                case 'cooptrainings':
+                case 'coop_trainings':
                     DB::table('training_archives')->where('id', $id)->delete();
                     break;
-                case 'coopawards':
+                case 'coop_awards':
                     DB::table('award_archives')->where('id', $id)->delete();
                     break;
                 default:

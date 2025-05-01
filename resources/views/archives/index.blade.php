@@ -91,8 +91,12 @@
                             <td class="py-3 px-6 text-center">
                                 <div class="flex item-center justify-center gap-2">
                                     {{-- Restore Button --}}
-                                    <form method="POST" action="{{ route('archives.restore', $archive->id) }}">
+                                    <form method="POST" action="{{ route('archives.restore') }}">
                                         @csrf
+
+                                        <input type="hidden" name="id" value="{{ $archive->id }}">
+                                        <input type="hidden" name="table_name" value="{{ $archive->table_name }}">
+                                        
                                         <button type="submit"
                                             class="bg-green-500 hover:bg-green-600 text-white text-xs py-1 px-3 rounded">
                                             Restore
@@ -100,9 +104,13 @@
                                     </form>
 
                                     {{-- Permanent Delete Button --}}
-                                    <form method="POST" action="{{ route('archives.permanentDelete', $archive->id) }}">
+                                    <form method="POST" action="{{ route('archives.permanentDelete') }}">
                                         @csrf
                                         @method('DELETE')
+
+                                        <input type="hidden" name="id" value="{{ $archive->id }}">
+                                        <input type="hidden" name="table_name" value="{{ $archive->table_name }}">
+
                                         <button type="submit"
                                             onclick="return confirm('Are you sure? This cannot be undone.')"
                                             class="bg-red-500 hover:bg-red-600 text-white text-xs py-1 px-3 rounded">

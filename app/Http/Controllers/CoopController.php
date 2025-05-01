@@ -333,14 +333,13 @@ class CoopController extends Controller
             } elseif ($archive = DB::table('training_archives')->where('id', $id)->first()) {
                 DB::table('cooptrainings')->insert([
                     'externaluser_id' => $archive->externaluser_id,
-                    'title' => $archive->title,
-                    'venue' => $archive->venue,
-                    'conducted_by' => $archive->conducted_by,
-                    'date_from' => $archive->date_from,
-                    'date_to' => $archive->date_to,
-                    'no_of_participants' => $archive->no_of_participants,
-                    'type' => $archive->type,
-                    'file_upload' => $archive->file_upload,
+                    'title_of_training' => $archive->title_of_training,
+                    'start_date' => $archive->start_date,
+                    'end_date' => $archive->end_date,
+                    'no_of_attendees' => $archive->no_of_attendees,
+                    'total_fund' => $archive->total_fund,
+                    'remarks' => $archive->remarks,
+                    'total_members' => $archive->total_members,
                     'created_at' => now(),
                     'updated_at' => now(),
                 ]);
@@ -349,11 +348,9 @@ class CoopController extends Controller
             } elseif ($archive = DB::table('award_archives')->where('id', $id)->first()) {
                 DB::table('coopawards')->insert([
                     'externaluser_id' => $archive->externaluser_id,
-                    'title' => $archive->title,
-                    'description' => $archive->description,
                     'awarding_body' => $archive->awarding_body,
-                    'awarded_at' => $archive->awarded_at,
-                    'file_upload' => $archive->file_upload,
+                    'nature_of_award' => $archive->nature_of_award,
+                    'date_received' => $archive->date_received,
                     'created_at' => now(),
                     'updated_at' => now(),
                 ]);

@@ -2,26 +2,6 @@
 
 @section('content')
 <div class="max-w-4xl mx-auto p-6">
-    {{-- Progress Indicator --}}
-    <div class="mb-8">
-        <div class="flex items-center justify-between">
-            <div class="flex items-center">
-                <span class="h-8 w-8 rounded-full bg-blue-600 text-white flex items-center justify-center">1</span>
-                <div class="ml-4">
-                    <p class="text-sm font-medium text-blue-600">Step 1</p>
-                    <p class="text-sm text-gray-500">Concern Details</p>
-                </div>
-            </div>
-            <div class="flex-1 h-0.5 mx-4 bg-gray-200"></div>
-            <div class="flex items-center">
-                <span class="h-8 w-8 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center">2</span>
-                <div class="ml-4">
-                    <p class="text-sm font-medium text-gray-600">Step 2</p>
-                    <p class="text-sm text-gray-500">Document Submission</p>
-                </div>
-            </div>
-        </div>
-    </div>
 
     {{-- Header Section --}}
     <div class="mb-8 bg-white rounded-lg shadow-md p-6">

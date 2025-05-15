@@ -1,101 +1,56 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const igSelect = document.getElementById('island-groups');
     const regionSelect = document.getElementById('regions');
-    const provinceSelect = document.getElementById('provinces');
     const cmSelect = document.getElementById('cities-municipalities');
     const barangaySelect = document.getElementById('barangays');
 
     // Retrieve previous values from data attributes
-    const previousIslandGroup = igSelect.dataset.selected;
     const previousRegion = regionSelect.dataset.selected;
-    const previousProvince = provinceSelect.dataset.selected;
     const previousCM = cmSelect.dataset.selected;
     const previousBarangay = barangaySelect.dataset.selected;
 
+    // Enable region dropdown by default (fix for disabled issue)
+    regionSelect.disabled = false;
+
     // Function to clear and reset a dropdown
     const resetDropdown = (dropdown, placeholder) => {
-        dropdown.innerHTML = `<option value="">${placeholder}</option>`;
+        dropdown.innerHTML = `<option value="" disabled selected>${placeholder}</option>`;
         dropdown.disabled = true;
     };
 
-    // Load island groups on page load and restore selection
-    fetch('/island-groups')
-        .then(response => response.json())
-        .then(data => {
-            data.forEach(islandgroup => {
-                const option = document.createElement('option');
-                option.value = islandgroup.code;
-                option.textContent = islandgroup.name;
-                if (islandgroup.code === previousIslandGroup) option.selected = true;
-                igSelect.appendChild(option);
-            });
-
-            if (previousIslandGroup) {
-                igSelect.value = previousIslandGroup;
-                igSelect.dispatchEvent(new Event('change')); // Trigger change event to load regions
-            }
+    // Fetch regions and populate dropdown
+    fetch('/regions')
+    .then(response => response.json())
+    .then(data => {
+        regionSelect.innerHTML = `<option value="" disabled selected>Select Region</option>`;
+        data.forEach(region => {
+            const option = document.createElement('option');
+            option.value = region.code;
+            option.textContent = region.name;
+            if (region.code === previousRegion) option.selected = true;
+            regionSelect.appendChild(option);
         });
+        regionSelect.disabled = false; // Ensure it's enabled after fetching
 
-    // Handle island group selection
-    igSelect.addEventListener('change', () => {
-        const igCode = igSelect.value;
-
-        resetDropdown(regionSelect, 'Select');
-        resetDropdown(provinceSelect, 'Select');
-        resetDropdown(cmSelect, 'Select');
-        resetDropdown(barangaySelect, 'Select');
-
-        if (igCode) {
-            fetch(`/island-groups/${igCode}/regions`)
-                .then(response => response.json())
-                .then(data => {
-                    data.forEach(region => {
-                        const option = document.createElement('option');
-                        option.value = region.code;
-                        option.textContent = region.name;
-                        if (region.code === previousRegion) option.selected = true;
-                        regionSelect.appendChild(option);
-                    });
-                    regionSelect.disabled = false;
-
-                    if (previousRegion) {
-                        regionSelect.value = previousRegion;
-                        regionSelect.dispatchEvent(new Event('change'));
-                    }
-                });
+        if (previousRegion) {
+            regionSelect.value = previousRegion;
+            regionSelect.dispatchEvent(new Event('change'));
         }
-    });
+    })
+    .catch(error => console.error('Error fetching regions:', error));
+
 
     // Handle region selection
     regionSelect.addEventListener('change', () => {
         const regionCode = regionSelect.value;
 
-        resetDropdown(provinceSelect, 'Select');
-        resetDropdown(cmSelect, 'Select');
-        resetDropdown(barangaySelect, 'Select');
+        resetDropdown(cmSelect, 'Select City/Municipality');
+        resetDropdown(barangaySelect, 'Select Barangay');
 
         if (regionCode) {
-            fetch(`/regions/${regionCode}/provinces`)
-                .then(response => response.json())
-                .then(data => {
-                    data.forEach(province => {
-                        const option = document.createElement('option');
-                        option.value = province.code;
-                        option.textContent = province.name;
-                        if (province.code === previousProvince) option.selected = true;
-                        provinceSelect.appendChild(option);
-                    });
-                    provinceSelect.disabled = false;
-
-                    if (previousProvince) {
-                        provinceSelect.value = previousProvince;
-                        provinceSelect.dispatchEvent(new Event('change'));
-                    }
-                });
-
             fetch(`/regions/${regionCode}/cities-municipalities`)
                 .then(response => response.json())
                 .then(data => {
+                    cmSelect.innerHTML = `<option value="" disabled selected>Select City/Municipality</option>`;
                     data.forEach(citymunicipality => {
                         const option = document.createElement('option');
                         option.value = citymunicipality.code;
@@ -109,7 +64,8 @@ document.addEventListener('DOMContentLoaded', () => {
                         cmSelect.value = previousCM;
                         cmSelect.dispatchEvent(new Event('change'));
                     }
-                });
+                })
+                .catch(error => console.error('Error fetching cities/municipalities:', error));
         }
     });
 
@@ -117,12 +73,13 @@ document.addEventListener('DOMContentLoaded', () => {
     cmSelect.addEventListener('change', () => {
         const cmCode = cmSelect.value;
 
-        resetDropdown(barangaySelect, 'Select');
+        resetDropdown(barangaySelect, 'Select Barangay');
 
         if (cmCode) {
             fetch(`/cities-municipalities/${cmCode}/barangays/`)
                 .then(response => response.json())
                 .then(data => {
+                    barangaySelect.innerHTML = `<option value="" disabled selected>Select Barangay</option>`;
                     data.forEach(barangay => {
                         const option = document.createElement('option');
                         option.value = barangay.code;
@@ -135,7 +92,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (previousBarangay) {
                         barangaySelect.value = previousBarangay;
                     }
-                });
+                })
+                .catch(error => console.error('Error fetching barangays:', error));
         }
     });
 });

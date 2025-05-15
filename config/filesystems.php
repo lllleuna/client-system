@@ -56,6 +56,13 @@ return [
             'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
             'throw' => false,
         ],
+	
+	'shared' => [
+        'driver' => 'local',
+        'root' => '/var/www/shared_uploads',
+        'url' => env('APP_URL') . '/shared',
+        'visibility' => 'public',
+    ],
 
     ],
 

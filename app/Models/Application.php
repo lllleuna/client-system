@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Application extends Model
 {
@@ -18,5 +19,15 @@ class Application extends Model
                 $application->reference_number = 'APP-' . str_pad(Application::max('id') + 1, 6, '0', STR_PAD_LEFT);
             }
         });
+    }
+
+    public function coopInfo()
+    {
+        return $this->belongsTo(CoopGeneralInfo::class, 'user_id', 'externaluser_id');
+    }
+
+    public function appgeneralinfo()
+    {
+        return $this->hasMany(AppGeneralInfo::class, 'user_id', 'externaluser_id');
     }
 }

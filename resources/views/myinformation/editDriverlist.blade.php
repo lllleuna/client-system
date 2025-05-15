@@ -31,11 +31,11 @@
                                         <svg class="w-4 h-4 mr-2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                                         </svg>
-                                        First Name
+                                        First Name <span class="text-red-500">*</span>
                                     </label>
                                     <input type="text" name="first_name" value="{{ old('first_name', $driver->first_name ?? '') }}" 
                                            class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-100 focus:border-blue-400 transition-all duration-200 @error('first_name') border-red-500 @enderror"
-                                           placeholder="Enter first name">
+                                           placeholder="Enter first name" required oninvalid="this.setCustomValidity('Please enter driver\'s first name')" oninput="this.setCustomValidity('')">
                                     @error('first_name')
                                         <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
                                     @enderror
@@ -46,11 +46,11 @@
                                         <svg class="w-4 h-4 mr-2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                                         </svg>
-                                        Middle Name
+                                        Middle Name <span class="text-red-500">*</span>
                                     </label>
                                     <input type="text" name="middle_name" value="{{ old('middle_name', $driver->middle_name ?? '') }}"
                                            class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-100 focus:border-blue-400 transition-all duration-200 @error('middle_name') border-red-500 @enderror"
-                                           placeholder="Enter middle name">
+                                           placeholder="Enter middle name" oninvalid="this.setCustomValidity('Please enter driver\'s middle name')" oninput="this.setCustomValidity('')">
                                     @error('middle_name')
                                         <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
                                     @enderror
@@ -61,11 +61,11 @@
                                         <svg class="w-4 h-4 mr-2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                                         </svg>
-                                        Last Name
+                                        Last Name <span class="text-red-500">*</span>
                                     </label>
                                     <input type="text" name="last_name" value="{{ old('last_name', $driver->last_name ?? '') }}"
                                            class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-100 focus:border-blue-400 transition-all duration-200 @error('last_name') border-red-500 @enderror"
-                                           placeholder="Enter last name">
+                                           placeholder="Enter last name" required oninvalid="this.setCustomValidity('Please enter driver\'s last name')" oninput="this.setCustomValidity('')">
                                     @error('last_name')
                                         <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
                                     @enderror
@@ -79,11 +79,12 @@
                                         <svg class="w-4 h-4 mr-2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5zm6-10.125a1.875 1.875 0 11-3.75 0 1.875 1.875 0 013.75 0zm1.294 6.336a6.721 6.721 0 01-3.17.789 6.721 6.721 0 01-3.168-.789 3.376 3.376 0 016.338 0z" />
                                         </svg>
-                                        License Number
+                                        License Number <span class="text-red-500">*</span>
                                     </label>
                                     <input type="text" name="license_number" value="{{ old('license_number', $driver->license_number ?? '') }}"
                                            class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-100 focus:border-blue-400 transition-all duration-200 @error('license_number') border-red-500 @enderror"
-                                           placeholder="Enter license number">
+                                           placeholder="Enter license number" required pattern="[A-Za-z0-9-]+" 
+                                           oninvalid="this.setCustomValidity('Please enter a valid license number')" oninput="this.setCustomValidity('')">
                                     @error('license_number')
                                         <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
                                     @enderror
@@ -94,11 +95,11 @@
                                         <svg class="w-4 h-4 mr-2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
                                         </svg>
-                                        Restrictions
+                                        Restrictions 
                                     </label>
                                     <input type="text" name="restrictions" value="{{ old('restrictions', $driver->restrictions ?? '') }}"
                                            class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-100 focus:border-blue-400 transition-all duration-200 @error('restrictions') border-red-500 @enderror"
-                                           placeholder="Enter restrictions">
+                                           placeholder="Enter restrictions" oninvalid="this.setCustomValidity('Please enter license restrictions if any')" oninput="this.setCustomValidity('')">
                                     @error('restrictions')
                                         <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
                                     @enderror
@@ -112,7 +113,8 @@
                                         Expiry Date
                                     </label>
                                     <input type="date" name="expiry_date" value="{{ old('expiry_date', $driver->expiry_date ?? '') }}"
-                                           class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-100 focus:border-blue-400 transition-all duration-200 @error('expiry_date') border-red-500 @enderror">
+                                           class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-100 focus:border-blue-400 transition-all duration-200 @error('expiry_date') border-red-500 @enderror"
+                                           required oninvalid="this.setCustomValidity('Please select license expiry date')" oninput="this.setCustomValidity('')">
                                     @error('expiry_date')
                                         <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
                                     @enderror
